@@ -1,0 +1,26 @@
+.toolbar {
+  display: flex;
+  justify-content: space-between;
+  background-color: rgb(255 106 0);
+
+  &__health-icon {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 3%;
+
+    img {
+      width: 9%;
+    }
+  }
+
+  button {
+    border-radius: 0.5rem;
+    background-color: rgb(187, 121, 0);
+    height: 2rem;
+    color: white;
+    font-weight: bold;
+    width: 13rem;
+    border: 3px solid black;
+  }
+}
