@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "Angular7PHPCrud": {
+    "HealthApp": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -28,7 +28,8 @@
             "assets": [
               {
                 "glob": "**/*",
-                "input": "public"
+                "input": "src/assets",  
+                "output": "/assets"  
               }
             ],
             "styles": [
@@ -64,10 +65,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "Angular7PHPCrud:build:production"
+              "buildTarget": ":build:production"
             },
             "development": {
-              "buildTarget": "Angular7PHPCrud:build:development"
+              "buildTarget": "HealthApp:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -87,7 +88,8 @@
             "assets": [
               {
                 "glob": "**/*",
-                "input": "public"
+                "input": "src/assets",  
+                "output": "/assets"  
               }
             ],
             "styles": [
