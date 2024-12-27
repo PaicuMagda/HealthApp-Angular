@@ -1,1 +1,71 @@
 <app-nav-bar></app-nav-bar>
+<div class="display-patients">
+  <div class="display-patients__search">
+    <div>
+      <mat-form-field appearance="outline">
+        <input matInput [matDatepicker]="picker" placeholder="Select date..." />
+        <mat-datepicker-toggle
+          matIconSuffix
+          [for]="picker"
+        ></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+    </div>
+    <div>
+      <span>Diagnostics</span>
+      <div class="display-patients__search__diagnostics">
+        <button
+          *ngFor="let diagnostic of diagnostics"
+          mat-button
+          [ngClass]="
+            diagnostic.isSelected
+              ? 'display-patients__search__diagnostics__button-no-clicked'
+              : 'display-patients__search__diagnostics__button-clicked'
+          "
+        >
+          {{ "❤️" + " " + diagnostic.nume }}
+        </button>
+      </div>
+    </div>
+    <div>
+      <span>Nume</span>
+      <mat-form-field appearance="outline">
+        <input matInput />
+      </mat-form-field>
+    </div>
+    <div>
+      <span>Număr de telefon</span>
+      <mat-form-field appearance="outline">
+        <input matInput />
+      </mat-form-field>
+    </div>
+    <div>
+      <span>CNP</span>
+      <mat-form-field appearance="outline">
+        <input matInput />
+      </mat-form-field>
+    </div>
+    <div>
+      <span>Gen</span>
+      <mat-checkbox>Feminin</mat-checkbox>
+      <mat-checkbox>Masculin</mat-checkbox>
+    </div>
+  </div>
+
+  <div class="display-patients__patients">
+    <div
+      class="display-patients__patients__cards"
+      *ngFor="let patient of patients"
+      appHoverElement
+    >
+      <div class="display-patients__patients__cards__image">
+        <img src="../../assets/user1.jpg" />
+      </div>
+      <div class="display-patients__patients__cards__informations">
+        <span>Nume: Paicu Maria</span>
+        <span> Diagnostic: infarct</span>
+        <span>Dată: 12.05.2001</span>
+      </div>
+    </div>
+  </div>
+</div>

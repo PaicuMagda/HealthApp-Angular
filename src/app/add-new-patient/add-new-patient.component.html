@@ -1,6 +1,50 @@
-<div>
-  <div class="close">
-    <div>Add new Patient</div>
-    <span (click)="openCloseDialog()">❌</span>
+<div class="add-new-patient">
+  <div>
+    <div class="add-new-patient__close">
+      <div>Adaugă un pacient nou</div>
+      <div><span (click)="openCloseDialog()">❌</span></div>
+    </div>
+    <mat-divider></mat-divider>
+  </div>
+  <div class="add-new-patient__data-entered">
+    <form>
+      <div class="add-new-patient__data-entered__first">
+        <div>
+          <label>Nume</label>
+          <input type="text" />
+        </div>
+        <div>
+          <label>Prenume</label>
+          <input type="text" />
+        </div>
+        <div>
+          <label>Adresă</label>
+          <input type="text" />
+        </div>
+      </div>
+      <div class="add-new-patient__data-entered__second">
+        <div>
+          <label>Nume</label>
+          <input type="text" />
+        </div>
+        <div>
+          <label>Nume</label>
+          <input type="text" />
+        </div>
+        <div>
+          <label>Nume</label>
+          <input type="text" />
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="add-new-patient__bottom">
+    <mat-divider></mat-divider>
+    <div class="add-new-patient__bottom__buttons">
+      <button class="add-new-patient__bottom__buttons__button1">ADAUGĂ</button
+      ><button class="add-new-patient__bottom__buttons__button2">
+        RENUNȚĂ
+      </button>
+    </div>
   </div>
 </div>

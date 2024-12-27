@@ -13,8 +13,10 @@ export class CloseDialogComponent {
   constructor(private dialogRef: MatDialogRef<CloseDialogComponent>) {}
 
   closeConfirmCloseDialog() {
-    this.dialogRef.close();
+    this.dialogRef.close('yes');
   }
 
-  closeAddNewPatientDialog() {}
+  takeAddNewPatientDialogOpen() {
+    this.dialogRef.close('no');
+  }
 }

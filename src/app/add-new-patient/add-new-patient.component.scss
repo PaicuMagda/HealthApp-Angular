@@ -1,6 +1,59 @@
-.close {
-  display: flex;
-  justify-content: space-between;
-  padding: 1%;
-  cursor: pointer;
+.add-new-patient {
+  &__close {
+    display: flex;
+    justify-content: space-between;
+    padding: 1%;
+    cursor: pointer;
+    font-family: Verdana, sans-serif;
+    font-size: 1.4rem;
+  }
+
+  &__bottom {
+    &__buttons {
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-end;
+      gap: 2rem;
+      margin-top: 1%;
+      margin-right: 1%;
+
+      &__button1 {
+        background-color: rgb(238, 180, 22);
+      }
+
+      &__button2 {
+        background-color: rgb(175, 7, 7);
+        color: white;
+      }
+
+      button {
+        width: 8rem;
+        height: 2rem;
+        border-radius: 0.5rem;
+        font-weight: bold;
+        font-size: 1rem;
+      }
+    }
+  }
+
+  &__data-entered {
+    height: 57vh;
+    padding: 1%;
+
+    form {
+      display: flex;
+      flex-direction: row;
+    }
+
+    &__first,
+    &__second {
+      width: 50%;
+      height: 55vh;
+      padding: 1%;
+    }
+
+    &__first {
+      border-right: 2px solid rgb(179, 179, 179);
+    }
+  }
 }

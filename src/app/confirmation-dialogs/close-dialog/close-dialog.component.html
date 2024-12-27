@@ -4,16 +4,16 @@
 <mat-divider></mat-divider>
 <div class="delete-dialog">
   <div>
-    <h3>Are you sure you want to close this dialog?</h3>
+    <h4>Are you sure you want to close this dialog?</h4>
   </div>
   <div class="buttons">
     <button
       class="button-delete button-close"
-      (click)="closeAddNewPatientDialog()"
+      (click)="closeConfirmCloseDialog()"
     >
       Yes
     </button>
-    <button class="discard-button" (click)="closeConfirmCloseDialog()">
+    <button class="discard-button" (click)="takeAddNewPatientDialogOpen()">
       No
     </button>
   </div>
