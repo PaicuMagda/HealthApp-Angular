@@ -7,6 +7,7 @@ import { MatInputModule } from '@angular/material/input';
 import { DiagnosticsService } from '../services/diagnostics.service';
 import { HoverElementDirective } from '../directives/hover-element.directive';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { PatientsService } from '../services/patients.service';
 
 @Component({
   selector: 'app-home-page',
@@ -25,16 +26,16 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
   styleUrl: './home-page.component.scss',
 })
 export class HomePageComponent implements OnInit {
-  constructor(private diagnosticsService: DiagnosticsService) {}
+  constructor(
+    private diagnosticsService: DiagnosticsService,
+    private patientsService: PatientsService
+  ) {}
 
   diagnostics: any[];
-  patients: number[] = [
-    1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 111, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21,
-    22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40,
-    41, 42, 43, 44, 45, 46, 47, 48, 49, 50,
-  ];
+  patients: any[];
 
   ngOnInit(): void {
     this.diagnostics = this.diagnosticsService.getDiagnostics();
+    this.patients = this.patientsService.getUsers();
   }
 }

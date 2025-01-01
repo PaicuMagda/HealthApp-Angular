@@ -1,7 +1,7 @@
 <div class="add-new-patient">
   <div>
     <div class="add-new-patient__close">
-      <div>Adaugă un pacient nou</div>
+      <div>➕ Adaugă un pacient nou</div>
       <div><span (click)="openCloseDialog()">❌</span></div>
     </div>
     <mat-divider></mat-divider>
@@ -9,31 +9,121 @@
   <div class="add-new-patient__data-entered">
     <form>
       <div class="add-new-patient__data-entered__first">
-        <div>
-          <label>Nume</label>
-          <input type="text" />
+        <div class="add-new-patient__data-entered__first__data">
+          <div class="add-new-patient__data-entered__first__data__nume">
+            <label>Nume</label>
+            <mat-form-field appearance="outline">
+              <input matInput />
+            </mat-form-field>
+          </div>
+          <div class="add-new-patient__data-entered__first__data__prenume">
+            <label>Prenume</label>
+            <mat-form-field appearance="outline">
+              <input matInput />
+            </mat-form-field>
+          </div>
         </div>
-        <div>
-          <label>Prenume</label>
-          <input type="text" />
+        <label>Adresă</label>
+        <div class="add-new-patient__data-entered__first__data">
+          <div>
+            <mat-form-field appearance="outline">
+              <input matInput placeholder="Locație" />
+            </mat-form-field>
+          </div>
+          <div>
+            <mat-form-field appearance="outline">
+              <input matInput placeholder="Stradă" />
+            </mat-form-field>
+          </div>
+          <div>
+            <mat-form-field appearance="outline">
+              <input matInput placeholder="Nr" />
+            </mat-form-field>
+          </div>
         </div>
-        <div>
-          <label>Adresă</label>
-          <input type="text" />
+        <label>Data nașterii</label>
+        <div class="add-new-patient__data-entered__first__data-nasterii">
+          <mat-form-field appearance="outline">
+            <input
+              matInput
+              [matDatepicker]="picker"
+              placeholder="Select date..."
+            />
+            <mat-datepicker-toggle
+              matIconSuffix
+              [for]="picker"
+            ></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+        </div>
+        <div class="add-new-patient__data-entered__first__data">
+          <div>
+            <label>CNP</label>
+            <mat-form-field appearance="outline">
+              <input matInput />
+            </mat-form-field>
+          </div>
+          <div>
+            <label>Email</label>
+            <mat-form-field appearance="outline">
+              <input matInput />
+            </mat-form-field>
+          </div>
+          <div>
+            <label>Vârstă</label>
+            <mat-form-field appearance="outline">
+              <input matInput />
+            </mat-form-field>
+          </div>
         </div>
       </div>
       <div class="add-new-patient__data-entered__second">
-        <div>
-          <label>Nume</label>
-          <input type="text" />
+        <div class="add-new-patient__data-entered__second__data__profile">
+          <div class="upload-file">
+            <input
+              #profileImageInput
+              (change)="onFileSelectedImageProfile($event)"
+              type="file"
+              accept=".jpg, .jpeg, .png"
+              formControlName="imageFileUpload"
+              placeholder="Upload a significant image for profile"
+            />
+            <div
+              (click)="profileImageInput.click()"
+              class="upload-file__placeholder"
+            >
+              <p *ngIf="!imageProfileFileName">
+                Upload image for parking spaces's profile.
+              </p>
+              <p *ngIf="imageProfileFileName">{{ imageProfileFileName }}</p>
+            </div>
+            <mat-divider></mat-divider>
+            <mat-hint>File format: image(.img, .jpg, .jpeg)</mat-hint>
+          </div>
+          <div
+            class="add-new-patient__data-entered__second__data__profile__image"
+          >
+            <img *ngIf="imageProfile" [src]="imageProfile" />
+            <img *ngIf="!imageProfile" src="../../assets/user-profile.png" />
+          </div>
         </div>
         <div>
-          <label>Nume</label>
-          <input type="text" />
+          <label>Greutate</label>
+          <mat-form-field appearance="outline">
+            <input matInput />
+          </mat-form-field>
         </div>
         <div>
-          <label>Nume</label>
-          <input type="text" />
+          <label>Înălțime</label>
+          <mat-form-field appearance="outline">
+            <input matInput />
+          </mat-form-field>
+        </div>
+        <div>
+          <label>Ocupația</label>
+          <mat-form-field appearance="outline">
+            <input matInput />
+          </mat-form-field>
         </div>
       </div>
     </form>

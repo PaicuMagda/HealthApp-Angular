@@ -23,7 +23,7 @@
               : 'display-patients__search__diagnostics__button-clicked'
           "
         >
-          {{ "❤️" + " " + diagnostic.nume }}
+          {{ "❤️" + " " + diagnostic.nume + "🖤" }}
         </button>
       </div>
     </div>
@@ -59,12 +59,12 @@
       appHoverElement
     >
       <div class="display-patients__patients__cards__image">
-        <img src="../../assets/user1.jpg" />
+        <img [src]="patient.imagine" />
       </div>
       <div class="display-patients__patients__cards__informations">
-        <span>Nume: Paicu Maria</span>
-        <span> Diagnostic: infarct</span>
-        <span>Dată: 12.05.2001</span>
+        <span>Nume: {{ patient.nume }}</span>
+        <span> Diagnostic: {{ patient.diagnostic }}</span>
+        <span>Dată: {{ patient.data }}</span>
       </div>
     </div>
   </div>
