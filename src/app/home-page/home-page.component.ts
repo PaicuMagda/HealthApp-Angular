@@ -8,6 +8,8 @@ import { DiagnosticsService } from '../services/diagnostics.service';
 import { HoverElementDirective } from '../directives/hover-element.directive';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { PatientsService } from '../services/patients.service';
+import { MatDialog } from '@angular/material/dialog';
+import { PatientDetailsComponent } from '../patient-details/patient-details.component';
 
 @Component({
   selector: 'app-home-page',
@@ -28,11 +30,20 @@ import { PatientsService } from '../services/patients.service';
 export class HomePageComponent implements OnInit {
   constructor(
     private diagnosticsService: DiagnosticsService,
-    private patientsService: PatientsService
+    private patientsService: PatientsService,
+    private dialog: MatDialog
   ) {}
 
   diagnostics: any[];
   patients: any[];
+
+  openDetailsPatient() {
+    this.dialog.open(PatientDetailsComponent, {
+      width: '90%',
+      height: '70%',
+      data: { mesaj: 'Salut! Acesta este un mesaj de test.' },
+    });
+  }
 
   ngOnInit(): void {
     this.diagnostics = this.diagnosticsService.getDiagnostics();

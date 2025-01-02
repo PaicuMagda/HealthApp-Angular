@@ -47,12 +47,12 @@
     </div>
     <div>
       <span>Gen</span>
-      <mat-checkbox>Feminin</mat-checkbox>
-      <mat-checkbox>Masculin</mat-checkbox>
+      <mat-checkbox color="primary">Feminin</mat-checkbox>
+      <mat-checkbox color="primary">Masculin</mat-checkbox>
     </div>
   </div>
 
-  <div class="display-patients__patients">
+  <div class="display-patients__patients" (click)="openDetailsPatient()">
     <div
       class="display-patients__patients__cards"
       *ngFor="let patient of patients"

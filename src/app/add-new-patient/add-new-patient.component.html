@@ -7,78 +7,151 @@
     <mat-divider></mat-divider>
   </div>
   <div class="add-new-patient__data-entered">
-    <form>
+    <form [formGroup]="patientForm">
       <div class="add-new-patient__data-entered__first">
         <div class="add-new-patient__data-entered__first__data">
           <div class="add-new-patient__data-entered__first__data__nume">
             <label>Nume</label>
             <mat-form-field appearance="outline">
-              <input matInput />
+              <input matInput formControlName="nume" />
+              <mat-error *ngIf="patientForm.get('nume')?.hasError('required')">
+                Numele este obligatoriu.
+              </mat-error>
             </mat-form-field>
           </div>
           <div class="add-new-patient__data-entered__first__data__prenume">
             <label>Prenume</label>
             <mat-form-field appearance="outline">
-              <input matInput />
+              <input matInput formControlName="prenume" />
+              <mat-error
+                *ngIf="patientForm.get('prenume')?.hasError('required')"
+              >
+                Prenumele este obligatoriu.
+              </mat-error>
             </mat-form-field>
           </div>
         </div>
         <label>Adresă</label>
-        <div class="add-new-patient__data-entered__first__data">
+        <div
+          formGroupName="adresa"
+          class="add-new-patient__data-entered__first__data"
+        >
           <div>
             <mat-form-field appearance="outline">
-              <input matInput placeholder="Locație" />
+              <input matInput placeholder="Locație" formControlName="locatie" />
+              <mat-error
+                *ngIf="patientForm.get('adresa.locatie')?.hasError('required')"
+              >
+                Locația este obligatorie.
+              </mat-error>
             </mat-form-field>
           </div>
           <div>
             <mat-form-field appearance="outline">
-              <input matInput placeholder="Stradă" />
+              <input matInput placeholder="Stradă" formControlName="strada" />
+              <mat-error
+                *ngIf="patientForm.get('adresa.strada')?.hasError('required')"
+              >
+                Strada este obligatorie.
+              </mat-error>
             </mat-form-field>
           </div>
           <div>
             <mat-form-field appearance="outline">
-              <input matInput placeholder="Nr" />
+              <input matInput placeholder="Nr" formControlName="numar" />
+              <mat-error
+                *ngIf="patientForm.get('adresa.numar')?.hasError('required')"
+              >
+                Numărul este obligatoriu.
+              </mat-error>
             </mat-form-field>
           </div>
         </div>
-        <label>Data nașterii</label>
-        <div class="add-new-patient__data-entered__first__data-nasterii">
-          <mat-form-field appearance="outline">
-            <input
-              matInput
-              [matDatepicker]="picker"
-              placeholder="Select date..."
-            />
-            <mat-datepicker-toggle
-              matIconSuffix
-              [for]="picker"
-            ></mat-datepicker-toggle>
-            <mat-datepicker #picker></mat-datepicker>
-          </mat-form-field>
+        <div class="add-new-patient__data-entered__first__data">
+          <div>
+            <label>Data nașterii</label>
+            <mat-form-field appearance="outline">
+              <input
+                matInput
+                [matDatepicker]="picker"
+                placeholder="Select date..."
+                formControlName="dataNasterii"
+              />
+              <mat-error
+                *ngIf="patientForm.get('dataNasterii')?.hasError('required')"
+              >
+                Data nașterii este obligatorie.
+              </mat-error>
+              <mat-datepicker-toggle
+                matIconSuffix
+                [for]="picker"
+              ></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+          </div>
+          <div>
+            <label>Gen</label>
+            <section>
+              <mat-checkbox
+                color="primary"
+                [checked]="patientForm.get('gen')?.value === 'Feminin'"
+                (change)="selectGen('Feminin')"
+                >Feminin</mat-checkbox
+              >
+              <mat-checkbox
+                color="primary"
+                [checked]="patientForm.get('gen')?.value === 'Masculin'"
+                (change)="selectGen('Masculin')"
+                >Masculin</mat-checkbox
+              >
+            </section>
+            <mat-error
+              *ngIf="
+                patientForm.get('gen')?.hasError('required') &&
+                patientForm.get('gen')?.touched
+              "
+            >
+              Selectați genul.
+            </mat-error>
+          </div>
         </div>
         <div class="add-new-patient__data-entered__first__data">
           <div>
             <label>CNP</label>
             <mat-form-field appearance="outline">
-              <input matInput />
+              <input matInput formControlName="cnp" />
+              <mat-error *ngIf="patientForm.get('cnp')?.hasError('required')">
+                CNP-ul este obligatoriu.
+              </mat-error>
+              <mat-error *ngIf="patientForm.get('cnp')?.hasError('pattern')">
+                CNP-ul trebuie să conțină 13 cifre.
+              </mat-error>
             </mat-form-field>
           </div>
           <div>
             <label>Email</label>
             <mat-form-field appearance="outline">
-              <input matInput />
+              <input matInput formControlName="email" />
+              <mat-error *ngIf="patientForm.get('email')?.hasError('required')">
+                Emailul este obligatoriu.
+              </mat-error>
             </mat-form-field>
           </div>
           <div>
             <label>Vârstă</label>
             <mat-form-field appearance="outline">
-              <input matInput />
+              <input matInput formControlName="varsta" />
+              <mat-error
+                *ngIf="patientForm.get('varsta')?.hasError('required')"
+              >
+                Vârsta este obligatorie.
+              </mat-error>
             </mat-form-field>
           </div>
         </div>
       </div>
       <div class="add-new-patient__data-entered__second">
-        <div class="add-new-patient__data-entered__second__data__profile">
+        <!-- <div class="add-new-patient__data-entered__second__data__profile">
           <div class="upload-file">
             <input
               #profileImageInput
@@ -106,24 +179,41 @@
             <img *ngIf="imageProfile" [src]="imageProfile" />
             <img *ngIf="!imageProfile" src="../../assets/user-profile.png" />
           </div>
-        </div>
-        <div>
-          <label>Greutate</label>
-          <mat-form-field appearance="outline">
-            <input matInput />
-          </mat-form-field>
-        </div>
-        <div>
-          <label>Înălțime</label>
-          <mat-form-field appearance="outline">
-            <input matInput />
-          </mat-form-field>
-        </div>
-        <div>
-          <label>Ocupația</label>
-          <mat-form-field appearance="outline">
-            <input matInput />
-          </mat-form-field>
+        </div> -->
+        <div class="add-new-patient__data-entered__second__data">
+          <div>
+            <label>Greutate</label>
+            <mat-form-field appearance="outline">
+              <input matInput formControlName="greutate" />
+              <mat-error
+                *ngIf="patientForm.get('greutate')?.hasError('required')"
+              >
+                Greutatea este obligatorie.
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div>
+            <label>Înălțime</label>
+            <mat-form-field appearance="outline">
+              <input matInput formControlName="înălțime" />
+              <mat-error
+                *ngIf="patientForm.get('înălțime')?.hasError('required')"
+              >
+                Înălțimea este obligatorie.
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div>
+            <label>Ocupația</label>
+            <mat-form-field appearance="outline">
+              <input matInput formControlName="ocupația" />
+              <mat-error
+                *ngIf="patientForm.get('ocupația')?.hasError('required')"
+              >
+                Ocupația este obligatorie.
+              </mat-error>
+            </mat-form-field>
+          </div>
         </div>
       </div>
     </form>
@@ -131,7 +221,11 @@
   <div class="add-new-patient__bottom">
     <mat-divider></mat-divider>
     <div class="add-new-patient__bottom__buttons">
-      <button class="add-new-patient__bottom__buttons__button1">ADAUGĂ</button
+      <button
+        class="add-new-patient__bottom__buttons__button1"
+        (click)="onSubmit()"
+      >
+        ADAUGĂ</button
       ><button class="add-new-patient__bottom__buttons__button2">
         RENUNȚĂ
       </button>

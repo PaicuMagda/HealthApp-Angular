@@ -1,0 +1,10 @@
+.details-patient {
+  &__close {
+    display: flex;
+    justify-content: space-between;
+    padding: 1%;
+    cursor: pointer;
+    font-family: Verdana, sans-serif;
+    font-size: 1.4rem;
+  }
+}

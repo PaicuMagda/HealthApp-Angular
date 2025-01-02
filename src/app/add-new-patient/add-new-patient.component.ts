@@ -1,10 +1,13 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { CloseDialogComponent } from '../confirmation-dialogs/close-dialog/close-dialog.component';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgIf } from '@angular/common';
 
 @Component({
@@ -15,19 +18,24 @@ import { NgIf } from '@angular/common';
     MatFormFieldModule,
     MatInputModule,
     MatDatepickerModule,
+    MatCheckboxModule,
+    ReactiveFormsModule,
+    FormsModule,
     NgIf,
   ],
   templateUrl: './add-new-patient.component.html',
   styleUrl: './add-new-patient.component.scss',
 })
-export class AddNewPatientComponent {
-  constructor(
-    private dialogRef: MatDialogRef<AddNewPatientComponent>,
-    private dialog: MatDialog
-  ) {}
-
+export class AddNewPatientComponent implements OnInit {
   imageProfileFileName: string | undefined;
   imageProfile: string;
+  patientForm: FormGroup;
+
+  constructor(
+    private dialogRef: MatDialogRef<AddNewPatientComponent>,
+    private dialog: MatDialog,
+    private formBuilder: FormBuilder
+  ) {}
 
   onFileSelectedImageProfile(event: any) {
     const file: File = event.target.files[0];
@@ -52,6 +60,39 @@ export class AddNewPatientComponent {
           this.dialogRef.close();
         }
       }, 500);
+    });
+  }
+
+  onSubmit(): void {
+    if (this.patientForm.valid) {
+      console.log(this.patientForm.value);
+    } else {
+      console.log('Formular invalid');
+    }
+  }
+
+  selectGen(value: string): void {
+    this.patientForm.get('gen')?.setValue(value);
+    this.patientForm.get('gen')?.markAsTouched();
+  }
+
+  ngOnInit(): void {
+    this.patientForm = this.formBuilder.group({
+      nume: ['', [Validators.required]],
+      prenume: ['', [Validators.required]],
+      adresa: this.formBuilder.group({
+        locatie: ['', [Validators.required]],
+        strada: ['', [Validators.required]],
+        numar: ['', [Validators.required]],
+      }),
+      dataNasterii: ['', [Validators.required]],
+      gen: ['', [Validators.required]],
+      cnp: ['', [Validators.required, Validators.pattern(/^\d{13}$/)]],
+      email: ['', [Validators.required, Validators.email]],
+      varsta: ['', [Validators.required, Validators.min(0)]],
+      greutate: ['', [Validators.required]],
+      înălțime: ['', [Validators.required]],
+      ocupația: ['', [Validators.required]],
     });
   }
 }
