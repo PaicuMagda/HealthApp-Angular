@@ -1,14 +1,16 @@
-import { Component, NgModule } from '@angular/core';
+import { Component } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
   FormsModule,
   ReactiveFormsModule,
+  Validators,
 } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { Router } from '@angular/router';
 import { PatientsService } from '../services/patients.service';
+import { NgIf } from '@angular/common';
 
 @Component({
   selector: 'app-register',
@@ -18,12 +20,22 @@ import { PatientsService } from '../services/patients.service';
     MatInputModule,
     FormsModule,
     ReactiveFormsModule,
+    NgIf,
   ],
   templateUrl: './register.component.html',
   styleUrl: './register.component.scss',
 })
 export class RegisterComponent {
   userForm: FormGroup;
+  loginForm: FormGroup;
+  isSignUp: boolean = true;
+
+  conditions = {
+    minLength: false,
+    smallLetter: false,
+    capitalLetter: false,
+    numberOrSymbol: false,
+  };
 
   constructor(
     private router: Router,
@@ -35,10 +47,42 @@ export class RegisterComponent {
       email: [''],
       password: [''],
     });
+
+    this.userForm.get('password')?.valueChanges.subscribe((password) => {
+      this.validatePassword(password);
+    });
+
+    this.loginForm = this.form.group({
+      username: ['', Validators.required],
+      password: ['', Validators.required],
+    });
+  }
+
+  validatePassword(password: string): void {
+    this.conditions.minLength = password.length >= 8;
+    this.conditions.smallLetter = /[a-z]/.test(password);
+    this.conditions.capitalLetter = /[A-Z]/.test(password);
+    this.conditions.numberOrSymbol = /[\d\W]/.test(password);
   }
 
   goToHomePage() {
     this.router.navigate(['/home-page']);
+  }
+
+  toggleForm() {
+    this.isSignUp = !this.isSignUp;
+  }
+
+  submitSignUp() {
+    if (this.userForm.valid) {
+      console.log('Formular pentru crearea unui cont trimis!');
+    }
+  }
+
+  submitLogin() {
+    if (this.loginForm.valid) {
+      console.log('Formular pentru logare trimis!');
+    }
   }
 
   submit() {
@@ -59,5 +103,6 @@ export class RegisterComponent {
       alert('Completează toate câmpurile!');
     }
   }
+
   ngOnInit() {}
 }

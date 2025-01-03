@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class PatientsService {
-  private apiUrl = 'http://localhost:81/proiect-php/index.php';
+  private apiUrl = 'http://localhost/healthApp-php/connection.php';
 
   constructor(private http: HttpClient) {}
 

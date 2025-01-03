@@ -9,12 +9,11 @@
   &__form {
     position: fixed;
     width: 20%;
-    height: 70%;
+    height: 80%;
     background-color: white;
     border-radius: 10px;
     border: 0.3rem solid black;
     display: flex;
-    justify-content: center;
     margin-right: 10%;
     flex-direction: column;
 
@@ -27,6 +26,7 @@
     &__icon {
       width: 30%;
       height: 20%;
+      margin-top: 10%;
 
       img {
         height: 100%;
@@ -35,7 +35,7 @@
     }
 
     &__title {
-      margin-top: 10%;
+      margin-top: 2%;
       font-size: 1.3rem;
       font-weight: bold;
       font-family: Verdana, sans-serif;
@@ -44,41 +44,108 @@
     &__credentials {
       display: flex;
       flex-direction: column;
-      margin-top: 15%;
-      font-size: 1.4rem;
-      align-items: center;
+      margin-top: 5%;
+      font-size: 1rem;
+      width: 65%;
       gap: 1rem;
+      font-weight: bold;
+
+      &__password-requires {
+        margin-top: 10%;
+
+        ul {
+          margin-top: 7%;
+        }
+      }
 
       div {
         display: flex;
         flex-direction: column;
-        margin-left: 4rem;
       }
 
       input {
         height: 2rem;
         border-radius: 0.5rem;
-        font-size: 1.4rem;
-        width: 50%;
-        width: 80%;
+        font-size: 1rem;
+        width: 100%;
       }
     }
 
     &__button {
       display: flex;
-      flex-direction: row;
-      justify-content: center;
+      flex-direction: column;
+      align-items: center;
 
       button {
-        width: 30%;
+        width: 47%;
         height: 2rem;
-        border-radius: 1rem;
         border-radius: 0.5rem;
         font-size: 1rem;
         font-weight: bold;
-        background-color: rgb(187, 121, 0);
-        color: white;
+        background-color: #ffc400;
         text-transform: uppercase;
+        margin-top: 12%;
+      }
+
+      &__text {
+        display: flex;
+        margin-top: 2%;
+
+        span {
+          color: red;
+          cursor: pointer;
+        }
+      }
+    }
+  }
+
+  &__login-form {
+    &__icon {
+      width: 40%;
+      height: 20%;
+      margin-top: 16%;
+
+      img {
+        height: 100%;
+        width: 100%;
+      }
+    }
+
+    &__title {
+      margin-top: 2%;
+      font-size: 1.3rem;
+      font-weight: bold;
+      font-family: Verdana, sans-serif;
+    }
+
+    &__credentials {
+      display: flex;
+      flex-direction: column;
+      margin-top: 25%;
+      font-size: 1rem;
+      width: 65%;
+      gap: 1rem;
+      font-weight: bold;
+      margin-bottom: 20%;
+
+      &__password-requires {
+        margin-top: 10%;
+
+        ul {
+          margin-top: 7%;
+        }
+      }
+
+      div {
+        display: flex;
+        flex-direction: column;
+      }
+
+      input {
+        height: 2rem;
+        border-radius: 0.5rem;
+        font-size: 1rem;
+        width: 100%;
       }
     }
   }

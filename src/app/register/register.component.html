@@ -1,11 +1,11 @@
 <div class="full-container">
   <img class="full-container__background" src="assets/background_2.png" />
   <div class="full-container__form">
-    <form [formGroup]="userForm">
+    <form [formGroup]="userForm" *ngIf="isSignUp">
       <div class="full-container__form__icon">
         <img src="../../assets/icon.png" />
       </div>
-      <div class="full-container__form__title">Create account</div>
+      <div class="full-container__form__title">Crează cont</div>
       <div class="full-container__form__credentials">
         <div>
           <mat-label>👨🏻‍💼 Username</mat-label>
@@ -20,9 +20,60 @@
           <input type="text" matInput formControlName="password" />
         </div>
       </div>
+      <div class="full-container__form__credentials__password-requires">
+        <p>Password must contain:</p>
+        <ul>
+          <div>
+            <span *ngIf="conditions.minLength; else cross">✅</span>
+            <ng-template #cross>❌</ng-template>
+            At least 8 characters
+          </div>
+          <div>
+            <span *ngIf="conditions.smallLetter; else cross">✅</span>
+            <ng-template #cross>❌</ng-template>
+            At least one small letter
+          </div>
+          <div>
+            <span *ngIf="conditions.capitalLetter; else cross">✅</span>
+            <ng-template #cross>❌</ng-template>
+            At least one capital letter
+          </div>
+          <div>
+            <span *ngIf="conditions.numberOrSymbol; else cross">✅</span>
+            <ng-template #cross>❌</ng-template>
+            At least one number or symbol
+          </div>
+        </ul>
+      </div>
+    </form>
+
+    <form *ngIf="!isSignUp" [formGroup]="loginForm">
+      <div class="full-container__login-form__icon">
+        <img src="../../assets/icon.png" />
+      </div>
+      <div class="full-container__login-form__title">Logare</div>
+      <div class="full-container__login-form__credentials">
+        <div>
+          <mat-label>👨🏻‍💼 Username</mat-label>
+          <input type="text" matInput formControlName="username" />
+        </div>
+        <div>
+          <mat-label>🔒 Password</mat-label>
+          <input type="password" matInput formControlName="password" />
+        </div>
+      </div>
     </form>
     <div class="full-container__form__button">
-      <button (click)="submit()">Register</button>
+      <button *ngIf="isSignUp" (click)="submitSignUp()">Crează cont</button>
+      <button *ngIf="!isSignUp" (click)="submitLogin()">Logare</button>
+
+      <div class="full-container__form__button__text">
+        <p *ngIf="isSignUp">Aveți deja cont?</p>
+        <p *ngIf="!isSignUp">Nu aveți încă un cont?</p>
+        <span (click)="toggleForm()">{{
+          isSignUp ? "Logare" : "Crează cont"
+        }}</span>
+      </div>
     </div>
   </div>
 </div>
