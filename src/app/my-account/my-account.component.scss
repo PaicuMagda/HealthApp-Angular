@@ -1,0 +1,59 @@
+@mixin button-update {
+  font-weight: bold;
+  width: 30%;
+  background-color: #ffc400;
+  color: black;
+  border: none;
+  height: 2.5rem;
+  border-radius: 6px;
+  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.my-account {
+  padding: 1%;
+
+  &__close {
+    display: flex;
+    justify-content: space-between;
+    padding: 1%;
+    cursor: pointer;
+    font-family: Verdana, sans-serif;
+    font-size: 1.4rem;
+  }
+
+  &__title {
+    font-size: 150%;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    margin-top: 10%;
+  }
+
+  form {
+    margin-top: 10%;
+    width: 80%;
+
+    button {
+      @include button-update;
+    }
+  }
+
+  &__form {
+    display: flex;
+    justify-content: center;
+
+    label {
+      font-weight: bold;
+    }
+
+    &__button {
+      display: flex;
+      justify-content: flex-end;
+    }
+  }
+}
+
+mat-form-field {
+  width: 100%;
+  font-size: 120%;
+}

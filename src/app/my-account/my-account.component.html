@@ -1,0 +1,53 @@
+<div class="my-account">
+  <div>
+    <div>
+      <div class="my-account__close">
+        <div>👨‍⚕️ Profilul meu</div>
+        <div><span (click)="closeMyProfileSidenav()">❌</span></div>
+      </div>
+      <mat-divider></mat-divider>
+    </div>
+  </div>
+  <div class="my-account__title">
+    <p>Doctor {{ "Paicu Maria" }}</p>
+  </div>
+  <div class="my-account__form">
+    <form>
+      <label>CNP</label>
+      <mat-form-field appearance="outline">
+        <input matInput />
+      </mat-form-field>
+      <label>Nume</label>
+      <mat-form-field appearance="outline">
+        <input matInput />
+      </mat-form-field>
+      <label>Prenume</label>
+      <mat-form-field appearance="outline">
+        <input matInput />
+      </mat-form-field>
+      <label>Adresă de email</label>
+      <mat-form-field appearance="outline">
+        <input matInput />
+      </mat-form-field>
+      <label>Parolă</label>
+      <mat-form-field appearance="outline">
+        <input matInput />
+      </mat-form-field>
+      <label>Specializare</label>
+      <mat-form-field>
+        <mat-select
+          [(value)]="selectedSpecializare"
+          (selectionChange)="onSpecializareChange($event.value)"
+        >
+          <mat-option
+            *ngFor="let specializare of specializari"
+            [value]="specializare"
+          >
+            {{ specializare }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <div class="my-account__form__button"><button>ACTUALIZARE</button></div>
+    </form>
+  </div>
+</div>

@@ -1,11 +1,18 @@
-.add-new-patient {
-  &__close {
-    display: flex;
-    justify-content: space-between;
-    padding: 1%;
-    cursor: pointer;
-    font-family: Verdana, sans-serif;
-    font-size: 1.4rem;
+.close {
+  display: flex;
+  justify-content: space-between;
+  padding: 1%;
+  cursor: pointer;
+  font-family: Verdana, sans-serif;
+  font-size: 1.4rem;
+}
+
+.consultatii {
+  max-height: 84vh;
+  overflow: auto;
+
+  p {
+    font-size: 1rem;
   }
 
   &__bottom {

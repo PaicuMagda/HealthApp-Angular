@@ -1,2 +1,9 @@
 <ng-toast></ng-toast>
-<router-outlet></router-outlet>
+
+<mat-sidenav-container>
+  <mat-sidenav [(opened)]="sidenavOpened" mode="over" position="start" #sideNav>
+    <app-my-account></app-my-account>
+  </mat-sidenav>
+  <router-outlet></router-outlet>
+  <ng-toast></ng-toast>
+</mat-sidenav-container>
