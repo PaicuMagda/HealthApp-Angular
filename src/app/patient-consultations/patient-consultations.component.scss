@@ -1,0 +1,38 @@
+.add-new-patient {
+  &__close {
+    display: flex;
+    justify-content: space-between;
+    padding: 1%;
+    cursor: pointer;
+    font-family: Verdana, sans-serif;
+    font-size: 1.4rem;
+  }
+
+  &__bottom {
+    &__buttons {
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-end;
+      gap: 2rem;
+      margin-top: 1%;
+      margin-right: 1%;
+
+      &__button1 {
+        background-color: #ffc400;
+      }
+
+      &__button2 {
+        background-color: rgb(175, 7, 7);
+        color: white;
+      }
+
+      button {
+        width: 8rem;
+        height: 2.5rem;
+        border-radius: 0.5rem;
+        font-weight: bold;
+        font-size: 1rem;
+      }
+    }
+  }
+}

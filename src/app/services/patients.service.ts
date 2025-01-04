@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
@@ -6,7 +6,8 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class PatientsService {
-  private apiUrl = 'http://localhost/healthApp-php/connection.php';
+  private apiUrlRegister = 'http://localhost/healthApp-php/register.php';
+  private apiUrlAutentificare = 'http://localhost/healthApp-php/login.php';
 
   constructor(private http: HttpClient) {}
 
@@ -15,7 +16,21 @@ export class PatientsService {
     email: string;
     password: string;
   }): Observable<any> {
-    return this.http.post<any>(this.apiUrl, user);
+    return this.http.post<any>(this.apiUrlRegister, user);
+  }
+
+  login(username: string, password: string): Observable<any> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+    });
+
+    const body = JSON.stringify({ username, password });
+
+    // Setează responseType: 'text' pentru a gestiona răspunsurile care nu sunt JSON valid
+    return this.http.post(this.apiUrlAutentificare, body, {
+      headers,
+      responseType: 'text',
+    });
   }
 
   users: any[] = [

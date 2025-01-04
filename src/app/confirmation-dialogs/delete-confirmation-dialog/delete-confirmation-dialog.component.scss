@@ -1,0 +1,65 @@
+@mixin button-close {
+  font-weight: 500;
+  width: auto;
+  background-color: red;
+  color: black;
+  border: none;
+  height: 2.5rem;
+  border-radius: 6px;
+  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+@mixin discard-button {
+  font-weight: 500;
+  width: auto;
+  background-color: white;
+  color: rgb(0, 0, 0);
+  border: none;
+  height: 2.5rem;
+  border-radius: 6px;
+  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.icon-close {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  padding: 2%;
+  cursor: pointer;
+}
+
+.delete-dialog {
+  padding: 2%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  gap: 4vh;
+}
+
+.button-delete {
+  @include button-close();
+  width: 4rem;
+}
+
+.discard-button {
+  @include discard-button();
+  width: 4rem;
+  margin-left: 1rem;
+}
+
+.buttons {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  justify-content: flex-end;
+  margin-right: 1rem;
+}
+
+mat-divider {
+  width: 100%;
+}
+
+h4 {
+  margin-top: 6%;
+}

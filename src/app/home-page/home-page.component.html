@@ -52,16 +52,34 @@
     </div>
   </div>
 
-  <div class="display-patients__patients" (click)="openDetailsPatient()">
+  <div class="display-patients__patients">
     <div
       class="display-patients__patients__cards"
       *ngFor="let patient of patients"
       appHoverElement
     >
-      <div class="display-patients__patients__cards__image">
-        <img [src]="patient.imagine" />
+      <div
+        class="display-patients__patients__cards__small-image-left"
+        (click)="openConsultationsPatient()"
+      >
+        <img src="../../assets/consultatie.png" alt="Small Image Left" />
       </div>
-      <div class="display-patients__patients__cards__informations">
+      <div
+        class="display-patients__patients__cards__small-image-right"
+        (click)="openDeletePatient()"
+      >
+        <img src="../../assets/delete-icon.png" alt="Small Image Right" />
+      </div>
+      <div
+        class="display-patients__patients__cards__image"
+        (click)="openDetailsPatient()"
+      >
+        <img [src]="patient.imagine" alt="Patient Image" />
+      </div>
+      <div
+        class="display-patients__patients__cards__informations"
+        (click)="openDetailsPatient()"
+      >
         <span>Nume: {{ patient.nume }}</span>
         <span> Diagnostic: {{ patient.diagnostic }}</span>
         <span>Dată: {{ patient.data }}</span>

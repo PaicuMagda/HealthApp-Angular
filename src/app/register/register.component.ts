@@ -11,6 +11,8 @@ import { MatInputModule } from '@angular/material/input';
 import { Router } from '@angular/router';
 import { PatientsService } from '../services/patients.service';
 import { NgIf } from '@angular/common';
+import { NgToastModule } from 'ng-angular-popup';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-register',
@@ -21,6 +23,7 @@ import { NgIf } from '@angular/common';
     FormsModule,
     ReactiveFormsModule,
     NgIf,
+    NgToastModule,
   ],
   templateUrl: './register.component.html',
   styleUrl: './register.component.scss',
@@ -40,7 +43,8 @@ export class RegisterComponent {
   constructor(
     private router: Router,
     private form: FormBuilder,
-    private patientService: PatientsService
+    private patientService: PatientsService,
+    private toastr: ToastrService
   ) {
     this.userForm = this.form.group({
       username: [''],
@@ -73,34 +77,68 @@ export class RegisterComponent {
     this.isSignUp = !this.isSignUp;
   }
 
+  showToast(message: string, type: 'success' | 'error') {
+    if (type === 'success') {
+      this.toastr.success(message);
+    } else if (type === 'error') {
+      this.toastr.error(message);
+    }
+  }
+
   submitSignUp() {
     if (this.userForm.valid) {
-      console.log('Formular pentru crearea unui cont trimis!');
-    }
-  }
-
-  submitLogin() {
-    if (this.loginForm.valid) {
-      console.log('Formular pentru logare trimis!');
-    }
-  }
-
-  submit() {
-    if (this.userForm.valid) {
       const userData = this.userForm.value;
-      this.patientService.register(userData).subscribe(
-        (response) => {
-          alert('User salvat cu succes!');
-          this.userForm.reset();
-          this.router.navigate(['/home-page']);
-        },
-        (error) => {
-          console.error(error);
-          alert('Eroare la salvarea utilizatorului!');
-        }
-      );
+      this.patientService.register(userData).subscribe();
     } else {
       alert('Completează toate câmpurile!');
+    }
+  }
+  submitLogin() {
+    if (this.loginForm.valid) {
+      const username = this.loginForm.value.username;
+      const password = this.loginForm.value.password;
+
+      this.patientService.login(username, password).subscribe({
+        next: (response: string) => {
+          try {
+            const jsonResponse = JSON.parse(response.trim());
+            console.log('Răspuns valid:', jsonResponse);
+
+            if (jsonResponse.success) {
+              console.log('Logare reușită!');
+              localStorage.setItem('user_id', jsonResponse.user_id);
+              this.showToast(
+                'Logare reușită! Vei fi redirecționat...',
+                'success'
+              );
+
+              setTimeout(() => {
+                this.router.navigate(['/home-page']);
+              }, 3000);
+            } else {
+              this.showToast(
+                jsonResponse.message || 'Logare eșuată! Verificați datele!',
+                'error'
+              );
+            }
+          } catch (e) {
+            console.error('Eroare la parsarea JSON:', e);
+            this.showToast(
+              'Eroare la procesarea răspunsului de la server!',
+              'error'
+            );
+          }
+        },
+        error: (err) => {
+          console.error('Eroare HTTP:', err);
+          this.showToast(
+            'Eroare la logare! Verifică conexiunea sau contactează suportul.',
+            'error'
+          );
+        },
+      });
+    } else {
+      this.showToast('Completează toate câmpurile!', 'error');
     }
   }
 

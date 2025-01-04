@@ -10,6 +10,8 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { PatientsService } from '../services/patients.service';
 import { MatDialog } from '@angular/material/dialog';
 import { PatientDetailsComponent } from '../patient-details/patient-details.component';
+import { PatientConsultationsComponent } from '../patient-consultations/patient-consultations.component';
+import { DeleteConfirmationDialogComponent } from '../confirmation-dialogs/delete-confirmation-dialog/delete-confirmation-dialog.component';
 
 @Component({
   selector: 'app-home-page',
@@ -41,7 +43,23 @@ export class HomePageComponent implements OnInit {
     this.dialog.open(PatientDetailsComponent, {
       width: '90%',
       height: '70%',
-      data: { mesaj: 'Salut! Acesta este un mesaj de test.' },
+      data: {},
+    });
+  }
+
+  openConsultationsPatient() {
+    this.dialog.open(PatientConsultationsComponent, {
+      width: '40%',
+      height: '95%',
+      data: {},
+    });
+  }
+
+  openDeletePatient() {
+    this.dialog.open(DeleteConfirmationDialogComponent, {
+      width: '20%',
+      height: '18%',
+      data: {},
     });
   }
 
