@@ -8,11 +8,21 @@
 }
 
 .consultatii {
-  max-height: 84vh;
-  overflow: auto;
+  &__data {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 4%;
+    max-height: 81vh;
+    overflow: auto;
+  }
 
   p {
     font-size: 1rem;
+  }
+
+  label {
+    font-weight: bold;
   }
 
   &__bottom {
@@ -42,4 +52,8 @@
       }
     }
   }
+}
+mat-form-field {
+  width: 100%;
+  font-size: 120%;
 }

@@ -151,7 +151,7 @@
         </div>
       </div>
       <div class="add-new-patient__data-entered__second">
-        <!-- <div class="add-new-patient__data-entered__second__data__profile">
+        <div class="add-new-patient__data-entered__second__data__profile">
           <div class="upload-file">
             <input
               #profileImageInput
@@ -179,7 +179,7 @@
             <img *ngIf="imageProfile" [src]="imageProfile" />
             <img *ngIf="!imageProfile" src="../../assets/user-profile.png" />
           </div>
-        </div> -->
+        </div>
         <div class="add-new-patient__data-entered__second__data">
           <div>
             <label>Greutate</label>
@@ -223,7 +223,7 @@
     <div class="add-new-patient__bottom__buttons">
       <button
         class="add-new-patient__bottom__buttons__button1"
-        (click)="onSubmit()"
+        (click)="addNewPatient()"
       >
         ADAUGĂ</button
       ><button class="add-new-patient__bottom__buttons__button2">

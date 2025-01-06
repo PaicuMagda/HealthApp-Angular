@@ -6,7 +6,7 @@ import { AddNewPatientComponent } from '../add-new-patient/add-new-patient.compo
 import { SidenavService } from '../services/sidenav.service';
 import { DoctorService } from '../services/doctor.service';
 import { LogoutDialogComponent } from '../logout-dialog/logout-dialog.component';
-import { Route, Router } from '@angular/router';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-nav-bar',
@@ -38,25 +38,15 @@ export class NavBarComponent implements OnInit {
   }
 
   openLogout() {
-    const logoutDialog = this.dialog.open(LogoutDialogComponent, {
+    this.dialog.open(LogoutDialogComponent, {
       width: '20%',
       height: '18%',
-    });
-
-    logoutDialog.afterClosed().subscribe((result) => {
-      setTimeout(() => {
-        if (result === 'yes') {
-          this.router.navigate(['']);
-          this.doctorService.logout();
-        }
-      });
     });
   }
 
   ngOnInit(): void {
     this.doctorService.doctor$.subscribe((result) => {
       this.doctor = result;
-      console.log('Din navbar' + this.doctor);
     });
   }
 }

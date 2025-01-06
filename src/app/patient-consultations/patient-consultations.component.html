@@ -6,12 +6,42 @@
     </div>
     <mat-divider></mat-divider>
   </div>
-  <div class="consultatii"></div>
-  <div class="consultatii__bottom">
-    <mat-divider></mat-divider>
-    <div class="consultatii__bottom__buttons">
-      <button class="consultatii__bottom__buttons__button1">ADAUGĂ</button
-      ><button class="consultatii__bottom__buttons__button2">RENUNȚĂ</button>
+  <div class="consultatii">
+    <div class="consultatii__data">
+      <form>
+        <label>Data consultației</label>
+        <mat-form-field appearance="outline">
+          <input
+            matInput
+            [matDatepicker]="picker"
+            placeholder="Select date..."
+          />
+          <mat-datepicker-toggle
+            matIconSuffix
+            [for]="picker"
+          ></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+        <div>
+          <label>Diagnostic</label>
+          <mat-form-field appearance="outline">
+            <input matInput formControlName="nume" />
+          </mat-form-field>
+        </div>
+        <div>
+          <label>Medicamentație</label>
+          <mat-form-field appearance="outline">
+            <input matInput formControlName="nume" />
+          </mat-form-field>
+        </div>
+      </form>
+    </div>
+    <div class="consultatii__bottom">
+      <mat-divider></mat-divider>
+      <div class="consultatii__bottom__buttons">
+        <button class="consultatii__bottom__buttons__button1">ADAUGĂ</button
+        ><button class="consultatii__bottom__buttons__button2">RENUNȚĂ</button>
+      </div>
     </div>
   </div>
 </div>

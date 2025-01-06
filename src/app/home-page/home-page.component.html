@@ -74,15 +74,15 @@
         class="display-patients__patients__cards__image"
         (click)="openDetailsPatient()"
       >
-        <img [src]="patient.imagine" alt="Patient Image" />
+        <img [src]="patient.poza" alt="Patient Image" />
       </div>
       <div
         class="display-patients__patients__cards__informations"
         (click)="openDetailsPatient()"
       >
-        <span>Nume: {{ patient.nume }}</span>
-        <span> Diagnostic: {{ patient.diagnostic }}</span>
-        <span>Dată: {{ patient.data }}</span>
+        <span>Nume: {{ patient.nume }}{{ patient.prenume }}</span>
+        <span> Vârstă: {{ patient.varsta }}</span>
+        <span>Dată: {{ patient.data_nasterii }}</span>
       </div>
     </div>
   </div>

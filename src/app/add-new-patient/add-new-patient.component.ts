@@ -9,6 +9,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgIf } from '@angular/common';
+import { PatientsService } from '../services/patients.service';
 
 @Component({
   selector: 'app-add-new-patient',
@@ -34,7 +35,8 @@ export class AddNewPatientComponent implements OnInit {
   constructor(
     private dialogRef: MatDialogRef<AddNewPatientComponent>,
     private dialog: MatDialog,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private patientService: PatientsService
   ) {}
 
   onFileSelectedImageProfile(event: any) {
@@ -74,6 +76,36 @@ export class AddNewPatientComponent implements OnInit {
   selectGen(value: string): void {
     this.patientForm.get('gen')?.setValue(value);
     this.patientForm.get('gen')?.markAsTouched();
+  }
+
+  addNewPatient(): void {
+    const formData = this.patientForm.value;
+    const payload = {
+      doctor_id: 7,
+      nume: formData.nume,
+      prenume: formData.prenume,
+      locatie: formData.adresa.locatie,
+      strada: formData.adresa.strada,
+      numar: formData.adresa.numar,
+      data_nasterii: formData.data_nasterii,
+      cnp: formData.cnp,
+      gen: formData.gen,
+      email: formData.email,
+      varsta: formData.varsta,
+      greutate: formData.greutate,
+      inaltime: formData.inaltime,
+      ocupatie: formData.ocupația,
+      poza: this.imageProfile,
+    };
+
+    this.patientService.addPatient(payload).subscribe(
+      (response) => {
+        console.log('Pacient adăugat:', response);
+      },
+      (error) => {
+        console.error('Eroare la adăugare:', error);
+      }
+    );
   }
 
   ngOnInit(): void {

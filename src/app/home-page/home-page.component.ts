@@ -68,11 +68,13 @@ export class HomePageComponent implements OnInit {
 
   ngOnInit(): void {
     this.diagnostics = this.diagnosticsService.getDiagnostics();
-    this.patients = this.patientsService.getUsers();
+    this.patientsService.patients$.subscribe((result) => {
+      this.patients = result;
+      console.log(this.patients);
+    });
 
     this.doctorService.doctor$.subscribe((doctor) => {
       this.doctor = doctor;
-      console.log(this.doctor);
     });
   }
 }
