@@ -12,6 +12,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { PatientDetailsComponent } from '../patient-details/patient-details.component';
 import { PatientConsultationsComponent } from '../patient-consultations/patient-consultations.component';
 import { DeleteConfirmationDialogComponent } from '../confirmation-dialogs/delete-confirmation-dialog/delete-confirmation-dialog.component';
+import { DoctorService } from '../services/doctor.service';
 
 @Component({
   selector: 'app-home-page',
@@ -33,11 +34,13 @@ export class HomePageComponent implements OnInit {
   constructor(
     private diagnosticsService: DiagnosticsService,
     private patientsService: PatientsService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private doctorService: DoctorService
   ) {}
 
   diagnostics: any[];
   patients: any[];
+  doctor: any;
 
   openDetailsPatient() {
     this.dialog.open(PatientDetailsComponent, {
@@ -66,5 +69,10 @@ export class HomePageComponent implements OnInit {
   ngOnInit(): void {
     this.diagnostics = this.diagnosticsService.getDiagnostics();
     this.patients = this.patientsService.getUsers();
+
+    this.doctorService.doctor$.subscribe((doctor) => {
+      this.doctor = doctor;
+      console.log(this.doctor);
+    });
   }
 }

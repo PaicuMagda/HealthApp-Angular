@@ -13,6 +13,7 @@ import { PatientsService } from '../services/patients.service';
 import { NgIf } from '@angular/common';
 import { NgToastModule } from 'ng-angular-popup';
 import { ToastrService } from 'ngx-toastr';
+import { DoctorService } from '../services/doctor.service';
 
 @Component({
   selector: 'app-register',
@@ -43,7 +44,7 @@ export class RegisterComponent {
   constructor(
     private router: Router,
     private form: FormBuilder,
-    private patientService: PatientsService,
+    private doctorService: DoctorService,
     private toastr: ToastrService
   ) {
     this.userForm = this.form.group({
@@ -88,43 +89,47 @@ export class RegisterComponent {
   submitSignUp() {
     if (this.userForm.valid) {
       const userData = this.userForm.value;
-      this.patientService.register(userData).subscribe();
+      this.doctorService.registerDoctor(userData).subscribe();
     } else {
       alert('Completează toate câmpurile!');
     }
   }
+
   submitLogin() {
     if (this.loginForm.valid) {
       const username = this.loginForm.value.username;
       const password = this.loginForm.value.password;
 
-      this.patientService.login(username, password).subscribe({
-        next: (response: string) => {
-          try {
-            const jsonResponse = JSON.parse(response.trim());
-            console.log('Răspuns valid:', jsonResponse);
+      this.doctorService.loginDoctor(username, password).subscribe({
+        next: (response: any) => {
+          if (response.success) {
+            const doctorId = response.user.id;
+            localStorage.setItem('user_id', doctorId);
 
-            if (jsonResponse.success) {
-              console.log('Logare reușită!');
-              localStorage.setItem('user_id', jsonResponse.user_id);
-              this.showToast(
-                'Logare reușită! Vei fi redirecționat...',
-                'success'
-              );
+            this.doctorService.getDoctorById(doctorId).subscribe({
+              next: (doctor) => {
+                this.doctorService.setLoggedInDoctor(doctor);
 
-              setTimeout(() => {
-                this.router.navigate(['/home-page']);
-              }, 3000);
-            } else {
-              this.showToast(
-                jsonResponse.message || 'Logare eșuată! Verificați datele!',
-                'error'
-              );
-            }
-          } catch (e) {
-            console.error('Eroare la parsarea JSON:', e);
+                this.showToast(
+                  'Logare reușită! Vei fi redirecționat...',
+                  'success'
+                );
+
+                setTimeout(() => {
+                  this.router.navigate(['/home-page']);
+                }, 3000);
+              },
+              error: (err) => {
+                console.error('Eroare la obținerea datelor doctorului:', err);
+                this.showToast(
+                  'Eroare la încărcarea datelor doctorului.',
+                  'error'
+                );
+              },
+            });
+          } else {
             this.showToast(
-              'Eroare la procesarea răspunsului de la server!',
+              response.message || 'Logare eșuată! Verificați datele!',
               'error'
             );
           }

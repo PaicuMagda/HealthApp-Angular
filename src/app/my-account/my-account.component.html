@@ -12,33 +12,21 @@
     <p>Doctor {{ "Paicu Maria" }}</p>
   </div>
   <div class="my-account__form">
-    <form>
+    <form [formGroup]="doctorForm">
       <label>CNP</label>
       <mat-form-field appearance="outline">
-        <input matInput />
+        <input matInput formControlName="cnp" />
+        <mat-error *ngIf="doctorForm.get('cnp')?.hasError('required')">
+          CNP este obligatoriu!
+        </mat-error>
+        <mat-error *ngIf="doctorForm.get('cnp')?.hasError('minlength')">
+          CNP trebuie să aibă cel puțin 13 caractere!
+        </mat-error>
       </mat-form-field>
-      <label>Nume</label>
-      <mat-form-field appearance="outline">
-        <input matInput />
-      </mat-form-field>
-      <label>Prenume</label>
-      <mat-form-field appearance="outline">
-        <input matInput />
-      </mat-form-field>
-      <label>Adresă de email</label>
-      <mat-form-field appearance="outline">
-        <input matInput />
-      </mat-form-field>
-      <label>Parolă</label>
-      <mat-form-field appearance="outline">
-        <input matInput />
-      </mat-form-field>
+
       <label>Specializare</label>
       <mat-form-field>
-        <mat-select
-          [(value)]="selectedSpecializare"
-          (selectionChange)="onSpecializareChange($event.value)"
-        >
+        <mat-select formControlName="specializare">
           <mat-option
             *ngFor="let specializare of specializari"
             [value]="specializare"
@@ -46,8 +34,68 @@
             {{ specializare }}
           </mat-option>
         </mat-select>
+        <mat-error *ngIf="doctorForm.get('specializare')?.hasError('required')">
+          Specializarea este obligatorie!
+        </mat-error>
       </mat-form-field>
-      <div class="my-account__form__button"><button>ACTUALIZARE</button></div>
+
+      <label>Nume</label>
+      <mat-form-field appearance="outline">
+        <input matInput formControlName="nume" />
+        <mat-error *ngIf="doctorForm.get('nume')?.hasError('required')">
+          Numele este obligatoriu!
+        </mat-error>
+      </mat-form-field>
+
+      <label>Prenume</label>
+      <mat-form-field appearance="outline">
+        <input matInput formControlName="prenume" />
+        <mat-error *ngIf="doctorForm.get('prenume')?.hasError('required')">
+          Prenumele este obligatoriu!
+        </mat-error>
+      </mat-form-field>
+
+      <label>Username</label>
+      <mat-form-field appearance="outline">
+        <input matInput formControlName="username" />
+        <mat-error *ngIf="doctorForm.get('username')?.hasError('required')">
+          Username-ul este obligatoriu!
+        </mat-error>
+      </mat-form-field>
+
+      <label>Adresă de email</label>
+      <mat-form-field appearance="outline">
+        <input matInput formControlName="email" />
+        <mat-error *ngIf="doctorForm.get('email')?.hasError('required')">
+          Adresa de email este obligatorie!
+        </mat-error>
+        <mat-error *ngIf="doctorForm.get('email')?.hasError('email')">
+          Adresa de email nu este validă!
+        </mat-error>
+      </mat-form-field>
+
+      <label>Parolă</label>
+      <mat-form-field appearance="outline">
+        <input matInput type="password" formControlName="parola" />
+        <mat-error *ngIf="doctorForm.get('parola')?.hasError('required')">
+          Parola este obligatorie!
+        </mat-error>
+        <mat-error *ngIf="doctorForm.get('parola')?.hasError('minlength')">
+          Parola trebuie să aibă cel puțin 8 caractere!
+        </mat-error>
+      </mat-form-field>
+
+      <div class="my-account__form__button">
+        <button
+          type="submit"
+          mat-raised-button
+          color="primary"
+          [disabled]="doctorForm.invalid"
+          (click)="onUpdateDoctor()"
+        >
+          ACTUALIZARE
+        </button>
+      </div>
     </form>
   </div>
 </div>
