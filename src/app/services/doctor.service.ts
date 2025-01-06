@@ -52,6 +52,10 @@ export class DoctorService {
     // );
   }
 
+  logout() {
+    localStorage.clear();
+  }
+
   registerDoctor(user: {
     username: string;
     email: string;

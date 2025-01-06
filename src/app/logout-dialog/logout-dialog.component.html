@@ -1,0 +1,24 @@
+<div class="icon-close" (click)="close()">
+  <span>❌</span>
+</div>
+<mat-divider></mat-divider>
+<div class="logout">
+  <div class="logout__message">
+    <div class="logout__message__icon">
+      <img class="logout__img" src="../../../../assets/images/logout.png" />
+    </div>
+    <div class="logout__message__text">
+      Are you sure you want to leave the application?
+    </div>
+  </div>
+  <div>
+    <div class="logout__buttons">
+      <button class="btn logout__buttons__button-close" (click)="logout()">
+        Yes
+      </button>
+      <button class="btn logout__buttons__button-discard" (click)="close()">
+        No
+      </button>
+    </div>
+  </div>
+</div>

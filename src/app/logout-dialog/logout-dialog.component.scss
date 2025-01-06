@@ -1,0 +1,76 @@
+@mixin button-close {
+  font-weight: 500;
+  width: auto;
+  background-color: #ffc400;
+  color: white;
+  border: none;
+  height: 2.5rem;
+  border-radius: 6px;
+  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+@mixin discard-button {
+  font-weight: 500;
+  width: auto;
+  background-color: white;
+  color: rgb(0, 0, 0);
+  border: none;
+  height: 2.5rem;
+  border-radius: 6px;
+  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.icon-close {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  padding: 2%;
+  cursor: pointer;
+}
+
+.logout {
+  display: flex;
+  flex-direction: column;
+
+  &__message {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    &__icon {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+    }
+
+    &__text {
+      margin-top: 1rem;
+      font-size: 1rem;
+    }
+  }
+
+  &__img {
+    width: 10%;
+    height: 10%;
+  }
+
+  &__buttons {
+    display: flex;
+    justify-content: flex-end;
+    margin-right: 1rem;
+    gap: 1rem;
+    margin-top: 7%;
+
+    button {
+      width: 5rem;
+    }
+
+    &__button-close {
+      @include button-close();
+    }
+
+    &__button-discard {
+      @include discard-button();
+    }
+  }
+}
