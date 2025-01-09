@@ -16,6 +16,9 @@ export class DoctorService {
   private doctorSubject = new BehaviorSubject<any>(null);
   public doctor$ = this.doctorSubject.asObservable();
 
+  private isLoginSubject = new BehaviorSubject<boolean>(false);
+  public isLogin$ = this.isLoginSubject.asObservable();
+
   constructor(private http: HttpClient) {}
 
   updateDoctor(doctorData: any): Observable<any> {
@@ -24,6 +27,10 @@ export class DoctorService {
 
   setLoggedInDoctor(doctor: any): void {
     this.doctorSubject.next(doctor);
+  }
+
+  setIsLogin(isLogin: boolean) {
+    this.isLoginSubject.next(isLogin);
   }
 
   getDoctorById(id: number): Observable<any> {
@@ -37,19 +44,20 @@ export class DoctorService {
     });
     const body = JSON.stringify({ username, password });
 
-    return this.http.post(`${this.apiUrl}/login.php`, body, {
-      headers,
-      responseType: 'json',
-    });
-    // .pipe(
-    //   tap((response: any) => {
-    //     if (response && response.success) {
-    //       this.doctorSubject.next(response.user);
-    //     } else {
-    //       this.doctorSubject.next(null);
-    //     }
-    //   })
-    // );
+    return this.http
+      .post(`${this.apiUrl}/login.php`, body, {
+        headers,
+        responseType: 'json',
+      })
+      .pipe(
+        tap((response: any) => {
+          if (response && response.success) {
+            this.doctorSubject.next(response.user);
+          } else {
+            this.doctorSubject.next(null);
+          }
+        })
+      );
   }
 
   logout() {

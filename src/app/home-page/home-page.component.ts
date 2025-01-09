@@ -60,7 +60,7 @@ export class HomePageComponent implements OnInit {
   openConsultationsPatient(cnp: string) {
     this.dialog.open(PatientConsultationsComponent, {
       width: '40%',
-      height: '95%',
+      height: '100%',
       data: { cnpPatient: cnp },
     });
   }
@@ -69,7 +69,7 @@ export class HomePageComponent implements OnInit {
     const dialogRef = this.dialog.open(DeleteConfirmationDialogComponent);
     dialogRef.afterClosed().subscribe((result) =>
       setTimeout(() => {
-        if (result) {
+        if (result === 'yes') {
           this.patientsService.deletePatient(patientId).subscribe({
             next: (response) => {
               this.toastr.success('Pacientul a fost șters cu succes!');

@@ -2,17 +2,41 @@
   <div>
     <div class="close">
       <div>🩺🥼💉 Consultațiile pacientului</div>
+      <div class="consultatii__data__cnp">
+        <div>{{ patientCNP }}</div>
+      </div>
       <div><span (click)="openCloseDialog()">❌</span></div>
     </div>
     <mat-divider></mat-divider>
   </div>
   <div class="consultatii">
     <div class="consultatii__data">
-      <div class="consultatii__data__cnp">
-        <div>{{ patientCNP }}</div>
-      </div>
-      <div class="consultatii__data__consultatii">
-        <div></div>
+      <div class="consultatii__data__all-consultations">
+        <div
+          *ngFor="let consultation of consultations"
+          class="consultatii__data__all-consultations__item"
+          appHoverElement
+        >
+          <div
+            class="consultatii__data__all-consultations__item__delete"
+            (click)="
+              deleteConsultation(patientCNP, consultation.nr_consultatie)
+            "
+          >
+            <img src="../../assets/delete-icon.png" />
+          </div>
+          <div class="consultatii__data__all-consultations__item__informations">
+            <p>
+              <strong>Nr. Consultație:</strong>
+              {{ consultation.nr_consultatie }}
+            </p>
+            <p><strong>Data:</strong> {{ consultation.data_consultatie }}</p>
+            <p><strong>Diagnostic:</strong> {{ consultation.diagnostic }}</p>
+            <p>
+              <strong>Medicamentatie:</strong> {{ consultation.medicamentatie }}
+            </p>
+          </div>
+        </div>
       </div>
       <form [formGroup]="consultatieForm">
         <div>
@@ -64,6 +88,12 @@
         >
           ADAUGĂ</button
         ><button class="consultatii__bottom__buttons__button2">RENUNȚĂ</button>
+        <button
+          class="consultatii__bottom__buttons__pdf-button"
+          (click)="generatePdf()"
+        >
+          📄 GENERATE PDF
+        </button>
       </div>
     </div>
   </div>

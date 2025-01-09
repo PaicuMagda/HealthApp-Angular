@@ -107,6 +107,7 @@ export class RegisterComponent {
           if (response.success) {
             const doctorId = response.user.id;
             localStorage.setItem('user_id', doctorId);
+            this.doctorService.setIsLogin(true);
 
             this.doctorService.getDoctorById(doctorId).subscribe({
               next: (doctor) => {

@@ -2,7 +2,7 @@
   <div class="toolbar__health-icon">
     <img src="../../assets/icon.png" />
     <span>HealthTrack</span>
-    <p>{{ doctor.nume }} {{ doctor.prenume }}</p>
+    <p *ngIf="isLogin">{{ doctor.nume }} {{ doctor.prenume }}</p>
   </div>
   <div class="toolbar__buttons">
     <button class="toolbar__button" (click)="openMyProfileSidenav()">

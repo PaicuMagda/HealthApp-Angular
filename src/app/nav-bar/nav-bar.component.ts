@@ -8,17 +8,19 @@ import { DoctorService } from '../services/doctor.service';
 import { PdfService } from '../services/pdf.service';
 import { PatientsService } from '../services/patients.service';
 import { LogoutDialogComponent } from '../logout-dialog/logout-dialog.component';
+import { NgIf } from '@angular/common';
 
 @Component({
   selector: 'app-nav-bar',
   standalone: true,
-  imports: [MatToolbarModule, MatIconModule],
+  imports: [MatToolbarModule, MatIconModule, NgIf],
   templateUrl: './nav-bar.component.html',
   styleUrl: './nav-bar.component.scss',
 })
 export class NavBarComponent implements OnInit {
   doctor: any;
   patients: any[] = [];
+  isLogin: boolean;
 
   constructor(
     private dialog: MatDialog,
@@ -48,12 +50,15 @@ export class NavBarComponent implements OnInit {
   }
 
   generatePdf() {
-    this.pdfService.generatePdf(this.patients);
+    this.pdfService.generatePatientsPdf(this.patients);
   }
 
   ngOnInit(): void {
     this.doctorService.doctor$.subscribe((result) => {
       this.doctor = result;
+    });
+    this.doctorService.isLogin$.subscribe((result) => {
+      this.isLogin = result;
     });
 
     this.patientService.patients$.subscribe((results) => {
