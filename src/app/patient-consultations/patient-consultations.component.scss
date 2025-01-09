@@ -12,9 +12,22 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-top: 4%;
     max-height: 81vh;
     overflow: auto;
+
+    &__cnp {
+      margin-top: 2%;
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: red;
+      display: flex;
+      width: 94%;
+      justify-content: flex-end;
+    }
+  }
+
+  form {
+    margin-top: 5%;
   }
 
   p {

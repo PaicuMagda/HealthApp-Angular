@@ -8,30 +8,48 @@
   </div>
   <div class="consultatii">
     <div class="consultatii__data">
-      <form>
-        <label>Data consultației</label>
-        <mat-form-field appearance="outline">
-          <input
-            matInput
-            [matDatepicker]="picker"
-            placeholder="Select date..."
-          />
-          <mat-datepicker-toggle
-            matIconSuffix
-            [for]="picker"
-          ></mat-datepicker-toggle>
-          <mat-datepicker #picker></mat-datepicker>
-        </mat-form-field>
+      <div class="consultatii__data__cnp">
+        <div>{{ patientCNP }}</div>
+      </div>
+      <div class="consultatii__data__consultatii">
+        <div></div>
+      </div>
+      <form [formGroup]="consultatieForm">
+        <div>
+          <label>Data consultației</label>
+          <mat-form-field appearance="outline">
+            <input
+              matInput
+              [matDatepicker]="picker"
+              formControlName="dataConsultatie"
+              placeholder="Selectați data"
+            />
+            <mat-datepicker-toggle
+              matSuffix
+              [for]="picker"
+            ></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+        </div>
         <div>
           <label>Diagnostic</label>
           <mat-form-field appearance="outline">
-            <input matInput formControlName="nume" />
+            <input
+              matInput
+              formControlName="diagnostic"
+              placeholder="Introduceți diagnosticul"
+            />
           </mat-form-field>
         </div>
         <div>
           <label>Medicamentație</label>
           <mat-form-field appearance="outline">
-            <input matInput formControlName="nume" />
+            <textarea
+              matInput
+              formControlName="medicamentatie"
+              placeholder="Introduceți medicația prescrisă"
+              rows="3"
+            ></textarea>
           </mat-form-field>
         </div>
       </form>
@@ -39,7 +57,12 @@
     <div class="consultatii__bottom">
       <mat-divider></mat-divider>
       <div class="consultatii__bottom__buttons">
-        <button class="consultatii__bottom__buttons__button1">ADAUGĂ</button
+        <button
+          class="consultatii__bottom__buttons__button1"
+          (click)="addConsultation()"
+          [disabled]="consultatieForm.invalid"
+        >
+          ADAUGĂ</button
         ><button class="consultatii__bottom__buttons__button2">RENUNȚĂ</button>
       </div>
     </div>

@@ -13,6 +13,7 @@ import { PatientDetailsComponent } from '../patient-details/patient-details.comp
 import { PatientConsultationsComponent } from '../patient-consultations/patient-consultations.component';
 import { DeleteConfirmationDialogComponent } from '../confirmation-dialogs/delete-confirmation-dialog/delete-confirmation-dialog.component';
 import { DoctorService } from '../services/doctor.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-home-page',
@@ -35,8 +36,14 @@ export class HomePageComponent implements OnInit {
     private diagnosticsService: DiagnosticsService,
     private patientsService: PatientsService,
     private dialog: MatDialog,
-    private doctorService: DoctorService
-  ) {}
+    private doctorService: DoctorService,
+    private toastr: ToastrService
+  ) {
+    this.doctorService.doctor$.subscribe((doctor) => {
+      this.doctor = doctor;
+      this.patientsService.getPatientsByDoctor(this.doctor.id);
+    });
+  }
 
   diagnostics: any[];
   patients: any[];
@@ -50,20 +57,29 @@ export class HomePageComponent implements OnInit {
     });
   }
 
-  openConsultationsPatient() {
+  openConsultationsPatient(cnp: string) {
     this.dialog.open(PatientConsultationsComponent, {
       width: '40%',
       height: '95%',
-      data: {},
+      data: { cnpPatient: cnp },
     });
   }
 
-  openDeletePatient() {
-    this.dialog.open(DeleteConfirmationDialogComponent, {
-      width: '20%',
-      height: '18%',
-      data: {},
-    });
+  deletePatient(patientId: number): void {
+    const dialogRef = this.dialog.open(DeleteConfirmationDialogComponent);
+    dialogRef.afterClosed().subscribe((result) =>
+      setTimeout(() => {
+        if (result) {
+          this.patientsService.deletePatient(patientId).subscribe({
+            next: (response) => {
+              this.toastr.success('Pacientul a fost șters cu succes!');
+            },
+          });
+        } else {
+          this.toastr.error('Pacientul nu se poate șterge!');
+        }
+      }, 1000)
+    );
   }
 
   ngOnInit(): void {
@@ -71,10 +87,6 @@ export class HomePageComponent implements OnInit {
     this.patientsService.patients$.subscribe((result) => {
       this.patients = result;
       console.log(this.patients);
-    });
-
-    this.doctorService.doctor$.subscribe((doctor) => {
-      this.doctor = doctor;
     });
   }
 }

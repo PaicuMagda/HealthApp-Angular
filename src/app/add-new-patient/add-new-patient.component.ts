@@ -10,6 +10,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgIf } from '@angular/common';
 import { PatientsService } from '../services/patients.service';
+import { ConfirmAdditionComponent } from '../confirmation-dialogs/confirm-addition/confirm-addition.component';
 
 @Component({
   selector: 'app-add-new-patient',
@@ -65,14 +66,6 @@ export class AddNewPatientComponent implements OnInit {
     });
   }
 
-  onSubmit(): void {
-    if (this.patientForm.valid) {
-      console.log(this.patientForm.value);
-    } else {
-      console.log('Formular invalid');
-    }
-  }
-
   selectGen(value: string): void {
     this.patientForm.get('gen')?.setValue(value);
     this.patientForm.get('gen')?.markAsTouched();
@@ -98,14 +91,20 @@ export class AddNewPatientComponent implements OnInit {
       poza: this.imageProfile,
     };
 
-    this.patientService.addPatient(payload).subscribe(
-      (response) => {
-        console.log('Pacient adăugat:', response);
-      },
-      (error) => {
-        console.error('Eroare la adăugare:', error);
-      }
-    );
+    const closeDialogRef = this.dialog.open(ConfirmAdditionComponent, {
+      width: '20%',
+      height: '18%',
+    });
+    closeDialogRef.afterClosed().subscribe((result) => {
+      setTimeout(() => {
+        if (result === 'yes') {
+          this.dialogRef.close();
+          this.patientService.addPatient(payload).subscribe((result) => {
+            console.log(result);
+          });
+        }
+      }, 500);
+    });
   }
 
   ngOnInit(): void {

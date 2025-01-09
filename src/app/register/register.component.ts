@@ -33,6 +33,7 @@ export class RegisterComponent {
   userForm: FormGroup;
   loginForm: FormGroup;
   isSignUp: boolean = true;
+  patients: any[];
 
   conditions = {
     minLength: false,
@@ -45,7 +46,8 @@ export class RegisterComponent {
     private router: Router,
     private form: FormBuilder,
     private doctorService: DoctorService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private patientsService: PatientsService
   ) {
     this.userForm = this.form.group({
       username: [''],

@@ -1,0 +1,20 @@
+<div class="icon-close" (click)="closeConfirmCloseDialog()">
+  <span>❌</span>
+</div>
+<mat-divider></mat-divider>
+<div class="delete-dialog">
+  <div>
+    <h4>Sunteți sigur că vreți să adăugați acest pacient?</h4>
+  </div>
+  <div class="buttons">
+    <button
+      class="button-delete button-close"
+      (click)="closeConfirmCloseDialog()"
+    >
+      Yes
+    </button>
+    <button class="discard-button" (click)="takeAddNewPatientDialogOpen()">
+      No
+    </button>
+  </div>
+</div>

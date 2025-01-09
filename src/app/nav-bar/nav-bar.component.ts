@@ -5,8 +5,9 @@ import { MatDialog } from '@angular/material/dialog';
 import { AddNewPatientComponent } from '../add-new-patient/add-new-patient.component';
 import { SidenavService } from '../services/sidenav.service';
 import { DoctorService } from '../services/doctor.service';
+import { PdfService } from '../services/pdf.service';
+import { PatientsService } from '../services/patients.service';
 import { LogoutDialogComponent } from '../logout-dialog/logout-dialog.component';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-nav-bar',
@@ -17,12 +18,14 @@ import { Router } from '@angular/router';
 })
 export class NavBarComponent implements OnInit {
   doctor: any;
+  patients: any[] = [];
 
   constructor(
     private dialog: MatDialog,
     private sidenavService: SidenavService,
     private doctorService: DoctorService,
-    private router: Router
+    private pdfService: PdfService,
+    private patientService: PatientsService
   ) {}
 
   openAddNewPatient() {
@@ -44,9 +47,17 @@ export class NavBarComponent implements OnInit {
     });
   }
 
+  generatePdf() {
+    this.pdfService.generatePdf(this.patients);
+  }
+
   ngOnInit(): void {
     this.doctorService.doctor$.subscribe((result) => {
       this.doctor = result;
+    });
+
+    this.patientService.patients$.subscribe((results) => {
+      this.patients = results;
     });
   }
 }

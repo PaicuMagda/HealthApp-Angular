@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { MatDividerModule } from '@angular/material/divider';
 
@@ -13,6 +13,7 @@ export class DeleteConfirmationDialogComponent {
   constructor(
     private dialogRef: MatDialogRef<DeleteConfirmationDialogComponent>
   ) {}
+
   closeConfirmCloseDialog() {
     this.dialogRef.close('yes');
   }
@@ -20,4 +21,6 @@ export class DeleteConfirmationDialogComponent {
   takeAddNewPatientDialogOpen() {
     this.dialogRef.close('no');
   }
+
+  ngOnInit() {}
 }

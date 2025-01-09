@@ -51,7 +51,6 @@
       <mat-checkbox color="primary">Masculin</mat-checkbox>
     </div>
   </div>
-
   <div class="display-patients__patients">
     <div
       class="display-patients__patients__cards"
@@ -60,13 +59,13 @@
     >
       <div
         class="display-patients__patients__cards__small-image-left"
-        (click)="openConsultationsPatient()"
+        (click)="openConsultationsPatient(patient.cnp)"
       >
         <img src="../../assets/consultatie.png" alt="Small Image Left" />
       </div>
       <div
         class="display-patients__patients__cards__small-image-right"
-        (click)="openDeletePatient()"
+        (click)="deletePatient(patient.id)"
       >
         <img src="../../assets/delete-icon.png" alt="Small Image Right" />
       </div>
