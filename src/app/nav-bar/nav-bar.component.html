@@ -5,15 +5,28 @@
     <p *ngIf="isLogin">{{ doctor.nume }} {{ doctor.prenume }}</p>
   </div>
   <div class="toolbar__buttons">
-    <button class="toolbar__button" (click)="openMyProfileSidenav()">
+    <button appHoverElement class="toolbar__button" (click)="goToChartsPage()">
+      📊 CHARTS
+    </button>
+    <button
+      appHoverElement
+      class="toolbar__button"
+      (click)="openMyProfileSidenav()"
+    >
       MY ACCOUNT
     </button>
-    <button class="toolbar__button" (click)="generatePdf()">
+    <button appHoverElement class="toolbar__button" (click)="generatePdf()">
       📄 GENERATE PDF
     </button>
-    <button class="toolbar__button" (click)="openAddNewPatient()">
+    <button
+      appHoverElement
+      class="toolbar__button"
+      (click)="openAddNewPatient()"
+    >
       ✙ ADAUGĂ PACIENT
     </button>
-    <button class="toolbar__button" (click)="openLogout()">LOGOUT</button>
+    <button appHoverElement class="toolbar__button" (click)="openLogout()">
+      LOGOUT
+    </button>
   </div>
 </mat-toolbar>

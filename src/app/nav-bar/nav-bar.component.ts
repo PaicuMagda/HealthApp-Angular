@@ -9,11 +9,13 @@ import { PdfService } from '../services/pdf.service';
 import { PatientsService } from '../services/patients.service';
 import { LogoutDialogComponent } from '../logout-dialog/logout-dialog.component';
 import { NgIf } from '@angular/common';
+import { Router } from '@angular/router';
+import { HoverElementDirective } from '../directives/hover-element.directive';
 
 @Component({
   selector: 'app-nav-bar',
   standalone: true,
-  imports: [MatToolbarModule, MatIconModule, NgIf],
+  imports: [MatToolbarModule, MatIconModule, NgIf, HoverElementDirective],
   templateUrl: './nav-bar.component.html',
   styleUrl: './nav-bar.component.scss',
 })
@@ -27,13 +29,14 @@ export class NavBarComponent implements OnInit {
     private sidenavService: SidenavService,
     private doctorService: DoctorService,
     private pdfService: PdfService,
-    private patientService: PatientsService
+    private patientService: PatientsService,
+    private router: Router
   ) {}
 
   openAddNewPatient() {
     this.dialog.open(AddNewPatientComponent, {
-      width: '90%',
-      height: '70%',
+      width: '99%',
+      height: '90%',
       data: { mesaj: 'Salut! Acesta este un mesaj de test.' },
     });
   }
@@ -51,6 +54,10 @@ export class NavBarComponent implements OnInit {
 
   generatePdf() {
     this.pdfService.generatePatientsPdf(this.patients);
+  }
+
+  goToChartsPage() {
+    this.router.navigate(['charts']);
   }
 
   ngOnInit(): void {

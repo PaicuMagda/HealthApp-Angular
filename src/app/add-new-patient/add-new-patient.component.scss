@@ -37,7 +37,7 @@
   }
 
   &__data-entered {
-    height: 57vh;
+    height: 76vh;
     padding: 1%;
 
     form {
@@ -48,7 +48,7 @@
     &__first,
     &__second {
       width: 50%;
-      height: 55vh;
+      height: 74vh;
       padding: 1%;
 
       label {
@@ -110,6 +110,9 @@ mat-form-field {
 .upload-file {
   width: 90%;
   cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 
   &__placeholder {
     display: flex;

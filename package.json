@@ -20,6 +20,7 @@
     "@angular/platform-browser": "^18.2.0",
     "@angular/platform-browser-dynamic": "^18.2.0",
     "@angular/router": "^18.2.0",
+    "angular-google-charts": "^16.0.1",
     "jspdf": "^2.5.2",
     "jspdf-autotable": "^3.8.4",
     "ng-angular-popup": "^0.6.6",

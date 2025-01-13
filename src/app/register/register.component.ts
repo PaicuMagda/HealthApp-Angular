@@ -91,7 +91,16 @@ export class RegisterComponent {
   submitSignUp() {
     if (this.userForm.valid) {
       const userData = this.userForm.value;
-      this.doctorService.registerDoctor(userData).subscribe();
+      this.doctorService.registerDoctor(userData).subscribe({
+        next: (response) => {
+          this.showToast('Contul a fost adăugat cu succes!', 'success');
+        },
+        error: (err) => {
+          const errorMessage =
+            err.error?.error || 'A apărut o eroare necunoscută.';
+          this.showToast(errorMessage, 'error');
+        },
+      });
     } else {
       alert('Completează toate câmpurile!');
     }
@@ -101,23 +110,19 @@ export class RegisterComponent {
     if (this.loginForm.valid) {
       const username = this.loginForm.value.username;
       const password = this.loginForm.value.password;
-
       this.doctorService.loginDoctor(username, password).subscribe({
         next: (response: any) => {
           if (response.success) {
             const doctorId = response.user.id;
             localStorage.setItem('user_id', doctorId);
             this.doctorService.setIsLogin(true);
-
             this.doctorService.getDoctorById(doctorId).subscribe({
               next: (doctor) => {
                 this.doctorService.setLoggedInDoctor(doctor);
-
                 this.showToast(
                   'Logare reușită! Vei fi redirecționat...',
                   'success'
                 );
-
                 setTimeout(() => {
                   this.router.navigate(['/home-page']);
                 }, 3000);

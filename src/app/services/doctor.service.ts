@@ -6,12 +6,7 @@ import { BehaviorSubject, Observable, tap } from 'rxjs';
   providedIn: 'root',
 })
 export class DoctorService {
-  private apiUrl = 'http://localhost/healthApp-php';
-  private apiUrlRegister = 'http://localhost/healthApp-php/register.php';
-  private apiUrlUpdateDoctor =
-    'http://localhost/healthApp-php/update-my-account.php';
-  private apiUrlGetDoctorById =
-    'http://localhost/healthApp-php/get-doctor-by-id.php';
+  private apiUrl = 'http://localhost//healthApp-php/doctor';
 
   private doctorSubject = new BehaviorSubject<any>(null);
   public doctor$ = this.doctorSubject.asObservable();
@@ -22,7 +17,7 @@ export class DoctorService {
   constructor(private http: HttpClient) {}
 
   updateDoctor(doctorData: any): Observable<any> {
-    return this.http.put(this.apiUrlUpdateDoctor, doctorData);
+    return this.http.put(`${this.apiUrl}/update-my-account.php`, doctorData);
   }
 
   setLoggedInDoctor(doctor: any): void {
@@ -35,7 +30,7 @@ export class DoctorService {
 
   getDoctorById(id: number): Observable<any> {
     const params = new HttpParams().set('id', id.toString());
-    return this.http.get(`${this.apiUrlGetDoctorById}`, { params });
+    return this.http.get(`${this.apiUrl}/get-doctor-by-id.php`, { params });
   }
 
   loginDoctor(username: string, password: string): Observable<any> {
@@ -69,6 +64,6 @@ export class DoctorService {
     email: string;
     password: string;
   }): Observable<any> {
-    return this.http.post<any>(this.apiUrlRegister, user);
+    return this.http.post<any>(`${this.apiUrl}/register.php`, user);
   }
 }

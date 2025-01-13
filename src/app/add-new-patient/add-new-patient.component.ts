@@ -74,7 +74,7 @@ export class AddNewPatientComponent implements OnInit {
   addNewPatient(): void {
     const formData = this.patientForm.value;
     const payload = {
-      doctor_id: 7,
+      doctor_id: 1,
       nume: formData.nume,
       prenume: formData.prenume,
       locatie: formData.adresa.locatie,

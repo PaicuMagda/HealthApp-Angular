@@ -58,11 +58,17 @@
         <div>
           <label>Diagnostic</label>
           <mat-form-field appearance="outline">
-            <input
-              matInput
+            <mat-select
               formControlName="diagnostic"
-              placeholder="Introduceți diagnosticul"
-            />
+              placeholder="Selectați diagnosticul"
+            >
+              <mat-option
+                *ngFor="let option of diagnostics"
+                [value]="option.nume"
+              >
+                {{ option.nume }}
+              </mat-option>
+            </mat-select>
           </mat-form-field>
         </div>
         <div>
@@ -85,12 +91,16 @@
           class="consultatii__bottom__buttons__button1"
           (click)="addConsultation()"
           [disabled]="consultatieForm.invalid"
+          appHoverElement
         >
           ADAUGĂ</button
-        ><button class="consultatii__bottom__buttons__button2">RENUNȚĂ</button>
+        ><button class="consultatii__bottom__buttons__button2" appHoverElement>
+          RENUNȚĂ
+        </button>
         <button
           class="consultatii__bottom__buttons__pdf-button"
           (click)="generatePdf()"
+          appHoverElement
         >
           📄 GENERATE PDF
         </button>

@@ -16,10 +16,12 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { PatientsService } from '../services/patients.service';
-import { CommonModule, NgIf } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { HoverElementDirective } from '../directives/hover-element.directive';
 import { DeleteConfirmationDialogComponent } from '../confirmation-dialogs/delete-confirmation-dialog/delete-confirmation-dialog.component';
 import { PdfService } from '../services/pdf.service';
+import { DiagnosticsService } from '../services/diagnostics.service';
+import { MatSelectModule } from '@angular/material/select';
 
 @Component({
   selector: 'app-patient-consultations',
@@ -33,6 +35,7 @@ import { PdfService } from '../services/pdf.service';
     MatInputModule,
     ReactiveFormsModule,
     HoverElementDirective,
+    MatSelectModule,
   ],
   templateUrl: './patient-consultations.component.html',
   styleUrl: './patient-consultations.component.scss',
@@ -41,6 +44,7 @@ export class PatientConsultationsComponent implements OnInit {
   consultatieForm: FormGroup;
   patientCNP: string;
   consultations: any[] = [];
+  diagnostics: any[] = [];
 
   constructor(
     private dialogRef: MatDialogRef<PatientConsultationsComponent>,
@@ -48,7 +52,8 @@ export class PatientConsultationsComponent implements OnInit {
     private formBuilder: FormBuilder,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private patientService: PatientsService,
-    private pdfService: PdfService
+    private pdfService: PdfService,
+    private diagnosticsService: DiagnosticsService
   ) {
     this.consultatieForm = this.formBuilder.group({
       dataConsultatie: ['', Validators.required],
@@ -116,5 +121,6 @@ export class PatientConsultationsComponent implements OnInit {
     this.patientService.consultations$.subscribe((result) => {
       this.consultations = result;
     });
+    this.diagnostics = this.diagnosticsService.getDiagnostics();
   }
 }

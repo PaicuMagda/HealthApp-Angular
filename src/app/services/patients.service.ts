@@ -17,7 +17,7 @@ export class PatientsService {
   private apiUrl = 'http://localhost/healthApp-php';
 
   loadInitialPatients(): void {
-    this.http.get<any[]>(`${this.apiUrl}/get-patients.php`).subscribe(
+    this.http.get<any[]>(`${this.apiUrl}/patients/get-patients.php`).subscribe(
       (patients) => {
         this.patientsSubject.next(patients);
       },
@@ -30,7 +30,7 @@ export class PatientsService {
   getPatientsByDoctor(doctorId: number): void {
     this.http
       .get<any[]>(
-        `${this.apiUrl}/get-patients-by-doctor-id.php?doctor_id=${doctorId}`
+        `${this.apiUrl}/patients/get-patients-by-doctor-id.php?doctor_id=${doctorId}`
       )
       .subscribe(
         (patients) => {
@@ -46,7 +46,9 @@ export class PatientsService {
   }
 
   getPatientData(cnp: string): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}/get-patient.php?cnp=${cnp}`);
+    return this.http.get<any[]>(
+      `${this.apiUrl}/patients/get-patient.php?cnp=${cnp}`
+    );
   }
 
   updatePatients(newPatient: any): void {
@@ -56,7 +58,7 @@ export class PatientsService {
 
   deletePatient(patientId: number) {
     return this.http
-      .delete(`${this.apiUrl}/delete-patient.php?id=${patientId}`)
+      .delete(`${this.apiUrl}/patients/delete-patient.php?id=${patientId}`)
       .pipe(
         tap(() => {
           const updatedPatients = this.patientsSubject.value.filter(
@@ -69,7 +71,7 @@ export class PatientsService {
 
   addPatient(newPatient: any): Observable<any> {
     return this.http
-      .post<any>(`${this.apiUrl}/add-patient.php`, newPatient)
+      .post<any>(`${this.apiUrl}/patients/add-patient.php`, newPatient)
       .pipe(
         tap((response) => {
           if (response.success) {
@@ -82,7 +84,10 @@ export class PatientsService {
 
   addConsultation(newConsultation: any): Observable<any> {
     return this.http
-      .post<any>(`${this.apiUrl}/add-consultation.php`, newConsultation)
+      .post<any>(
+        `${this.apiUrl}/consultatii/add-consultation.php`,
+        newConsultation
+      )
       .pipe(
         tap((response) => {
           if (response.success) {
@@ -98,7 +103,7 @@ export class PatientsService {
 
   loadConsultations(cnp: string): void {
     this.http
-      .get<any>(`${this.apiUrl}/get-consultations.php?cnp=${cnp}`)
+      .get<any>(`${this.apiUrl}/consultatii/get-consultations.php?cnp=${cnp}`)
       .subscribe(
         (response) => {
           if (response && response.consultatii) {
@@ -118,9 +123,13 @@ export class PatientsService {
 
   deleteConsultation(cnp: string, nr_consultatie: number): Observable<any> {
     return this.http
-      .request<any>('DELETE', `${this.apiUrl}/delete-consultation.php`, {
-        body: { cnp, nr_consultatie },
-      })
+      .request<any>(
+        'DELETE',
+        `${this.apiUrl}/consultatii/delete-consultation.php`,
+        {
+          body: { cnp, nr_consultatie },
+        }
+      )
       .pipe(
         tap((response) => {
           if (response.success) {

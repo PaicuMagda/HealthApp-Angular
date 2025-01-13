@@ -48,6 +48,15 @@ export class HomePageComponent implements OnInit {
   diagnostics: any[];
   patients: any[];
   doctor: any;
+  filteredPatients: any[] = [];
+  searchCriteria: any = {
+    name: '',
+    phone: '',
+    cnp: '',
+    gender: '',
+    diagnostic: '',
+    date: null,
+  };
 
   openDetailsPatient() {
     this.dialog.open(PatientDetailsComponent, {
@@ -82,11 +91,35 @@ export class HomePageComponent implements OnInit {
     );
   }
 
+  // filterPatients() {
+  //   this.filteredPatients = this.patients.filter((patient) => {
+  //     return (
+  //       (this.searchCriteria.name
+  //         ? patient.nume
+  //             .toLowerCase()
+  //             .includes(this.searchCriteria.name.toLowerCase()) ||
+  //           patient.prenume
+  //             .toLowerCase()
+  //             .includes(this.searchCriteria.name.toLowerCase())
+  //         : true) &&
+  //       (this.searchCriteria.phone
+  //         ? patient.telefon.includes(this.searchCriteria.phone)
+  //         : true) &&
+  //       (this.searchCriteria.cnp
+  //         ? patient.cnp.includes(this.searchCriteria.cnp)
+  //         : true) &&
+  //       (this.searchCriteria.gender
+  //         ? patient.gen.toLowerCase() ===
+  //           this.searchCriteria.gender.toLowerCase()
+  //         : true)
+  //     );
+  //   });
+  // }
   ngOnInit(): void {
     this.diagnostics = this.diagnosticsService.getDiagnostics();
     this.patientsService.patients$.subscribe((result) => {
       this.patients = result;
-      console.log(this.patients);
     });
+    console.log(this.patients);
   }
 }

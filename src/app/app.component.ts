@@ -7,11 +7,18 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { PatientsService } from './services/patients.service';
 import { NgIf } from '@angular/common';
 import { DoctorService } from './services/doctor.service';
+import { AddNewPatientComponent } from './add-new-patient/add-new-patient.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, MyAccountComponent, MatSidenavModule, NgIf],
+  imports: [
+    RouterOutlet,
+    MyAccountComponent,
+    MatSidenavModule,
+    NgIf,
+    AddNewPatientComponent,
+  ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
