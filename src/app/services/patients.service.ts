@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
+import { Patient } from '../interfaces/patient';
 
 @Injectable({
   providedIn: 'root',
@@ -8,8 +9,11 @@ import { BehaviorSubject, Observable, tap } from 'rxjs';
 export class PatientsService {
   constructor(private http: HttpClient) {}
 
-  private patientsSubject = new BehaviorSubject<any[]>([]);
+  private patientsSubject = new BehaviorSubject<Patient[]>([]);
   public patients$ = this.patientsSubject.asObservable();
+
+  private filteredPatientsSubject = new BehaviorSubject<Patient[]>([]);
+  public filteredPatients$ = this.filteredPatientsSubject.asObservable();
 
   private consultationsSubject = new BehaviorSubject<any[]>([]);
   public consultations$ = this.consultationsSubject.asObservable();
@@ -25,6 +29,10 @@ export class PatientsService {
         console.error('Eroare la încărcarea pacienților:', error);
       }
     );
+  }
+
+  updateFilteredPatients(filteredPatients: Patient[]): void {
+    this.filteredPatientsSubject.next(filteredPatients);
   }
 
   getPatientsByDoctor(doctorId: number): void {

@@ -11,6 +11,9 @@
   </div>
   <div class="consultatii">
     <div class="consultatii__data">
+      <div class="consultatii__data__total-number">
+        <div>Total consultații: {{ consultations.length }}</div>
+      </div>
       <div class="consultatii__data__all-consultations">
         <div
           *ngFor="let consultation of consultations"
@@ -94,7 +97,11 @@
           appHoverElement
         >
           ADAUGĂ</button
-        ><button class="consultatii__bottom__buttons__button2" appHoverElement>
+        ><button
+          class="consultatii__bottom__buttons__button2"
+          appHoverElement
+          (click)="renunta()"
+        >
           RENUNȚĂ
         </button>
         <button

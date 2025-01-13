@@ -72,7 +72,6 @@ export class PatientConsultationsComponent implements OnInit {
     };
 
     if (this.consultatieForm.valid) {
-      console.log(payload);
       this.patientService.addConsultation(payload).subscribe((result) => {
         this.patientService.loadConsultations(this.patientCNP);
         this.consultatieForm.reset();
@@ -113,6 +112,10 @@ export class PatientConsultationsComponent implements OnInit {
 
   generatePdf() {
     this.pdfService.generateConsultationsPdf(this.consultations);
+  }
+
+  renunta() {
+    this.consultatieForm.reset();
   }
 
   ngOnInit() {

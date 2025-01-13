@@ -22,6 +22,7 @@
               ? 'display-patients__search__diagnostics__button-no-clicked'
               : 'display-patients__search__diagnostics__button-clicked'
           "
+          (click)="toggleDiagnosticSelection(diagnostic)"
         >
           {{ "❤️" + " " + diagnostic.nume + "🖤" }}
         </button>
@@ -30,31 +31,53 @@
     <div>
       <span>Nume</span>
       <mat-form-field appearance="outline">
-        <input matInput />
+        <input
+          matInput
+          (input)="filterPatients()"
+          [(ngModel)]="searchCriteria.name"
+        />
       </mat-form-field>
     </div>
     <div>
       <span>Număr de telefon</span>
       <mat-form-field appearance="outline">
-        <input matInput />
+        <input
+          matInput
+          (input)="filterPatients()"
+          [(ngModel)]="searchCriteria.phone"
+        />
       </mat-form-field>
     </div>
     <div>
       <span>CNP</span>
       <mat-form-field appearance="outline">
-        <input matInput />
+        <input
+          matInput
+          (input)="filterPatients()"
+          [(ngModel)]="searchCriteria.cnp"
+        />
       </mat-form-field>
     </div>
     <div>
       <span>Gen</span>
-      <mat-checkbox color="primary">Feminin</mat-checkbox>
-      <mat-checkbox color="primary">Masculin</mat-checkbox>
+      <mat-checkbox
+        color="primary"
+        (change)="onGenderChange('Feminin', $event)"
+        [checked]="searchCriteria.gender === 'Feminin'"
+        >Feminin</mat-checkbox
+      >
+      <mat-checkbox
+        color="primary"
+        (change)="onGenderChange('Masculin', $event)"
+        [checked]="searchCriteria.gender === 'Masculin'"
+        >Masculin</mat-checkbox
+      >
     </div>
   </div>
   <div class="display-patients__patients">
     <div
       class="display-patients__patients__cards"
-      *ngFor="let patient of patients"
+      *ngFor="let patient of filteredPatients"
       appHoverElement
     >
       <div

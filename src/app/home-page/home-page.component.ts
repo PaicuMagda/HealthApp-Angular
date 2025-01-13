@@ -14,6 +14,8 @@ import { PatientConsultationsComponent } from '../patient-consultations/patient-
 import { DeleteConfirmationDialogComponent } from '../confirmation-dialogs/delete-confirmation-dialog/delete-confirmation-dialog.component';
 import { DoctorService } from '../services/doctor.service';
 import { ToastrService } from 'ngx-toastr';
+import { Patient } from '../interfaces/patient';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-home-page',
@@ -27,6 +29,7 @@ import { ToastrService } from 'ngx-toastr';
     NgClass,
     HoverElementDirective,
     MatCheckboxModule,
+    FormsModule,
   ],
   templateUrl: './home-page.component.html',
   styleUrl: './home-page.component.scss',
@@ -46,15 +49,15 @@ export class HomePageComponent implements OnInit {
   }
 
   diagnostics: any[];
-  patients: any[];
   doctor: any;
-  filteredPatients: any[] = [];
+  patients: Patient[] = [];
+  filteredPatients: Patient[] = [];
   searchCriteria: any = {
     name: '',
     phone: '',
     cnp: '',
     gender: '',
-    diagnostic: '',
+    diagnostic: [],
     date: null,
   };
 
@@ -91,35 +94,80 @@ export class HomePageComponent implements OnInit {
     );
   }
 
-  // filterPatients() {
-  //   this.filteredPatients = this.patients.filter((patient) => {
-  //     return (
-  //       (this.searchCriteria.name
-  //         ? patient.nume
-  //             .toLowerCase()
-  //             .includes(this.searchCriteria.name.toLowerCase()) ||
-  //           patient.prenume
-  //             .toLowerCase()
-  //             .includes(this.searchCriteria.name.toLowerCase())
-  //         : true) &&
-  //       (this.searchCriteria.phone
-  //         ? patient.telefon.includes(this.searchCriteria.phone)
-  //         : true) &&
-  //       (this.searchCriteria.cnp
-  //         ? patient.cnp.includes(this.searchCriteria.cnp)
-  //         : true) &&
-  //       (this.searchCriteria.gender
-  //         ? patient.gen.toLowerCase() ===
-  //           this.searchCriteria.gender.toLowerCase()
-  //         : true)
-  //     );
-  //   });
-  // }
+  toggleDiagnosticSelection(diagnostic: any): void {
+    diagnostic.isSelected = !diagnostic.isSelected;
+    const selectedDiagnostics = this.diagnostics
+      .filter((diag) => diag.isSelected)
+      .map((diag) => diag.nume.toLowerCase());
+
+    this.searchCriteria.diagnostic = selectedDiagnostics;
+    this.filterPatients();
+  }
+
+  onGenderChange(selectedGender: string, event: any): void {
+    if (event.checked) {
+      this.searchCriteria.gender = selectedGender;
+    } else {
+      this.searchCriteria.gender = '';
+    }
+    this.filterPatients();
+  }
+
+  filterPatients() {
+    this.filteredPatients = this.patients.filter((patient) => {
+      const nameMatch = this.searchCriteria.name
+        ? patient.nume
+            .toLowerCase()
+            .includes(this.searchCriteria.name.toLowerCase()) ||
+          patient.prenume
+            .toLowerCase()
+            .includes(this.searchCriteria.name.toLowerCase())
+        : true;
+
+      const phoneMatch = this.searchCriteria.phone
+        ? patient.telefon.includes(this.searchCriteria.phone)
+        : true;
+
+      const cnpMatch = this.searchCriteria.cnp
+        ? patient.cnp.includes(this.searchCriteria.cnp)
+        : true;
+
+      const genderMatch = this.searchCriteria.gender
+        ? patient.gen.toLowerCase() === this.searchCriteria.gender.toLowerCase()
+        : true;
+
+      const diagnosticMatch = this.searchCriteria.diagnostic.length
+        ? this.searchCriteria.diagnostic.some((diag: string) =>
+            patient.consultations.some((consultation) =>
+              consultation.diagnostic.toLowerCase().includes(diag)
+            )
+          )
+        : true;
+
+      const dateMatch = this.searchCriteria.date
+        ? patient.consultations.some(
+            (consultation) =>
+              consultation.data_consultatie === this.searchCriteria.date
+          )
+        : true;
+
+      return (
+        nameMatch &&
+        phoneMatch &&
+        cnpMatch &&
+        genderMatch &&
+        diagnosticMatch &&
+        dateMatch
+      );
+    });
+    this.patientsService.updateFilteredPatients(this.filteredPatients);
+  }
+
   ngOnInit(): void {
     this.diagnostics = this.diagnosticsService.getDiagnostics();
     this.patientsService.patients$.subscribe((result) => {
       this.patients = result;
+      this.filteredPatients = this.patients;
     });
-    console.log(this.patients);
   }
 }

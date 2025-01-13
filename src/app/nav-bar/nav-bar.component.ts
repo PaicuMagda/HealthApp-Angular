@@ -68,7 +68,7 @@ export class NavBarComponent implements OnInit {
       this.isLogin = result;
     });
 
-    this.patientService.patients$.subscribe((results) => {
+    this.patientService.filteredPatients$.subscribe((results) => {
       this.patients = results;
     });
   }
