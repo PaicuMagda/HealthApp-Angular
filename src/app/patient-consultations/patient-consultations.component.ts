@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, Input, OnInit } from '@angular/core';
 import {
   MAT_DIALOG_DATA,
   MatDialog,
@@ -9,6 +9,7 @@ import { CloseDialogComponent } from '../confirmation-dialogs/close-dialog/close
 import {
   FormBuilder,
   FormGroup,
+  FormsModule,
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
@@ -36,15 +37,18 @@ import { MatSelectModule } from '@angular/material/select';
     ReactiveFormsModule,
     HoverElementDirective,
     MatSelectModule,
+    FormsModule,
   ],
   templateUrl: './patient-consultations.component.html',
   styleUrl: './patient-consultations.component.scss',
 })
 export class PatientConsultationsComponent implements OnInit {
   consultatieForm: FormGroup;
-  patientCNP: string;
-  consultations: any[] = [];
   diagnostics: any[] = [];
+  @Input() patientCNP!: string;
+  consultations: any[] = [];
+  isEditing: { [key: number]: boolean } = {};
+  editableConsultation: any = {};
 
   constructor(
     private dialogRef: MatDialogRef<PatientConsultationsComponent>,
@@ -81,6 +85,17 @@ export class PatientConsultationsComponent implements OnInit {
     }
   }
 
+  getConsultationById(consultationId: number) {
+    return this.consultations.find((c) => c.nr_consultatie === consultationId);
+  }
+
+  updateConsultationInList(consultationId: number, updatedData: any) {
+    const consultation = this.getConsultationById(consultationId);
+    if (consultation) {
+      Object.assign(consultation, updatedData);
+    }
+  }
+
   openCloseDialog() {
     const closeDialogRef = this.dialog.open(CloseDialogComponent, {
       width: '20%',
@@ -102,9 +117,7 @@ export class PatientConsultationsComponent implements OnInit {
         if (result === 'yes') {
           this.patientService
             .deleteConsultation(patientCNP, nr_consultatie)
-            .subscribe((result) => {
-              console.log(result);
-            });
+            .subscribe(() => {});
         }
       }, 500);
     });
@@ -116,6 +129,38 @@ export class PatientConsultationsComponent implements OnInit {
 
   renunta() {
     this.consultatieForm.reset();
+  }
+
+  toggleEditMode(consultationId: number): void {
+    if (this.isEditing[consultationId]) {
+      this.cancelEdit(consultationId);
+    } else {
+      this.isEditing[consultationId] = true;
+      const consultation = this.consultations.find(
+        (c) => c.nr_consultatie === consultationId
+      );
+      if (consultation) {
+        this.editableConsultation = { ...consultation };
+      }
+    }
+  }
+
+  saveConsultation(consultationId: number): void {
+    this.patientService
+      .updateConsultation(consultationId, this.editableConsultation)
+      .subscribe(
+        () => {
+          this.cancelEdit(consultationId);
+        },
+        (error) => {
+          console.error('Eroare la salvarea consultației:', error);
+        }
+      );
+  }
+
+  cancelEdit(consultationId: number): void {
+    this.isEditing[consultationId] = false;
+    this.editableConsultation = {};
   }
 
   ngOnInit() {

@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, tap } from 'rxjs';
+import { BehaviorSubject, map, Observable, tap } from 'rxjs';
 import { Patient } from '../interfaces/patient';
 
 @Injectable({
@@ -146,6 +146,71 @@ export class PatientsService {
               (c) => c.nr_consultatie !== nr_consultatie
             );
             this.consultationsSubject.next(updatedConsultations);
+          }
+        })
+      );
+  }
+
+  getConsultationsCountByPatient(): Observable<
+    { name: string; count: number }[]
+  > {
+    return this.http
+      .get<any[]>(`${this.apiUrl}/consultatii/get-all-consultations.php`)
+      .pipe(
+        map((consultations) => {
+          const counts = consultations.reduce((acc, consultation) => {
+            const patientName = consultation.patient_name;
+            if (!acc[patientName]) {
+              acc[patientName] = 0;
+            }
+            acc[patientName]++;
+            return acc;
+          }, {});
+
+          return Object.keys(counts).map((name) => ({
+            name,
+            count: counts[name],
+          }));
+        })
+      );
+  }
+
+  getConsultationsCountForAllPatients(): Observable<
+    { name: string; count: number }[]
+  > {
+    return this.patients$.pipe(
+      map((patients) =>
+        patients.map((patient) => ({
+          name: `${patient.nume} ${patient.prenume}`,
+          count: patient.consultations.length,
+        }))
+      )
+    );
+  }
+
+  updateConsultation(
+    consultationId: number,
+    updatedData: any
+  ): Observable<any> {
+    return this.http
+      .put<any>(`${this.apiUrl}/consultatii/update-consultation.php`, {
+        consultationId,
+        ...updatedData,
+      })
+      .pipe(
+        tap((response) => {
+          if (response.success) {
+            const currentConsultations = this.consultationsSubject.value;
+            const index = currentConsultations.findIndex(
+              (c) => c.nr_consultatie === consultationId
+            );
+            if (index !== -1) {
+              currentConsultations[index] = {
+                ...currentConsultations[index],
+                ...updatedData,
+              };
+              this.consultationsSubject.next([...currentConsultations]);
+            }
           }
         })
       );

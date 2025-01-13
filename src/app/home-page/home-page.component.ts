@@ -15,7 +15,7 @@ import { DeleteConfirmationDialogComponent } from '../confirmation-dialogs/delet
 import { DoctorService } from '../services/doctor.service';
 import { ToastrService } from 'ngx-toastr';
 import { Patient } from '../interfaces/patient';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-home-page',
@@ -43,8 +43,7 @@ export class HomePageComponent implements OnInit {
     private toastr: ToastrService
   ) {
     this.doctorService.doctor$.subscribe((doctor) => {
-      this.doctor = doctor;
-      this.patientsService.getPatientsByDoctor(this.doctor.id);
+      this.patientsService.loadInitialPatients();
     });
   }
 
@@ -99,7 +98,6 @@ export class HomePageComponent implements OnInit {
     const selectedDiagnostics = this.diagnostics
       .filter((diag) => diag.isSelected)
       .map((diag) => diag.nume.toLowerCase());
-
     this.searchCriteria.diagnostic = selectedDiagnostics;
     this.filterPatients();
   }
@@ -111,6 +109,10 @@ export class HomePageComponent implements OnInit {
       this.searchCriteria.gender = '';
     }
     this.filterPatients();
+  }
+
+  getAllPatientForDirector() {
+    this.patientsService.loadInitialPatients();
   }
 
   filterPatients() {
@@ -164,10 +166,18 @@ export class HomePageComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.diagnostics = this.diagnosticsService.getDiagnostics();
-    this.patientsService.patients$.subscribe((result) => {
-      this.patients = result;
-      this.filteredPatients = this.patients;
+    this.doctorService.doctor$.subscribe((doctor) => {
+      this.doctor = doctor;
+      if (doctor.role === 'doctor') {
+        this.patientsService.getPatientsByDoctor(doctor.id);
+      } else if (doctor.role === 'director') {
+        this.patientsService.loadInitialPatients();
+      }
     });
+    this.patientsService.patients$.subscribe((patients) => {
+      this.patients = patients;
+      this.filteredPatients = patients;
+    });
+    this.diagnostics = this.diagnosticsService.getDiagnostics();
   }
 }

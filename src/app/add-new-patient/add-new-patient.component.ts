@@ -32,6 +32,7 @@ export class AddNewPatientComponent implements OnInit {
   imageProfileFileName: string | undefined;
   imageProfile: string;
   patientForm: FormGroup;
+  doctorId: string | null;
 
   constructor(
     private dialogRef: MatDialogRef<AddNewPatientComponent>,
@@ -74,7 +75,7 @@ export class AddNewPatientComponent implements OnInit {
   addNewPatient(): void {
     const formData = this.patientForm.value;
     const payload = {
-      doctor_id: 1,
+      doctor_id: this.doctorId,
       nume: formData.nume,
       prenume: formData.prenume,
       locatie: formData.adresa.locatie,
@@ -125,5 +126,6 @@ export class AddNewPatientComponent implements OnInit {
       înălțime: ['', [Validators.required]],
       ocupația: ['', [Validators.required]],
     });
+    this.doctorId = localStorage.getItem('user_id');
   }
 }

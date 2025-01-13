@@ -18,26 +18,103 @@
         <div
           *ngFor="let consultation of consultations"
           class="consultatii__data__all-consultations__item"
-          appHoverElement
         >
-          <div
-            class="consultatii__data__all-consultations__item__delete"
-            (click)="
-              deleteConsultation(patientCNP, consultation.nr_consultatie)
-            "
-          >
-            <img src="../../assets/delete-icon.png" />
+          <div class="consultatii__data__all-consultations__item__delete">
+            <img
+              src="../../assets/edit.png"
+              (click)="toggleEditMode(consultation.nr_consultatie)"
+            />
+            <img
+              src="../../assets/delete-icon.png"
+              (click)="
+                deleteConsultation(patientCNP, consultation.nr_consultatie)
+              "
+            />
           </div>
           <div class="consultatii__data__all-consultations__item__informations">
-            <p>
-              <strong>Nr. Consultație:</strong>
-              {{ consultation.nr_consultatie }}
-            </p>
-            <p><strong>Data:</strong> {{ consultation.data_consultatie }}</p>
-            <p><strong>Diagnostic:</strong> {{ consultation.diagnostic }}</p>
-            <p>
-              <strong>Medicamentatie:</strong> {{ consultation.medicamentatie }}
-            </p>
+            <ng-container
+              *ngIf="!isEditing[consultation.nr_consultatie]; else editMode"
+            >
+              <p>
+                <strong>Nr. Consultație:</strong>
+                {{ consultation.nr_consultatie }}
+              </p>
+              <p><strong>Data:</strong> {{ consultation.data_consultatie }}</p>
+              <p><strong>Diagnostic:</strong> {{ consultation.diagnostic }}</p>
+              <p>
+                <strong>Medicamentatie:</strong>
+                {{ consultation.medicamentatie }}
+              </p>
+            </ng-container>
+            <ng-template #editMode>
+              <p>
+                <strong>Nr. Consultație:</strong>
+                <mat-form-field appearance="outline"
+                  ><input
+                    matInput
+                    type="text"
+                    [(ngModel)]="editableConsultation.nr_consultatie"
+                    disabled
+                /></mat-form-field>
+              </p>
+              <p>
+                <strong>Data:</strong>
+                <mat-form-field appearance="outline">
+                  <input
+                    matInput
+                    [matDatepicker]="picker"
+                    placeholder="Selectați data"
+                    [(ngModel)]="editableConsultation.data_consultatie"
+                  />
+                  <mat-datepicker-toggle
+                    matSuffix
+                    [for]="picker"
+                  ></mat-datepicker-toggle>
+                  <mat-datepicker #picker></mat-datepicker>
+                </mat-form-field>
+              </p>
+              <p>
+                <strong>Diagnostic:</strong>
+                <mat-form-field appearance="outline">
+                  <mat-select
+                    name="diagnostic"
+                    [(ngModel)]="editableConsultation.diagnostic"
+                  >
+                    <mat-option
+                      *ngFor="let option of diagnostics"
+                      [value]="option.nume"
+                    >
+                      {{ option.nume }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </p>
+              <p>
+                <strong>Medicamentatie:</strong>
+                <mat-form-field appearance="outline">
+                  <textarea
+                    matInput
+                    placeholder="Introduceți medicația prescrisă"
+                    [(ngModel)]="editableConsultation.medicamentatie"
+                    rows="3"
+                  ></textarea>
+                </mat-form-field>
+              </p>
+              <div class="butoane-update">
+                <button
+                  class="consultatii__bottom__buttons__button1"
+                  (click)="saveConsultation(consultation.nr_consultatie)"
+                >
+                  Salvează
+                </button>
+                <button
+                  class="consultatii__bottom__buttons__button2"
+                  (click)="cancelEdit(consultation.nr_consultatie)"
+                >
+                  Anulează
+                </button>
+              </div>
+            </ng-template>
           </div>
         </div>
       </div>

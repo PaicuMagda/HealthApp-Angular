@@ -96,6 +96,7 @@ export class MyAccountComponent implements OnInit {
       this.doctorService.updateDoctor(payload).subscribe({
         next: (response) => {
           this.doctorService.setLoggedInDoctor(payload);
+          console.log(payload);
           this.toastr.success(
             'Datele doctorului au fost actualizate cu succes!'
           );
