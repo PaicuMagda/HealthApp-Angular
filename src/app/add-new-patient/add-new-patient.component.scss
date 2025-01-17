@@ -2,7 +2,7 @@
   &__close {
     display: flex;
     justify-content: space-between;
-    padding: 1%;
+    padding: 0.5%;
     cursor: pointer;
     font-family: Verdana, sans-serif;
     font-size: 1.4rem;
@@ -53,7 +53,7 @@
     &__second {
       width: 50%;
       height: 74vh;
-      padding: 1%;
+      padding: 0.5%;
 
       label {
         font-weight: bold;
@@ -66,6 +66,7 @@
       &__data {
         display: flex;
         gap: 5%;
+        margin-top: 1%;
 
         &__nume,
         &__prenume,

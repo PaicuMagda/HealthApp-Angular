@@ -8,9 +8,11 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { NgIf } from '@angular/common';
+import { CommonModule, NgIf } from '@angular/common';
 import { PatientsService } from '../services/patients.service';
 import { ConfirmAdditionComponent } from '../confirmation-dialogs/confirm-addition/confirm-addition.component';
+import { JudeteService } from '../services/judete.service';
+import { MatSelectModule } from '@angular/material/select';
 
 @Component({
   selector: 'app-add-new-patient',
@@ -23,8 +25,9 @@ import { ConfirmAdditionComponent } from '../confirmation-dialogs/confirm-additi
     MatCheckboxModule,
     ReactiveFormsModule,
     FormsModule,
-
+    MatSelectModule,
     NgIf,
+    CommonModule,
   ],
   templateUrl: './add-new-patient.component.html',
   styleUrl: './add-new-patient.component.scss',
@@ -34,12 +37,17 @@ export class AddNewPatientComponent implements OnInit {
   imageProfile: string;
   patientForm: FormGroup;
   doctorId: string | null;
+  judete: string[] = [];
+  orase: string[] = [];
+  selectedJudet: string | null = null;
+  selectedOras: string | null = null;
 
   constructor(
     private dialogRef: MatDialogRef<AddNewPatientComponent>,
     private dialog: MatDialog,
     private formBuilder: FormBuilder,
-    private patientService: PatientsService
+    private patientService: PatientsService,
+    private judeteService: JudeteService
   ) {}
 
   onFileSelectedImageProfile(event: any) {
@@ -91,6 +99,18 @@ export class AddNewPatientComponent implements OnInit {
       inaltime: formData.inaltime,
       ocupatie: formData.ocupația,
       poza: this.imageProfile,
+      cid: formData.cid,
+      casa_de_asigurari: formData.casa_de_asigurari,
+      judet: formData.adresa.judet,
+      oras: formData.adresa.oras,
+      bloc: formData.adresa.bloc,
+      apartament: formData.adresa.apartament,
+      scara: formData.adresa.scara,
+      etaj: formData.adresa.etaj,
+      cod_postal: formData.adresa.cod_postal,
+      telefon: formData.telefon,
+      rh: formData.rh,
+      grupa_sanguina: formData.grupa_sanguina,
     };
 
     const closeDialogRef = this.dialog.open(ConfirmAdditionComponent, {
@@ -109,14 +129,87 @@ export class AddNewPatientComponent implements OnInit {
     });
   }
 
+  validateCNP(cnp: string): boolean {
+    return /^\d{13}$/.test(cnp);
+  }
+
+  decodeCNP(cnp: string): {
+    dataNasterii: string;
+    varsta: number;
+    gen: string;
+  } {
+    const anPrefix: { [key: string]: string } = {
+      '1': '19',
+      '2': '19',
+      '3': '18',
+      '4': '18',
+      '5': '20',
+      '6': '20',
+    };
+
+    const gen = cnp[0];
+
+    if (!(gen in anPrefix) && !['7', '8', '9'].includes(gen)) {
+      throw new Error('CNP invalid: Prefixul genului nu este valid.');
+    }
+
+    const an = +cnp.substring(1, 3);
+    const luna = +cnp.substring(3, 5);
+    const zi = +cnp.substring(5, 7);
+
+    const prefix = anPrefix[gen] || '19';
+    const anComplet = +`${prefix}${an.toString().padStart(2, '0')}`; // Construim anul complet, adăugând 0 dacă este necesar
+
+    const dataNasterii = new Date(anComplet, luna - 1, zi);
+
+    const today = new Date();
+    const age = today.getFullYear() - dataNasterii.getFullYear();
+    const isBirthdayPassed =
+      today.getMonth() > dataNasterii.getMonth() ||
+      (today.getMonth() === dataNasterii.getMonth() &&
+        today.getDate() >= dataNasterii.getDate());
+
+    const sex = ['1', '3', '5', '7'].includes(gen) ? 'Masculin' : 'Feminin';
+
+    return {
+      dataNasterii: dataNasterii.toISOString().split('T')[0],
+      varsta: isBirthdayPassed ? age : age - 1,
+      gen: sex,
+    };
+  }
+
+  onJudetChange(): void {
+    const judet = this.patientForm.get('adresa.judet')?.value;
+    if (judet) {
+      this.judeteService.getOraseByJudet(judet).subscribe(
+        (orase) => {
+          console.log('Orase primite pentru județul ' + judet, orase);
+          this.orase = orase;
+          this.patientForm.patchValue({
+            'adresa.oras': '', // Resetăm câmpul oraș
+          });
+        },
+        (error) => {
+          console.error('Eroare la încărcarea orașelor:', error);
+        }
+      );
+    }
+  }
+
   ngOnInit(): void {
     this.patientForm = this.formBuilder.group({
       nume: ['', [Validators.required]],
       prenume: ['', [Validators.required]],
       adresa: this.formBuilder.group({
-        locatie: ['', [Validators.required]],
-        strada: ['', [Validators.required]],
-        numar: ['', [Validators.required]],
+        judet: ['', [Validators.required]],
+        oras: ['', [Validators.required]],
+        strada: [''],
+        numar: [''],
+        bloc: [''],
+        apartament: [''],
+        scara: [''],
+        etaj: [''],
+        cod_postal: [''],
       }),
       dataNasterii: ['', [Validators.required]],
       gen: ['', [Validators.required]],
@@ -126,7 +219,33 @@ export class AddNewPatientComponent implements OnInit {
       greutate: ['', [Validators.required]],
       înălțime: ['', [Validators.required]],
       ocupația: ['', [Validators.required]],
+      cid: ['', [Validators.required]],
+      casaDeAsigurari: ['', Validators.required],
+      telefon: [''],
+      rh: [''],
+      grupa_sanguina: [''],
     });
     this.doctorId = localStorage.getItem('user_id');
+
+    this.patientForm.get('cnp')?.valueChanges.subscribe((cnp) => {
+      if (this.validateCNP(cnp)) {
+        const { dataNasterii, varsta, gen } = this.decodeCNP(cnp);
+        this.patientForm.patchValue({
+          dataNasterii: dataNasterii,
+          varsta: varsta,
+          gen: gen,
+        });
+      } else {
+        this.patientForm.patchValue({
+          dataNasterii: '',
+          varsta: '',
+          gen: '',
+        });
+      }
+    });
+
+    this.judeteService.getJudețe().subscribe((județe) => {
+      this.judete = județe;
+    });
   }
 }
