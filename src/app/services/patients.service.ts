@@ -53,8 +53,8 @@ export class PatientsService {
       );
   }
 
-  getPatientData(cnp: string): Observable<any[]> {
-    return this.http.get<any[]>(
+  getPatientData(cnp: string): Observable<Patient> {
+    return this.http.get<Patient>(
       `${this.apiUrl}/patients/get-patient.php?cnp=${cnp}`
     );
   }

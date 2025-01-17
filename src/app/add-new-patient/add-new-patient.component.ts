@@ -23,6 +23,7 @@ import { ConfirmAdditionComponent } from '../confirmation-dialogs/confirm-additi
     MatCheckboxModule,
     ReactiveFormsModule,
     FormsModule,
+
     NgIf,
   ],
   templateUrl: './add-new-patient.component.html',

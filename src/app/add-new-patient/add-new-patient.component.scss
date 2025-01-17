@@ -6,6 +6,10 @@
     cursor: pointer;
     font-family: Verdana, sans-serif;
     font-size: 1.4rem;
+
+    &__toggle {
+      display: flex;
+    }
   }
 
   &__bottom {

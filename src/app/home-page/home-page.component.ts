@@ -60,11 +60,11 @@ export class HomePageComponent implements OnInit {
     date: null,
   };
 
-  openDetailsPatient() {
+  openDetailsPatient(pacientCnp: string) {
     this.dialog.open(PatientDetailsComponent, {
       width: '90%',
       height: '70%',
-      data: {},
+      data: { pacientCnp: pacientCnp },
     });
   }
 

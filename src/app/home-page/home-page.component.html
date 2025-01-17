@@ -94,13 +94,13 @@
       </div>
       <div
         class="display-patients__patients__cards__image"
-        (click)="openDetailsPatient()"
+        (click)="openDetailsPatient(patient.cnp)"
       >
         <img [src]="patient.poza" alt="Patient Image" />
       </div>
       <div
         class="display-patients__patients__cards__informations"
-        (click)="openDetailsPatient()"
+        (click)="openDetailsPatient(patient.cnp)"
       >
         <span>Nume: {{ patient.nume }}{{ patient.prenume }}</span>
         <span> Vârstă: {{ patient.varsta }}</span>

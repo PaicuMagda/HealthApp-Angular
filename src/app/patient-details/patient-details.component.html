@@ -1,7 +1,69 @@
 <div>
-  <div class="details-patient__close">
-    <div>📃 Fișa pacientului</div>
+  <div class="close">
+    <div class="close__toggle">
+      <div>📃 {{ selectedValue }}</div>
+      <div>
+        <mat-button-toggle-group
+          (change)="onToggleChange($event)"
+          name="fontStyle"
+          aria-label="Font Style"
+        >
+          <mat-button-toggle value="Fișa pacientului"
+            >Fișa pacientului</mat-button-toggle
+          >
+          <mat-button-toggle value="Consultatiile pacientului"
+            >Consultațiile pacientului</mat-button-toggle
+          >
+        </mat-button-toggle-group>
+      </div>
+    </div>
+
     <div><span (click)="openCloseDialog()">❌</span></div>
   </div>
   <mat-divider></mat-divider>
+  <div
+    class="informations"
+    *ngIf="selectedValue === 'Fișa pacientului'; else consultatii"
+  >
+    <div class="informations__first">
+      <div class="informations__first__information">
+        <span>Nume</span>
+        <p>{{ pacient.nume }}</p>
+      </div>
+      <div class="informations__first__information">
+        <span>CNP</span>
+        <p>{{ pacient.cnp }}</p>
+      </div>
+      <div class="informations__first__information">
+        <span>Data nașterii</span>
+        <p>{{ pacient.data_nasterii | date : "dd/MM/yyyy" }}</p>
+      </div>
+      <div class="informations__first__information">
+        <span>Gen</span>
+        <p>{{ pacient.gen }}</p>
+      </div>
+      <div class="informations__first__information">
+        <span>Greutate</span>
+        <p>{{ pacient.greutate }}</p>
+      </div>
+      <div class="informations__first__information">
+        <span>Înălțime</span>
+        <p>{{ pacient.inaltime }}</p>
+      </div>
+    </div>
+    <div class="informations__second">
+      <div class="informations__first__information"></div>
+      <div class="informations__first__information">
+        <span>Nume</span>
+        <p>{{ pacient.nume }}</p>
+      </div>
+    </div>
+  </div>
+  <div>
+    <mat-divider></mat-divider>
+    <div class="bottons"><button>EDIT</button><button>SAVE</button></div>
+  </div>
 </div>
+<ng-template #consultatii>
+  <div>Se încarcă informațiile consultatiilor...</div>
+</ng-template>
