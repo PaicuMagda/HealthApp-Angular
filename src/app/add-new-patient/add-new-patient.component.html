@@ -205,7 +205,11 @@
           <div>
             <label>Telefon</label>
             <mat-form-field appearance="outline">
-              <input matInput formControlName="telefon" />
+              <input
+                matInput
+                formControlName="telefon"
+                (keydown)="restrictInputToNumbers($event)"
+              />
             </mat-form-field>
             <mat-error *ngIf="patientForm.get('telefon')?.hasError('required')">
               Telefonul este obligatoriu.
@@ -252,14 +256,14 @@
               <input matInput formControlName="casaDeAsigurari" />
             </mat-form-field>
           </div>
-          <div>
-            <label
+          <!-- <div>
+            <label class="add-new-patient__data-entered__first__data__cnp"
               >CID (Codul de IDenitificare al asiguraţilor din PIAS )</label
             >
             <mat-form-field appearance="outline">
               <input matInput formControlName="cid" />
             </mat-form-field>
-          </div>
+          </div> -->
         </div>
         <mat-divider></mat-divider>
 
@@ -268,7 +272,11 @@
           <div class="mic">
             <label>Greutate</label>
             <mat-form-field appearance="outline">
-              <input matInput formControlName="greutate" />
+              <input
+                matInput
+                formControlName="greutate"
+                (keydown)="restrictInputToNumbers($event)"
+              />
               <mat-error
                 *ngIf="patientForm.get('greutate')?.hasError('required')"
               >
@@ -279,7 +287,11 @@
           <div class="mic">
             <label>Înălțime</label>
             <mat-form-field appearance="outline">
-              <input matInput formControlName="înălțime" />
+              <input
+                matInput
+                formControlName="înălțime"
+                (keydown)="restrictInputToNumbers($event)"
+              />
               <mat-error
                 *ngIf="patientForm.get('înălțime')?.hasError('required')"
               >
@@ -290,7 +302,12 @@
           <div class="mic">
             <label>Grupa sanguină </label>
             <mat-form-field appearance="outline">
-              <input matInput formControlName="grupa_sanguina" />
+              <mat-select formControlName="grupa_sanguina">
+                <mat-option *ngFor="let grupa of grupe" [value]="grupa">{{
+                  grupa
+                }}</mat-option>
+              </mat-select>
+
               <mat-error
                 *ngIf="patientForm.get('grupa_sanguina')?.hasError('required')"
               >
@@ -299,13 +316,19 @@
             </mat-form-field>
           </div>
           <div class="mic">
-            <label>RH</label>
-            <mat-form-field appearance="outline">
-              <input matInput formControlName="rh" />
-              <mat-error *ngIf="patientForm.get('rh')?.hasError('required')">
-                RH-ul este obligatoriu.
-              </mat-error>
-            </mat-form-field>
+            <div class="mic">
+              <label>RH </label>
+              <mat-form-field appearance="outline">
+                <mat-select formControlName="rh">
+                  <mat-option *ngFor="let rh of rh" [value]="rh">{{
+                    rh
+                  }}</mat-option>
+                </mat-select>
+                <mat-error *ngIf="patientForm.get('rh')?.hasError('required')">
+                  RH-ul este obligatoriu.
+                </mat-error>
+              </mat-form-field>
+            </div>
           </div>
         </div>
         <mat-divider class="divider"></mat-divider>

@@ -41,6 +41,8 @@ export class AddNewPatientComponent implements OnInit {
   orase: string[] = [];
   selectedJudet: string | null = null;
   selectedOras: string | null = null;
+  grupe: string[] = ['A', 'B', 'AB', 'O'];
+  rh: string[] = ['RH+', 'RH-'];
 
   constructor(
     private dialogRef: MatDialogRef<AddNewPatientComponent>,
@@ -204,6 +206,12 @@ export class AddNewPatientComponent implements OnInit {
       );
     }
   }
+  restrictInputToNumbers(event: KeyboardEvent): void {
+    const key = event.key;
+    if (!/^\d$/.test(key) && key !== 'Backspace' && key !== 'Tab') {
+      event.preventDefault();
+    }
+  }
 
   ngOnInit(): void {
     this.patientForm = this.formBuilder.group({
@@ -222,15 +230,22 @@ export class AddNewPatientComponent implements OnInit {
       }),
       dataNasterii: [''],
       gen: [''],
-      cnp: ['', [Validators.required, Validators.pattern(/^\d{13}$/)]],
+      cnp: [
+        '',
+        [
+          Validators.required,
+          Validators.pattern(/^\d{13}$/),
+          Validators.pattern(/^\d+$/),
+        ],
+      ],
       email: ['', [Validators.required, Validators.email]],
       varsta: [''],
-      greutate: ['', [Validators.required]],
-      înălțime: ['', [Validators.required]],
+      greutate: ['', [Validators.required, Validators.pattern(/^\d+$/)]],
+      înălțime: ['', [Validators.required, Validators.pattern(/^\d+$/)]],
       ocupatie: [''],
       cid: [''],
       casaDeAsigurari: [''],
-      telefon: ['', [Validators.required]],
+      telefon: ['', [Validators.required, Validators.pattern(/^\d+$/)]],
       rh: ['', [Validators.required]],
       grupa_sanguina: ['', [Validators.required]],
       boli_cronice: [''],

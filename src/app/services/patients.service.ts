@@ -53,8 +53,8 @@ export class PatientsService {
       );
   }
 
-  getPatientData(cnp: string): Observable<Patient> {
-    return this.http.get<Patient>(
+  getPatientData(cnp: string): Observable<any> {
+    return this.http.get<any>(
       `${this.apiUrl}/patients/get-patient.php?cnp=${cnp}`
     );
   }
@@ -84,7 +84,7 @@ export class PatientsService {
         tap((response) => {
           if (response.success) {
             const currentPatients = this.patientsSubject.value;
-            this.patientsSubject.next([...currentPatients, response.patient]); // Actualizează lista locală
+            this.patientsSubject.next([...currentPatients, response.patient]);
           }
         })
       );

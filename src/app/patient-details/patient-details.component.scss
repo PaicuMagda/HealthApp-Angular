@@ -18,48 +18,162 @@
   }
 }
 
-.informations {
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  height: 58vh;
-  font-size: 1.2rem;
-
-  &__first {
-    width: 50%;
+.add-new-patient {
+  &__close {
     display: flex;
-    flex-direction: column;
-    gap: 2vh;
+    justify-content: space-between;
+    padding: 0.5%;
+    cursor: pointer;
+    font-family: Verdana, sans-serif;
+    font-size: 1.4rem;
+
+    &__toggle {
+      display: flex;
+    }
+  }
+
+  &__bottom {
+    &__buttons {
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-end;
+      gap: 2rem;
+      margin-top: 1%;
+      margin-right: 1%;
+
+      &__button1 {
+        background-color: #ffc400;
+      }
+
+      &__button2 {
+        background-color: rgb(175, 7, 7);
+        color: white;
+      }
+
+      button {
+        width: 8rem;
+        height: 2.5rem;
+        border-radius: 0.5rem;
+        font-weight: bold;
+        font-size: 1rem;
+      }
+    }
+  }
+
+  &__data-entered {
+    height: 87vh;
     padding: 1%;
 
-    &__information {
+    form {
       display: flex;
-      justify-content: space-between;
-      align-items: center;
+      flex-direction: row;
     }
 
-    span {
-      font-weight: bold;
-      width: 25%;
+    &__first,
+    &__second {
+      width: 50%;
+      height: 82vh;
+      padding: 1%;
+
+      label {
+        font-weight: bold;
+      }
+
+      span {
+        color: red;
+      }
+
+      &__data {
+        display: flex;
+        gap: 5%;
+        margin-top: 1%;
+
+        &__nume,
+        &__prenume,
+        &__adresa {
+          display: flex;
+          flex-direction: column;
+          width: 50%;
+        }
+
+        &__data-nastere {
+          display: flex;
+          gap: 5%;
+        }
+
+        &__profile {
+          display: flex;
+          flex-direction: row;
+
+          &__image {
+            display: flex;
+            justify-content: flex-end;
+
+            img {
+              width: 30%;
+            }
+          }
+        }
+
+        &__cnp {
+          color: rgb(170, 170, 170);
+        }
+      }
+
+      &__data-nasterii {
+        width: 50%;
+      }
     }
+
+    &__first {
+      border-right: 2px solid rgb(179, 179, 179);
+    }
+  }
+}
+
+mat-form-field {
+  width: 100%;
+  font-size: 120%;
+}
+
+.upload-file {
+  width: 90%;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  &__placeholder {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
 
     p {
-      width: 65%;
-      margin: 0;
+      color: rgb(170, 170, 170);
     }
   }
+}
 
-  &__second {
-    width: 50%;
-    background-color: #e6e7e6;
-    padding: 1%;
-  }
+::ng-deep.mdc-text-field--filled:not(.mdc-text-field--disabled) {
+  background-color: white;
+}
 
-  img {
-    width: 30%;
-    border-radius: 1rem;
-  }
+input[type="file"] {
+  display: none;
+}
+
+.mini-title {
+  color: #ff4900;
+  font-weight: 600;
+  padding: 2%;
+}
+
+.mic {
+  width: 10rem;
+}
+
+.divider {
+  margin-top: 5%;
 }
 
 .bottons {
