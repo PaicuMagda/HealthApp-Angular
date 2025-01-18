@@ -87,7 +87,6 @@ export class AddNewPatientComponent implements OnInit {
       doctor_id: this.doctorId,
       nume: formData.nume,
       prenume: formData.prenume,
-      locatie: formData.adresa.locatie,
       strada: formData.adresa.strada,
       numar: formData.adresa.numar,
       data_nasterii: formData.data_nasterii,
@@ -97,7 +96,7 @@ export class AddNewPatientComponent implements OnInit {
       varsta: formData.varsta,
       greutate: formData.greutate,
       inaltime: formData.inaltime,
-      ocupatie: formData.ocupația,
+      ocupatie: formData.ocupatie,
       poza: this.imageProfile,
       cid: formData.cid,
       casa_de_asigurari: formData.casa_de_asigurari,
@@ -111,7 +110,17 @@ export class AddNewPatientComponent implements OnInit {
       telefon: formData.telefon,
       rh: formData.rh,
       grupa_sanguina: formData.grupa_sanguina,
+      boli_cronice: formData.boli_cronice,
+      vaccinari: formData.vaccinari,
+      boli_ereditare: formData.boli_ereditare,
+      boala: formData.boala,
+      dieta: formData.stilDeViata.dieta,
+      activitate_fizica: formData.stilDeViata.activitateFizica,
+      fumat: formData.stilDeViata.fumat,
+      consum_alcool: formData.stilDeViata.consumAlcool,
+      consum_droguri: formData.stilDeViata.consumDroguri,
     };
+    console.log(payload);
 
     const closeDialogRef = this.dialog.open(ConfirmAdditionComponent, {
       width: '20%',
@@ -158,7 +167,7 @@ export class AddNewPatientComponent implements OnInit {
     const zi = +cnp.substring(5, 7);
 
     const prefix = anPrefix[gen] || '19';
-    const anComplet = +`${prefix}${an.toString().padStart(2, '0')}`; // Construim anul complet, adăugând 0 dacă este necesar
+    const anComplet = +`${prefix}${an.toString().padStart(2, '0')}`;
 
     const dataNasterii = new Date(anComplet, luna - 1, zi);
 
@@ -186,7 +195,7 @@ export class AddNewPatientComponent implements OnInit {
           console.log('Orase primite pentru județul ' + judet, orase);
           this.orase = orase;
           this.patientForm.patchValue({
-            'adresa.oras': '', // Resetăm câmpul oraș
+            'adresa.oras': '',
           });
         },
         (error) => {
@@ -211,22 +220,33 @@ export class AddNewPatientComponent implements OnInit {
         etaj: [''],
         cod_postal: [''],
       }),
-      dataNasterii: ['', [Validators.required]],
-      gen: ['', [Validators.required]],
+      dataNasterii: [''],
+      gen: [''],
       cnp: ['', [Validators.required, Validators.pattern(/^\d{13}$/)]],
       email: ['', [Validators.required, Validators.email]],
-      varsta: ['', [Validators.required, Validators.min(0)]],
+      varsta: [''],
       greutate: ['', [Validators.required]],
       înălțime: ['', [Validators.required]],
-      ocupația: ['', [Validators.required]],
-      cid: ['', [Validators.required]],
-      casaDeAsigurari: ['', Validators.required],
-      telefon: [''],
-      rh: [''],
-      grupa_sanguina: [''],
+      ocupatie: [''],
+      cid: [''],
+      casaDeAsigurari: [''],
+      telefon: ['', [Validators.required]],
+      rh: ['', [Validators.required]],
+      grupa_sanguina: ['', [Validators.required]],
+      boli_cronice: [''],
+      vaccinari: [''],
+      boliEreditare: [''],
+      boala: [''],
+      stilDeViata: this.formBuilder.group({
+        dieta: [''],
+        activitateFizica: [''],
+        fumat: [false],
+        consumAlcool: [false],
+        consumDroguri: [false],
+      }),
     });
     this.doctorId = localStorage.getItem('user_id');
-
+    this.patientForm.markAllAsTouched();
     this.patientForm.get('cnp')?.valueChanges.subscribe((cnp) => {
       if (this.validateCNP(cnp)) {
         const { dataNasterii, varsta, gen } = this.decodeCNP(cnp);

@@ -35,8 +35,8 @@ export class NavBarComponent implements OnInit {
 
   openAddNewPatient() {
     this.dialog.open(AddNewPatientComponent, {
-      width: '99%',
-      height: '90%',
+      width: '100',
+      height: '100%',
       data: { mesaj: 'Salut! Acesta este un mesaj de test.' },
     });
   }

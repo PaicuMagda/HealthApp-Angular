@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NavBarComponent } from '../nav-bar/nav-bar.component';
-import { NgClass, NgFor } from '@angular/common';
+import { CommonModule, NgClass, NgFor } from '@angular/common';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -30,6 +30,7 @@ import { FormsModule } from '@angular/forms';
     HoverElementDirective,
     MatCheckboxModule,
     FormsModule,
+    CommonModule,
   ],
   templateUrl: './home-page.component.html',
   styleUrl: './home-page.component.scss',
@@ -59,6 +60,7 @@ export class HomePageComponent implements OnInit {
     diagnostic: [],
     date: null,
   };
+  poza: string = '';
 
   openDetailsPatient(pacientCnp: string) {
     this.dialog.open(PatientDetailsComponent, {

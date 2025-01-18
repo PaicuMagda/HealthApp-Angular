@@ -41,7 +41,7 @@
   }
 
   &__data-entered {
-    height: 76vh;
+    height: 87vh;
     padding: 1%;
 
     form {
@@ -52,8 +52,8 @@
     &__first,
     &__second {
       width: 50%;
-      height: 74vh;
-      padding: 0.5%;
+      height: 82vh;
+      padding: 1%;
 
       label {
         font-weight: bold;
@@ -93,6 +93,10 @@
               width: 30%;
             }
           }
+        }
+
+        &__cnp {
+          color: rgb(170, 170, 170);
         }
       }
 
@@ -136,4 +140,18 @@ mat-form-field {
 
 input[type="file"] {
   display: none;
+}
+
+.mini-title {
+  color: #ff4900;
+  font-weight: 600;
+  padding: 2%;
+}
+
+.mic {
+  width: 10rem;
+}
+
+.divider {
+  margin-top: 5%;
 }

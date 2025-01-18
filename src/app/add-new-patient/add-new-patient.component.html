@@ -11,6 +11,7 @@
   <div class="add-new-patient__data-entered">
     <form [formGroup]="patientForm">
       <div class="add-new-patient__data-entered__first">
+        <div class="mini-title">INFORMAȚII PERSONALE</div>
         <div class="add-new-patient__data-entered__first__data">
           <div class="add-new-patient__data-entered__first__data__nume">
             <label>Nume</label>
@@ -47,8 +48,10 @@
             </mat-form-field>
           </div>
           <div>
-            <label>Data nașterii</label>
-            <mat-form-field appearance="outline">
+            <label class="add-new-patient__data-entered__first__data__cnp"
+              >Data nașterii</label
+            >
+            <mat-form-field appearance="outline" [ariaDisabled]="true">
               <input
                 matInput
                 [matDatepicker]="picker"
@@ -56,57 +59,54 @@
                 formControlName="dataNasterii"
                 [disabled]="true"
               />
-              <mat-error
-                *ngIf="patientForm.get('dataNasterii')?.hasError('required')"
-              >
-                Data nașterii este obligatorie.
-              </mat-error>
               <mat-datepicker-toggle
                 matIconSuffix
                 [for]="picker"
+                [disabled]="true"
               ></mat-datepicker-toggle>
               <mat-datepicker #picker></mat-datepicker>
             </mat-form-field>
           </div>
           <div>
-            <label>Vârstă</label>
+            <label class="add-new-patient__data-entered__first__data__cnp"
+              >Vârstă</label
+            >
             <mat-form-field appearance="outline">
               <input matInput formControlName="varsta" [disabled]="true" />
-              <mat-error
-                *ngIf="patientForm.get('varsta')?.hasError('required')"
-              >
-                Vârsta este obligatorie.
-              </mat-error>
             </mat-form-field>
           </div>
         </div>
-        <div>
-          <label>Gen</label>
-          <section>
-            <mat-checkbox
-              color="primary"
-              [checked]="patientForm.get('gen')?.value === 'Feminin'"
-              (change)="selectGen('Feminin')"
-              >Feminin</mat-checkbox
-            >
-            <mat-checkbox
-              color="primary"
-              [checked]="patientForm.get('gen')?.value === 'Masculin'"
-              (change)="selectGen('Masculin')"
-              >Masculin</mat-checkbox
-            >
-          </section>
-          <mat-error
-            *ngIf="
-              patientForm.get('gen')?.hasError('required') &&
-              patientForm.get('gen')?.touched
-            "
-          >
-            Selectați genul.
-          </mat-error>
+        <div class="add-new-patient__data-entered__first__data">
+          <div>
+            <label>Gen</label>
+            <section>
+              <mat-checkbox
+                color="primary"
+                [checked]="patientForm.get('gen')?.value === 'Feminin'"
+                (change)="selectGen('Feminin')"
+                [disabled]="true"
+                >Feminin</mat-checkbox
+              >
+
+              <mat-checkbox
+                color="primary"
+                [checked]="patientForm.get('gen')?.value === 'Masculin'"
+                (change)="selectGen('Masculin')"
+                [disabled]="true"
+                >Masculin</mat-checkbox
+              >
+            </section>
+          </div>
+          <div>
+            <label>Ocupația</label>
+            <mat-form-field appearance="outline">
+              <input matInput formControlName="ocupatie" />
+            </mat-form-field>
+          </div>
         </div>
+
         <mat-divider></mat-divider>
-        <label>Adresă</label>
+        <div class="mini-title">ADRESĂ</div>
         <div
           formGroupName="adresa"
           class="add-new-patient__data-entered__first__data"
@@ -122,11 +122,7 @@
                   judet
                 }}</mat-option>
               </mat-select>
-              <mat-error
-                *ngIf="
-                  patientForm.get('adresa.judet')?.invalid &&
-                  patientForm.get('adresa.judet')?.touched
-                "
+              <mat-error *ngIf="patientForm.get('adresa.judet')?.invalid"
                 >Selectează un județ!</mat-error
               >
             </mat-form-field>
@@ -141,11 +137,7 @@
                   oras
                 }}</mat-option>
               </mat-select>
-              <mat-error
-                *ngIf="
-                  patientForm.get('adresa.oras')?.invalid &&
-                  patientForm.get('adresa.oras')?.touched
-                "
+              <mat-error *ngIf="patientForm.get('adresa.oras')?.invalid"
                 >Selectează un oraș!</mat-error
               >
             </mat-form-field>
@@ -199,6 +191,7 @@
           </div>
         </div>
         <mat-divider></mat-divider>
+        <div class="mini-title">INFORMAȚII DE CONTACT</div>
         <div class="add-new-patient__data-entered__first__data">
           <div>
             <label>Email</label>
@@ -214,23 +207,9 @@
             <mat-form-field appearance="outline">
               <input matInput formControlName="telefon" />
             </mat-form-field>
-          </div>
-        </div>
-        <mat-divider></mat-divider>
-        <div class="add-new-patient__data-entered__first__data">
-          <div>
-            <label>Casa de asigurări</label>
-            <mat-form-field appearance="outline">
-              <input matInput formControlName="casaDeAsigurari" />
-            </mat-form-field>
-          </div>
-          <div>
-            <label
-              >CID (Codul de IDenitificare al asiguraţilor din PIAS )</label
-            >
-            <mat-form-field appearance="outline">
-              <input matInput formControlName="cid" />
-            </mat-form-field>
+            <mat-error *ngIf="patientForm.get('telefon')?.hasError('required')">
+              Telefonul este obligatoriu.
+            </mat-error>
           </div>
         </div>
       </div>
@@ -250,7 +229,7 @@
               class="upload-file__placeholder"
             >
               <p *ngIf="!imageProfileFileName">
-                Upload image for parking spaces's profile.
+                Upload image for pcient's profile.
               </p>
               <p *ngIf="imageProfileFileName">{{ imageProfileFileName }}</p>
             </div>
@@ -264,8 +243,29 @@
             <img *ngIf="!imageProfile" src="../../assets/user-profile.png" />
           </div>
         </div>
-        <div class="add-new-patient__data-entered__second__data">
+
+        <div class="mini-title">ASIGURARE</div>
+        <div class="add-new-patient__data-entered__first__data">
           <div>
+            <label>Casa de asigurări</label>
+            <mat-form-field appearance="outline">
+              <input matInput formControlName="casaDeAsigurari" />
+            </mat-form-field>
+          </div>
+          <div>
+            <label
+              >CID (Codul de IDenitificare al asiguraţilor din PIAS )</label
+            >
+            <mat-form-field appearance="outline">
+              <input matInput formControlName="cid" />
+            </mat-form-field>
+          </div>
+        </div>
+        <mat-divider></mat-divider>
+
+        <div class="mini-title">INFORMAȚII MEDICALE</div>
+        <div class="add-new-patient__data-entered__second__data">
+          <div class="mic">
             <label>Greutate</label>
             <mat-form-field appearance="outline">
               <input matInput formControlName="greutate" />
@@ -276,7 +276,7 @@
               </mat-error>
             </mat-form-field>
           </div>
-          <div>
+          <div class="mic">
             <label>Înălțime</label>
             <mat-form-field appearance="outline">
               <input matInput formControlName="înălțime" />
@@ -287,30 +287,87 @@
               </mat-error>
             </mat-form-field>
           </div>
-          <div>
-            <label>Ocupația</label>
+          <div class="mic">
+            <label>Grupa sanguină </label>
             <mat-form-field appearance="outline">
-              <input matInput formControlName="ocupația" />
+              <input matInput formControlName="grupa_sanguina" />
               <mat-error
-                *ngIf="patientForm.get('ocupația')?.hasError('required')"
+                *ngIf="patientForm.get('grupa_sanguina')?.hasError('required')"
               >
-                Ocupația este obligatorie.
+                Grupa de sânge este obligatorie.
               </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="mic">
+            <label>RH</label>
+            <mat-form-field appearance="outline">
+              <input matInput formControlName="rh" />
+              <mat-error *ngIf="patientForm.get('rh')?.hasError('required')">
+                RH-ul este obligatoriu.
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+        <mat-divider class="divider"></mat-divider>
+        <div class="mini-title">ISTORIC MEDICAL</div>
+        <div class="add-new-patient__data-entered__second__data">
+          <div>
+            <label>Boli cronice</label>
+            <mat-form-field appearance="outline">
+              <input matInput formControlName="boli_cronice" />
+            </mat-form-field>
+          </div>
+          <div>
+            <label>Vaccinari</label>
+            <mat-form-field appearance="outline">
+              <input matInput formControlName="vaccinari" />
+            </mat-form-field>
+          </div>
+          <div>
+            <label>Boli ereditare</label>
+            <mat-form-field appearance="outline">
+              <input matInput formControlName="boliEreditare" />
             </mat-form-field>
           </div>
         </div>
         <div class="add-new-patient__data-entered__second__data">
           <div>
-            <label>Grupa sanguină</label>
+            <label>Altă boală</label>
             <mat-form-field appearance="outline">
-              <input matInput formControlName="grupa_sanguina" />
+              <input matInput formControlName="boala" />
+            </mat-form-field>
+          </div>
+        </div>
+        <mat-divider></mat-divider>
+        <div class="mini-title">STIL DE VIAȚĂ</div>
+        <div
+          class="add-new-patient__data-entered__second__data"
+          formGroupName="stilDeViata"
+        >
+          <div>
+            <label>Dietă</label>
+            <mat-form-field appearance="outline">
+              <input matInput formControlName="dieta" />
             </mat-form-field>
           </div>
           <div>
-            <label>RH</label>
+            <label>Activitate fizică</label>
             <mat-form-field appearance="outline">
-              <input matInput formControlName="rh" />
+              <input matInput formControlName="activitateFizica" />
             </mat-form-field>
+          </div>
+          <div>
+            <section>
+              <mat-checkbox color="primary" formControlName="fumat"
+                >Fumat</mat-checkbox
+              >
+              <mat-checkbox color="primary" formControlName="consumAlcool"
+                >Consum Alcool</mat-checkbox
+              >
+              <mat-checkbox color="primary" formControlName="consumDroguri"
+                >Consum Droguri</mat-checkbox
+              >
+            </section>
           </div>
         </div>
       </div>
@@ -322,6 +379,7 @@
       <button
         class="add-new-patient__bottom__buttons__button1"
         (click)="addNewPatient()"
+        [disabled]="!patientForm.valid"
       >
         ADAUGĂ</button
       ><button class="add-new-patient__bottom__buttons__button2">

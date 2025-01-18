@@ -96,8 +96,23 @@
         class="display-patients__patients__cards__image"
         (click)="openDetailsPatient(patient.cnp)"
       >
-        <img [src]="patient.poza" alt="Patient Image" />
+        <img
+          *ngIf="
+            patient.poza !== null && patient.poza !== '';
+            else defaultImage
+          "
+          [src]="patient.poza"
+          alt="Patient Image"
+        />
+        <ng-template #defaultImage>
+          <img src="assets/avatar.jpg" alt="Default Patient Image" />
+        </ng-template>
       </div>
+      <div
+        class="display-patients__patients__cards__informations"
+        (click)="openDetailsPatient(patient.cnp)"
+      ></div>
+
       <div
         class="display-patients__patients__cards__informations"
         (click)="openDetailsPatient(patient.cnp)"
