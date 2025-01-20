@@ -1,0 +1,20 @@
+<div id="content">
+  <ng-container *ngIf="patient; else noData">
+    <h1>Detalii pacient</h1>
+    <p><strong>Nume:</strong> {{ patient.nume }}</p>
+    <p><strong>Adresă:</strong> {{ patient.ocupatie }}</p>
+    <p><strong>CNP:</strong> {{ patient.cnp }}</p>
+
+    <h2>Consultație</h2>
+    <p><strong>Nr. Consultație:</strong> {{ consultation?.nr_consultatie }}</p>
+    <p><strong>Data:</strong> {{ consultation?.data_consultatie }}</p>
+    <p><strong>Diagnostic:</strong> {{ consultation?.diagnostic }}</p>
+    <p><strong>Medicamentație:</strong> {{ consultation?.medicamentatie }}</p>
+  </ng-container>
+
+  <ng-template #noData>
+    <p>Nu există date disponibile pentru acest pacient.</p>
+  </ng-template>
+</div>
+
+<button (click)="exportPDF()">Export PDF</button>

@@ -25,13 +25,21 @@
               (click)="toggleEditMode(consultation.nr_consultatie)"
             />
             <img
+              src="../../assets/eye.png"
+              (click)="toggleConsultatie(consultation)"
+            />
+            <img
               src="../../assets/delete-icon.png"
               (click)="
                 deleteConsultation(patientCNP, consultation.nr_consultatie)
               "
             />
           </div>
-          <div class="consultatii__data__all-consultations__item__informations">
+
+          <div
+            *ngIf="!viewConsultatie"
+            class="consultatii__data__all-consultations__item__informations"
+          >
             <ng-container
               *ngIf="!isEditing[consultation.nr_consultatie]; else editMode"
             >
@@ -116,6 +124,12 @@
               </div>
             </ng-template>
           </div>
+
+          <app-pdf-template
+            *ngIf="viewConsultatie"
+            [patientCNP]="patientCNP"
+            [consultation]="selectedConsultation"
+          ></app-pdf-template>
         </div>
       </div>
       <form [formGroup]="consultatieForm">
@@ -164,6 +178,7 @@
         </div>
       </form>
     </div>
+
     <div class="consultatii__bottom">
       <mat-divider></mat-divider>
       <div class="consultatii__bottom__buttons">

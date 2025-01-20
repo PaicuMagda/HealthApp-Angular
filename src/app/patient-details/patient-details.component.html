@@ -22,7 +22,10 @@
   <mat-divider></mat-divider>
 </div>
 
-<div class="add-new-patient__data-entered">
+<div
+  class="add-new-patient__data-entered"
+  *ngIf="selectedValue === 'Fișa pacientului'"
+>
   <form [formGroup]="patientForm">
     <div class="add-new-patient__data-entered__first">
       <div class="mini-title">INFORMAȚII PERSONALE</div>
@@ -408,7 +411,12 @@
     </div>
   </form>
 </div>
-<div>
+
+<div *ngIf="selectedValue === 'Consultatiile pacientului'">
+  <app-consultatii-pacient></app-consultatii-pacient>
+</div>
+
+<div *ngIf="selectedValue === 'Fișa pacientului'">
   <mat-divider></mat-divider>
   <div class="bottons"><button>EDIT</button><button>SAVE</button></div>
 </div>

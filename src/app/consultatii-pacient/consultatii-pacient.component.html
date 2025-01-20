@@ -1,0 +1,180 @@
+<div class="consultatii">
+  <div class="consultatii__data">
+    <div class="consultatii__data__total-number">
+      <div>Total consultații: {{ consultatii.length }}</div>
+    </div>
+    <div class="consultatii__data__all-consultations">
+      <div
+        *ngFor="let consultation of consultatii"
+        class="consultatii__data__all-consultations__item"
+      >
+        <div class="consultatii__data__all-consultations__item__delete">
+          <img
+            src="../../assets/edit.png"
+            (click)="toggleEditMode(consultation.nr_consultatie)"
+          />
+          <img
+            src="../../assets/delete-icon.png"
+            (click)="deleteConsultation(patientId, consultation.nr_consultatie)"
+          />
+        </div>
+        <div class="consultatii__data__all-consultations__item__informations">
+          <ng-container
+            *ngIf="!isEditing[consultation.nr_consultatie]; else editMode"
+          >
+            <p>
+              <strong>Nr. Consultație:</strong>
+              {{ consultation.nr_consultatie }}
+            </p>
+            <p><strong>Data:</strong> {{ consultation.data_consultatie }}</p>
+            <p><strong>Diagnostic:</strong> {{ consultation.diagnostic }}</p>
+            <p>
+              <strong>Medicamentatie:</strong>
+              {{ consultation.medicamentatie }}
+            </p>
+          </ng-container>
+          <ng-template #editMode>
+            <p>
+              <strong>Nr. Consultație:</strong>
+              <mat-form-field appearance="outline"
+                ><input
+                  matInput
+                  type="text"
+                  [(ngModel)]="editableConsultation.nr_consultatie"
+                  disabled
+              /></mat-form-field>
+            </p>
+            <p>
+              <strong>Data:</strong>
+              <mat-form-field appearance="outline">
+                <input
+                  matInput
+                  [matDatepicker]="picker"
+                  placeholder="Selectați data"
+                  [(ngModel)]="editableConsultation.data_consultatie"
+                />
+                <mat-datepicker-toggle
+                  matSuffix
+                  [for]="picker"
+                ></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+              </mat-form-field>
+            </p>
+            <p>
+              <strong>Diagnostic:</strong>
+              <mat-form-field appearance="outline">
+                <mat-select
+                  name="diagnostic"
+                  [(ngModel)]="editableConsultation.diagnostic"
+                >
+                  <mat-option
+                    *ngFor="let option of diagnostics"
+                    [value]="option.nume"
+                  >
+                    {{ option.nume }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </p>
+            <p>
+              <strong>Medicamentatie:</strong>
+              <mat-form-field appearance="outline">
+                <textarea
+                  matInput
+                  placeholder="Introduceți medicația prescrisă"
+                  [(ngModel)]="editableConsultation.medicamentatie"
+                  rows="3"
+                ></textarea>
+              </mat-form-field>
+            </p>
+            <div class="butoane-update">
+              <button
+                class="consultatii__bottom__buttons__button1"
+                (click)="saveConsultation(consultation.nr_consultatie)"
+              >
+                Salvează
+              </button>
+              <button
+                class="consultatii__bottom__buttons__button2"
+                (click)="cancelEdit(consultation.nr_consultatie)"
+              >
+                Anulează
+              </button>
+            </div>
+          </ng-template>
+        </div>
+      </div>
+    </div>
+    <form [formGroup]="consultatieForm">
+      <div>
+        <label>Data consultației</label>
+        <mat-form-field appearance="outline">
+          <input
+            matInput
+            [matDatepicker]="picker"
+            formControlName="dataConsultatie"
+            placeholder="Selectați data"
+          />
+          <mat-datepicker-toggle
+            matSuffix
+            [for]="picker"
+          ></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+      </div>
+      <div>
+        <label>Diagnostic</label>
+        <mat-form-field appearance="outline">
+          <mat-select
+            formControlName="diagnostic"
+            placeholder="Selectați diagnosticul"
+          >
+            <mat-option
+              *ngFor="let option of diagnostics"
+              [value]="option.nume"
+            >
+              {{ option.nume }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div>
+        <label>Medicamentație</label>
+        <mat-form-field appearance="outline">
+          <textarea
+            matInput
+            formControlName="medicamentatie"
+            placeholder="Introduceți medicația prescrisă"
+            rows="3"
+          ></textarea>
+        </mat-form-field>
+      </div>
+    </form>
+  </div>
+</div>
+<div class="consultatii__bottom">
+  <mat-divider></mat-divider>
+  <div class="consultatii__bottom__buttons">
+    <button
+      class="consultatii__bottom__buttons__button1"
+      (click)="addConsultation()"
+      [disabled]="consultatieForm.invalid"
+      appHoverElement
+    >
+      ADAUGĂ</button
+    ><button
+      class="consultatii__bottom__buttons__button2"
+      appHoverElement
+      (click)="renunta()"
+    >
+      RENUNȚĂ
+    </button>
+    <button
+      class="consultatii__bottom__buttons__pdf-button"
+      (click)="generatePdf()"
+      appHoverElement
+    >
+      📄 GENERATE PDF
+    </button>
+  </div>
+</div>

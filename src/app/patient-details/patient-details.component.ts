@@ -7,7 +7,7 @@ import {
 import { MatDividerModule } from '@angular/material/divider';
 import { CloseDialogComponent } from '../confirmation-dialogs/close-dialog/close-dialog.component';
 import { PatientsService } from '../services/patients.service';
-import { CommonModule, DatePipe } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import {
   FormBuilder,
@@ -23,6 +23,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatSelectModule } from '@angular/material/select';
 import { ConfirmAdditionComponent } from '../confirmation-dialogs/confirm-addition/confirm-addition.component';
+import { ConsultatiiPacientComponent } from '../consultatii-pacient/consultatii-pacient.component';
 
 @Component({
   selector: 'app-patient-details',
@@ -39,6 +40,7 @@ import { ConfirmAdditionComponent } from '../confirmation-dialogs/confirm-additi
     FormsModule,
     MatSelectModule,
     CommonModule,
+    ConsultatiiPacientComponent,
   ],
   templateUrl: './patient-details.component.html',
   styleUrl: './patient-details.component.scss',
@@ -50,7 +52,6 @@ export class PatientDetailsComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any,
     private pacientService: PatientsService,
     private formBuilder: FormBuilder,
-    private patientService: PatientsService,
     private judeteService: JudeteService
   ) {}
 
@@ -70,7 +71,6 @@ export class PatientDetailsComponent implements OnInit {
 
   onToggleChange(event: any): void {
     this.selectedValue = event.value;
-    console.log('Valoare selectată:', this.selectedValue);
   }
 
   openCloseDialog() {
@@ -153,7 +153,7 @@ export class PatientDetailsComponent implements OnInit {
       setTimeout(() => {
         if (result === 'yes') {
           this.dialogRef.close();
-          this.patientService.addPatient(payload).subscribe((result) => {
+          this.pacientService.addPatient(payload).subscribe((result) => {
             console.log(result);
           });
         }
@@ -309,7 +309,7 @@ export class PatientDetailsComponent implements OnInit {
 
     this.pacientService.getPatientData(this.pacientId).subscribe((result) => {
       this.pacient = result;
-      console.log(this.pacient);
+
       if (this.pacient) {
         this.patientForm.patchValue({
           nume: result.patient.nume || '',
