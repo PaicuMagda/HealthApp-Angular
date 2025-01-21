@@ -1,31 +1,13 @@
-<div>
-  <div class="close">
-    <div class="close__toggle">
-      <div>📃 {{ selectedValue }}</div>
-      <div>
-        <mat-button-toggle-group
-          (change)="onToggleChange($event)"
-          name="fontStyle"
-          aria-label="Font Style"
-        >
-          <mat-button-toggle value="Fișa pacientului"
-            >Fișa pacientului</mat-button-toggle
-          >
-          <mat-button-toggle value="Consultatiile pacientului"
-            >Consultațiile pacientului</mat-button-toggle
-          >
-        </mat-button-toggle-group>
+<div id="content" class="add-new-patient__data-entered">
+  <div>
+    <div class="close">
+      <div class="close__toggle">
+        <div>📃 {{ selectedValue }}</div>
       </div>
+      <div><span (click)="openCloseDialog()">❌</span></div>
     </div>
-    <div><span (click)="openCloseDialog()">❌</span></div>
+    <mat-divider></mat-divider>
   </div>
-  <mat-divider></mat-divider>
-</div>
-
-<div
-  class="add-new-patient__data-entered"
-  *ngIf="selectedValue === 'Fișa pacientului'"
->
   <form [formGroup]="patientForm">
     <div class="add-new-patient__data-entered__first">
       <div class="mini-title">INFORMAȚII PERSONALE</div>
@@ -406,15 +388,15 @@
       </div>
     </div>
   </form>
-</div>
-
-<div *ngIf="selectedValue === 'Consultatiile pacientului'">
-  <app-consultatii-pacient></app-consultatii-pacient>
-</div>
-
-<div *ngIf="selectedValue === 'Fișa pacientului'">
+  <div id="consultatii-content">
+    <app-consultatii-pacient></app-consultatii-pacient>
+  </div>
   <mat-divider></mat-divider>
-  <div class="bottons">
-    <button mat-button (click)="saveChanges()">EDIT</button>
+  <div>
+    <mat-divider></mat-divider>
+    <div class="bottons">
+      <button mat-button (click)="saveChanges()">EDIT</button>
+      <button mat-button (click)="exportToPDF()">EXPORT PDF</button>
+    </div>
   </div>
 </div>

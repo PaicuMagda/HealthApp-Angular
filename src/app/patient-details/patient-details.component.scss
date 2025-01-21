@@ -61,8 +61,9 @@
   }
 
   &__data-entered {
-    height: 87vh;
+    max-height: 87vh;
     padding: 1%;
+    overflow: auto;
 
     form {
       display: flex;
@@ -197,30 +198,24 @@ input[type="file"] {
   }
 
   button:last-child {
-    background-color: rgb(44, 138, 31);
+    background-color: rgb(0, 0, 0);
     color: white;
   }
 }
 
-.bottons button {
-  /* Stiluri generale pentru buton */
-  font-weight: bold;
-  margin-right: 10px; /* distanță între butoane */
+#content {
+  height: auto !important;
+  overflow: visible !important;
+  width: 100% !important;
+  position: relative !important;
 }
 
-button:disabled {
-  background-color: #ddd; /* culoare gri când este dezactivat */
-  color: #aaa;
-  cursor: not-allowed; /* cursorul nu este permis când butonul este dezactivat */
+.add-new-patient__data-entered {
+  height: auto !important;
+  overflow: visible !important;
 }
 
-button.active {
-  background-color: #4caf50; /* culoare verde când este activat */
-  color: white;
-  border: 1px solid #388e3c;
-  cursor: pointer; /* cursorul devine pointer când este activ */
-}
-
-button.active:hover {
-  background-color: #45a049; /* culoare mai închisă la hover când este activ */
+.add-new-patient__first,
+.add-new-patient__second {
+  height: auto !important;
 }

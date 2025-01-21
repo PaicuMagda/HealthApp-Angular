@@ -25,6 +25,8 @@ import { MatSelectModule } from '@angular/material/select';
 import { ConfirmAdditionComponent } from '../confirmation-dialogs/confirm-addition/confirm-addition.component';
 import { ConsultatiiPacientComponent } from '../consultatii-pacient/consultatii-pacient.component';
 import { ToastrService } from 'ngx-toastr';
+import { jsPDF } from 'jspdf';
+import html2canvas from 'html2canvas';
 
 @Component({
   selector: 'app-patient-details',
@@ -73,6 +75,39 @@ export class PatientDetailsComponent implements OnInit {
 
   onToggleChange(event: any): void {
     this.selectedValue = event.value;
+  }
+
+  exportToPDF(): void {
+    const content = document.getElementById('content');
+
+    if (content) {
+      console.log('Start capturing content');
+      html2canvas(content, {
+        scrollX: 0,
+        scrollY: -window.scrollY,
+        useCORS: true,
+        logging: true,
+        width: content.scrollWidth,
+        height: content.scrollHeight,
+      })
+        .then((canvas) => {
+          console.log('Image captured successfully');
+          const imgData = canvas.toDataURL('image/png');
+
+          const doc = new jsPDF();
+          const imgWidth = 210;
+          const imgHeight = (canvas.height * imgWidth) / canvas.width;
+          doc.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
+
+          console.log('Saving PDF');
+          doc.save('pacient.pdf');
+        })
+        .catch((error) => {
+          console.error('Error capturing content: ', error);
+        });
+    } else {
+      console.error('Element with ID "content" not found');
+    }
   }
 
   openCloseDialog() {
@@ -428,4 +463,7 @@ export class PatientDetailsComponent implements OnInit {
       }
     });
   }
+}
+function html2pdf() {
+  throw new Error('Function not implemented.');
 }

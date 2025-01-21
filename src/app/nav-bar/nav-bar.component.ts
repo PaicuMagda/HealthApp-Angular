@@ -24,6 +24,7 @@ export class NavBarComponent implements OnInit {
   patients: any[] = [];
   isLogin: boolean;
   doctorRole: string | null = '';
+  doctorNume: string | null = '';
 
   constructor(
     private dialog: MatDialog,
@@ -63,6 +64,7 @@ export class NavBarComponent implements OnInit {
 
   ngOnInit(): void {
     this.doctorRole = localStorage.getItem('doctor_role');
+    this.doctorNume = localStorage.getItem('doctor_nume');
     this.doctorService.doctor$.subscribe((result) => {
       this.doctor = result;
     });

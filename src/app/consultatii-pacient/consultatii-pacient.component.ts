@@ -124,20 +124,6 @@ export class ConsultatiiPacientComponent implements OnInit {
     this.consultatieForm.reset();
   }
 
-  toggleEditMode(consultationId: number): void {
-    if (this.isEditing[consultationId]) {
-      this.cancelEdit(consultationId);
-    } else {
-      this.isEditing[consultationId] = true;
-      const consultation = this.consultatii.find(
-        (c) => c.nr_consultatie === consultationId
-      );
-      if (consultation) {
-        this.editableConsultation = { ...consultation };
-      }
-    }
-  }
-
   saveConsultation(consultationId: number): void {
     this.patientService
       .updateConsultation(consultationId, this.editableConsultation)
@@ -166,7 +152,14 @@ export class ConsultatiiPacientComponent implements OnInit {
 
     this.pacientService.consultations$.subscribe((result) => {
       this.consultatii = result;
+      this.consultatii.forEach((consultation) => {
+        this.isEditing[consultation.nr_consultatie] = true;
+        this.editableConsultation[consultation.nr_consultatie] = {
+          ...consultation,
+        };
+      });
     });
+
     this.diagnostics = this.diagnosticsService.getDiagnostics();
     this.patientService.loadConsultations(this.patientId);
   }

@@ -16,9 +16,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    max-height: 90vh;
-    overflow: auto;
-    height: 87vh;
+    margin-top: 4%;
 
     &__total-number {
       font-weight: bold;
@@ -28,38 +26,17 @@
     }
 
     &__all-consultations {
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
-      margin-top: 7%;
-      width: 24%;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+      width: 100%;
 
       &__item {
-        border: 3px solid rgb(255, 106, 0);
-        border-radius: 0.5rem;
-        padding: 1%;
-
-        &__delete {
-          display: flex;
-          flex-direction: row;
-          justify-content: flex-end;
-        }
-
-        img {
-          width: 7%;
-        }
-
-        &__informations {
-          gap: 1rem;
-          display: flex;
-          flex-direction: column;
-        }
+        border: 1px solid #ccc;
+        padding: 15px;
+        border-radius: 5px;
+        background-color: #f9f9f9;
       }
-    }
-
-    &__cnp {
-      font-size: 1.5rem;
-      color: red;
     }
   }
 
@@ -73,31 +50,6 @@
 
   label {
     font-weight: bold;
-  }
-
-  &__bottom {
-    &__buttons {
-      display: flex;
-      flex-direction: row;
-      justify-content: flex-end;
-      gap: 2rem;
-      margin-top: 1%;
-      margin-right: 1%;
-
-      &__button1 {
-        background-color: #ffc400;
-      }
-
-      &__button2 {
-        background-color: rgb(175, 7, 7);
-        color: white;
-      }
-
-      &__pdf-button {
-        background-color: rgb(0, 0, 0);
-        color: white;
-      }
-    }
   }
 }
 mat-form-field {
@@ -117,4 +69,10 @@ button {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+}
+
+@media (max-width: 768px) {
+  .consultatii__data__all-consultations {
+    grid-template-columns: 1fr;
+  }
 }

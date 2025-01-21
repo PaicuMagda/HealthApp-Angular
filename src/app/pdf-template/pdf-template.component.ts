@@ -2,7 +2,6 @@ import { Component, Input, OnInit } from '@angular/core';
 import * as jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
 import { PatientsService } from '../services/patients.service';
-import { Observable } from 'rxjs';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -13,9 +12,9 @@ import { CommonModule } from '@angular/common';
   styleUrl: './pdf-template.component.scss',
 })
 export class PdfTemplateComponent implements OnInit {
-  @Input() patientCNP: string = ''; // Primim CNP-ul pacientului
-  @Input() consultation: any = null; // Consultația curentă
-  patient: any = null; // Datele pacientului
+  @Input() patientCNP: string = '';
+  @Input() consultation: any = null;
+  patient: any = null;
 
   constructor(private patientsService: PatientsService) {}
 
@@ -35,11 +34,10 @@ export class PdfTemplateComponent implements OnInit {
   }
 
   ngOnInit() {
-    // Ne asigurăm că `patientCNP` este disponibil
     if (this.patientCNP) {
       this.patientsService.getPatientData(this.patientCNP).subscribe(
         (response) => {
-          this.patient = response.patient; // Alocăm datele pacientului
+          this.patient = response.patient;
           console.log('Date pacient:', this.patient);
         },
         (error) => {
