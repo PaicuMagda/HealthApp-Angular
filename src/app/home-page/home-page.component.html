@@ -77,14 +77,15 @@
   <div class="display-patients__patients">
     <div
       class="display-patients__patients__cards"
-      *ngFor="let patient of filteredPatients"
+      *ngFor="let patient of filteredPatients || []"
       appHoverElement
     >
       <div
+        matTooltip="Adaugă sau vizualizează consultație."
         class="display-patients__patients__cards__small-image-left"
         (click)="openConsultationsPatient(patient.cnp)"
       >
-        <img src="../../assets/consultatie.png" alt="Small Image Left" />
+        <img src="../../assets/consultatie.png" />
       </div>
       <div
         class="display-patients__patients__cards__small-image-right"
@@ -93,6 +94,7 @@
         <img src="../../assets/delete-icon.png" alt="Small Image Right" />
       </div>
       <div
+        matTooltip="Click pentru a edita pacientul."
         class="display-patients__patients__cards__image"
         (click)="openDetailsPatient(patient.cnp)"
       >
@@ -114,12 +116,13 @@
       ></div>
 
       <div
+        matTooltip="Click pentru a edita pacientul."
         class="display-patients__patients__cards__informations"
         (click)="openDetailsPatient(patient.cnp)"
       >
         <span>Nume: {{ patient.nume }}{{ patient.prenume }}</span>
         <span> Vârstă: {{ patient.varsta }}</span>
-        <span>Dată: {{ patient.data_nasterii }}</span>
+        <span>CNP: {{ patient.cnp }}</span>
       </div>
     </div>
   </div>

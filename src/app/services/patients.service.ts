@@ -35,13 +35,14 @@ export class PatientsService {
     this.filteredPatientsSubject.next(filteredPatients);
   }
 
-  getPatientsByDoctor(doctorId: number): void {
+  getPatientsByDoctor(doctorId: any): void {
     this.http
       .get<any[]>(
         `${this.apiUrl}/patients/get-patients-by-doctor-id.php?doctor_id=${doctorId}`
       )
       .subscribe(
         (patients) => {
+          this.patientsSubject.next([]);
           this.patientsSubject.next(patients);
         },
         (error) => {
@@ -188,6 +189,27 @@ export class PatientsService {
     );
   }
 
+  updatePatient(patientId: number, updatedData: any): Observable<any> {
+    return this.http
+      .put<any>(`${this.apiUrl}/patients/update-patient.php`, {
+        patientId,
+        ...updatedData,
+      })
+      .pipe(
+        tap((response) => {
+          if (response.success) {
+            const currentPatients = this.patientsSubject.value;
+            const updatedPatients = currentPatients.map((patient) =>
+              patient.id === patientId
+                ? { ...patient, ...updatedData }
+                : patient
+            );
+            this.patientsSubject.next(updatedPatients);
+          }
+        })
+      );
+  }
+
   updateConsultation(
     consultationId: number,
     updatedData: any
@@ -214,5 +236,10 @@ export class PatientsService {
           }
         })
       );
+  }
+
+  isAuthenticated(): boolean {
+    const token = localStorage.getItem('user_id');
+    return !!token;
   }
 }

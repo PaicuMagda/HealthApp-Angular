@@ -16,6 +16,7 @@ import { DoctorService } from '../services/doctor.service';
 import { ToastrService } from 'ngx-toastr';
 import { Patient } from '../interfaces/patient';
 import { FormsModule } from '@angular/forms';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
   selector: 'app-home-page',
@@ -31,6 +32,7 @@ import { FormsModule } from '@angular/forms';
     MatCheckboxModule,
     FormsModule,
     CommonModule,
+    MatTooltipModule,
   ],
   templateUrl: './home-page.component.html',
   styleUrl: './home-page.component.scss',
@@ -61,6 +63,8 @@ export class HomePageComponent implements OnInit {
     date: null,
   };
   poza: string = '';
+  doctorRole: string | null = '';
+  doctorId: string | null = '';
 
   openDetailsPatient(pacientCnp: string) {
     this.dialog.open(PatientDetailsComponent, {
@@ -168,18 +172,23 @@ export class HomePageComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.doctorRole = localStorage.getItem('doctor_role');
+    this.doctorId = localStorage.getItem('user_id');
+
     this.doctorService.doctor$.subscribe((doctor) => {
       this.doctor = doctor;
-      if (doctor.role === 'doctor') {
-        this.patientsService.getPatientsByDoctor(doctor.id);
-      } else if (doctor.role === 'director') {
+      if (this.doctorRole === 'doctor') {
+        this.patientsService.getPatientsByDoctor(this.doctorId);
+      } else if (this.doctorRole === 'admin') {
         this.patientsService.loadInitialPatients();
       }
     });
+
     this.patientsService.patients$.subscribe((patients) => {
-      this.patients = patients;
+      this.patients = patients || [];
       this.filteredPatients = patients;
     });
+
     this.diagnostics = this.diagnosticsService.getDiagnostics();
   }
 }

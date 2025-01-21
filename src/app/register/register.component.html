@@ -3,7 +3,7 @@
   <div class="full-container__form">
     <form [formGroup]="userForm" *ngIf="isSignUp">
       <div class="full-container__form__icon">
-        <img src="../../assets/icon.png" />
+        <img src="../../assets/heart.gif" />
       </div>
       <div class="full-container__form__title">Crează cont</div>
       <div class="full-container__form__credentials">
@@ -49,9 +49,11 @@
 
     <form *ngIf="!isSignUp" [formGroup]="loginForm">
       <div class="full-container__login-form__icon">
-        <img src="../../assets/icon.png" />
+        <img src="../../assets/heart.gif" />
       </div>
-      <div class="full-container__login-form__title">Logare</div>
+      <div class="full-container__login-form__title" appHoverElement>
+        Logare
+      </div>
       <div class="full-container__login-form__credentials">
         <div>
           <mat-label>👨🏻‍💼 Username</mat-label>
@@ -64,8 +66,12 @@
       </div>
     </form>
     <div class="full-container__form__button">
-      <button *ngIf="isSignUp" (click)="submitSignUp()">Crează cont</button>
-      <button *ngIf="!isSignUp" (click)="submitLogin()">Logare</button>
+      <button *ngIf="isSignUp" (click)="submitSignUp()" appHoverElement>
+        Crează cont
+      </button>
+      <button *ngIf="!isSignUp" (click)="submitLogin()" appHoverElement>
+        Logare
+      </button>
 
       <div class="full-container__form__button__text">
         <p *ngIf="isSignUp">Aveți deja cont?</p>

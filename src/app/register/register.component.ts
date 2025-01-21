@@ -14,6 +14,7 @@ import { NgIf } from '@angular/common';
 import { NgToastModule } from 'ng-angular-popup';
 import { ToastrService } from 'ngx-toastr';
 import { DoctorService } from '../services/doctor.service';
+import { HoverElementDirective } from '../directives/hover-element.directive';
 
 @Component({
   selector: 'app-register',
@@ -25,6 +26,7 @@ import { DoctorService } from '../services/doctor.service';
     ReactiveFormsModule,
     NgIf,
     NgToastModule,
+    HoverElementDirective,
   ],
   templateUrl: './register.component.html',
   styleUrl: './register.component.scss',
@@ -114,7 +116,9 @@ export class RegisterComponent {
         next: (response: any) => {
           if (response.success) {
             const doctorId = response.user.id;
+            const doctorRole = response.user.role;
             localStorage.setItem('user_id', doctorId);
+            localStorage.setItem('doctor_role', doctorRole);
             this.doctorService.setIsLogin(true);
             this.doctorService.getDoctorById(doctorId).subscribe({
               next: (doctor) => {

@@ -126,7 +126,7 @@ export class AddNewPatientComponent implements OnInit {
 
     const closeDialogRef = this.dialog.open(ConfirmAdditionComponent, {
       width: '20%',
-      height: '18%',
+      height: '20%',
     });
     closeDialogRef.afterClosed().subscribe((result) => {
       setTimeout(() => {

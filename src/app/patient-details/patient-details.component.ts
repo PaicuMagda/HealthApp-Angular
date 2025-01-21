@@ -24,6 +24,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatSelectModule } from '@angular/material/select';
 import { ConfirmAdditionComponent } from '../confirmation-dialogs/confirm-addition/confirm-addition.component';
 import { ConsultatiiPacientComponent } from '../consultatii-pacient/consultatii-pacient.component';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-patient-details',
@@ -52,7 +53,8 @@ export class PatientDetailsComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any,
     private pacientService: PatientsService,
     private formBuilder: FormBuilder,
-    private judeteService: JudeteService
+    private judeteService: JudeteService,
+    private toastr: ToastrService
   ) {}
 
   imageProfileFileName: string | undefined;
@@ -143,7 +145,6 @@ export class PatientDetailsComponent implements OnInit {
       consum_alcool: formData.stilDeViata.consumAlcool,
       consum_droguri: formData.stilDeViata.consumDroguri,
     };
-    console.log(payload);
 
     const closeDialogRef = this.dialog.open(ConfirmAdditionComponent, {
       width: '20%',
@@ -234,6 +235,81 @@ export class PatientDetailsComponent implements OnInit {
     }
   }
 
+  saveChanges() {
+    if (this.patientForm.valid) {
+      const formData = this.patientForm.value;
+
+      const updatedPatientData = {
+        nume: formData.nume,
+        prenume: formData.prenume,
+        strada: formData.adresa.strada,
+        numar: formData.adresa.numar,
+        data_nasterii: formData.dataNasterii,
+        cnp: formData.cnp,
+        gen: formData.gen,
+        email: formData.email,
+        varsta: formData.varsta,
+        greutate: formData.greutate,
+        inaltime: formData.inaltime,
+        ocupatie: formData.ocupatie,
+        poza: this.imageProfile,
+        casa_de_asigurari: formData.casaDeAsigurari,
+        judet: formData.adresa.judet,
+        oras: formData.adresa.oras,
+        bloc: formData.adresa.bloc,
+        apartament: formData.adresa.apartament,
+        scara: formData.adresa.scara,
+        etaj: formData.adresa.etaj,
+        cod_postal: formData.adresa.cod_postal,
+        telefon: formData.telefon,
+        rh: formData.rh,
+        grupa_sanguina: formData.grupa_sanguina,
+        boli_cronice: formData.boli_cronice,
+        vaccinari: formData.vaccinari,
+        boli_ereditare: formData.boliEreditare,
+        boala: formData.boala,
+        dieta: formData.stilDeViata.dieta,
+        activitate_fizica: formData.stilDeViata.activitateFizica,
+        fumat: formData.stilDeViata.fumat,
+        consum_alcool: formData.stilDeViata.consumAlcool,
+        consum_droguri: formData.stilDeViata.consumDroguri,
+      };
+
+      const closeDialogRef = this.dialog.open(ConfirmAdditionComponent, {
+        width: '20%',
+        height: '18%',
+      });
+      closeDialogRef.afterClosed().subscribe((result) => {
+        setTimeout(() => {
+          if (result === 'yes') {
+            this.dialogRef.close();
+            this.pacientService
+              .updatePatient(this.pacient.id, updatedPatientData)
+              .subscribe(
+                (response) => {
+                  this.toastr.success(
+                    'Pacientul a fost actualizat cu succes!',
+                    'Succes'
+                  );
+                  console.log(
+                    'Pacientul a fost actualizat cu succes:',
+                    response
+                  );
+                },
+                (error) => {
+                  this.toastr.error(
+                    'A apărut o eroare la actualizarea pacientului!',
+                    'Eroare'
+                  );
+                  console.error('Eroare la actualizarea pacientului:', error);
+                }
+              );
+          }
+        }, 500);
+      });
+    }
+  }
+
   ngOnInit() {
     this.pacientId = this.data.pacientCnp;
 
@@ -285,6 +361,7 @@ export class PatientDetailsComponent implements OnInit {
     });
 
     this.doctorId = localStorage.getItem('user_id');
+
     this.patientForm.markAllAsTouched();
     this.patientForm.get('cnp')?.valueChanges.subscribe((cnp) => {
       if (this.validateCNP(cnp)) {
@@ -347,6 +424,7 @@ export class PatientDetailsComponent implements OnInit {
             cod_postal: result.adresa?.patient.cod_postal || '',
           },
         });
+        this.patientForm.markAsPristine();
       }
     });
   }

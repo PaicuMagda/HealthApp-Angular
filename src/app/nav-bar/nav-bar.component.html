@@ -1,11 +1,16 @@
 <mat-toolbar class="toolbar">
   <div class="toolbar__health-icon">
-    <img src="../../assets/icon.png" />
+    <img src="../../assets/heart.gif" />
     <span>HealthTrack</span>
-    <p *ngIf="isLogin">{{ doctor.nume }} {{ doctor.prenume }}</p>
+    <p>{{ doctor.nume }} {{ doctor.prenume }}</p>
   </div>
   <div class="toolbar__buttons">
-    <button appHoverElement class="toolbar__button" (click)="goToChartsPage()">
+    <button
+      *ngIf="doctorRole === 'admin'"
+      appHoverElement
+      class="toolbar__button"
+      (click)="goToChartsPage()"
+    >
       📊 CHARTS
     </button>
     <button

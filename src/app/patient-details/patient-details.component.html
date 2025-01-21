@@ -66,18 +66,16 @@
           <label class="add-new-patient__data-entered__first__data__cnp"
             >Data nașterii</label
           >
-          <mat-form-field appearance="outline" [ariaDisabled]="true">
+          <mat-form-field appearance="outline">
             <input
               matInput
               [matDatepicker]="picker"
               placeholder="Select date..."
               formControlName="dataNasterii"
-              [disabled]="true"
             />
             <mat-datepicker-toggle
               matIconSuffix
               [for]="picker"
-              [disabled]="true"
             ></mat-datepicker-toggle>
             <mat-datepicker #picker></mat-datepicker>
           </mat-form-field>
@@ -87,7 +85,7 @@
             >Vârstă</label
           >
           <mat-form-field appearance="outline">
-            <input matInput formControlName="varsta" [disabled]="true" />
+            <input matInput formControlName="varsta" />
           </mat-form-field>
         </div>
       </div>
@@ -99,7 +97,6 @@
               color="primary"
               [checked]="patientForm.get('gen')?.value === 'Feminin'"
               (change)="selectGen('Feminin')"
-              [disabled]="true"
               >Feminin</mat-checkbox
             >
 
@@ -107,7 +104,6 @@
               color="primary"
               [checked]="patientForm.get('gen')?.value === 'Masculin'"
               (change)="selectGen('Masculin')"
-              [disabled]="true"
               >Masculin</mat-checkbox
             >
           </section>
@@ -418,5 +414,7 @@
 
 <div *ngIf="selectedValue === 'Fișa pacientului'">
   <mat-divider></mat-divider>
-  <div class="bottons"><button>EDIT</button><button>SAVE</button></div>
+  <div class="bottons">
+    <button mat-button (click)="saveChanges()">EDIT</button>
+  </div>
 </div>

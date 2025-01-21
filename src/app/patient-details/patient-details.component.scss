@@ -201,3 +201,26 @@ input[type="file"] {
     color: white;
   }
 }
+
+.bottons button {
+  /* Stiluri generale pentru buton */
+  font-weight: bold;
+  margin-right: 10px; /* distanță între butoane */
+}
+
+button:disabled {
+  background-color: #ddd; /* culoare gri când este dezactivat */
+  color: #aaa;
+  cursor: not-allowed; /* cursorul nu este permis când butonul este dezactivat */
+}
+
+button.active {
+  background-color: #4caf50; /* culoare verde când este activat */
+  color: white;
+  border: 1px solid #388e3c;
+  cursor: pointer; /* cursorul devine pointer când este activ */
+}
+
+button.active:hover {
+  background-color: #45a049; /* culoare mai închisă la hover când este activ */
+}
