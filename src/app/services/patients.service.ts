@@ -192,11 +192,12 @@ export class PatientsService {
   updatePatient(patientId: number, updatedData: any): Observable<any> {
     return this.http
       .put<any>(`${this.apiUrl}/patients/update-patient.php`, {
-        patientId,
+        id: patientId,
         ...updatedData,
       })
       .pipe(
         tap((response) => {
+          console.log(response);
           if (response.success) {
             const currentPatients = this.patientsSubject.value;
             const updatedPatients = currentPatients.map((patient) =>

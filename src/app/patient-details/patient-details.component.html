@@ -122,10 +122,7 @@
 
           <mat-form-field appearance="outline">
             <mat-label>Oraș</mat-label>
-            <mat-select
-              formControlName="oras"
-              [disabled]="!patientForm.get('adresa.judet')?.value"
-            >
+            <mat-select formControlName="oras">
               <mat-option *ngFor="let oras of orase" [value]="oras">{{
                 oras
               }}</mat-option>
@@ -263,7 +260,7 @@
       <div class="mini-title">INFORMAȚII MEDICALE</div>
       <div class="add-new-patient__data-entered__second__data">
         <div class="mic">
-          <label>Greutate</label>
+          <label>Greutate()</label>
           <mat-form-field appearance="outline">
             <input
               matInput
@@ -278,15 +275,11 @@
           </mat-form-field>
         </div>
         <div class="mic">
-          <label>Înălțime</label>
+          <label>Înălțime(m)</label>
           <mat-form-field appearance="outline">
-            <input
-              matInput
-              formControlName="înălțime"
-              (keydown)="restrictInputToNumbers($event)"
-            />
+            <input type="number" matInput formControlName="inaltime" />
             <mat-error
-              *ngIf="patientForm.get('înălțime')?.hasError('required')"
+              *ngIf="patientForm.get('inaltime')?.hasError('required')"
             >
               Înălțimea este obligatorie.
             </mat-error>
@@ -369,7 +362,7 @@
         <div>
           <label>Activitate fizică</label>
           <mat-form-field appearance="outline">
-            <input matInput formControlName="activitateFizica" />
+            <input matInput formControlName="activitate_fizica" />
           </mat-form-field>
         </div>
         <div>
@@ -388,7 +381,7 @@
       </div>
     </div>
   </form>
-  <div id="consultatii-content">
+  <div id="consultatii-content" [ariaReadOnly]="true">
     <app-consultatii-pacient></app-consultatii-pacient>
   </div>
   <mat-divider></mat-divider>

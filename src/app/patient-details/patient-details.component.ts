@@ -274,74 +274,107 @@ export class PatientDetailsComponent implements OnInit {
     if (this.patientForm.valid) {
       const formData = this.patientForm.value;
 
-      const updatedPatientData = {
-        nume: formData.nume,
-        prenume: formData.prenume,
-        strada: formData.adresa.strada,
-        numar: formData.adresa.numar,
-        data_nasterii: formData.dataNasterii,
-        cnp: formData.cnp,
-        gen: formData.gen,
-        email: formData.email,
-        varsta: formData.varsta,
-        greutate: formData.greutate,
-        inaltime: formData.inaltime,
-        ocupatie: formData.ocupatie,
-        poza: this.imageProfile,
-        casa_de_asigurari: formData.casaDeAsigurari,
-        judet: formData.adresa.judet,
-        oras: formData.adresa.oras,
-        bloc: formData.adresa.bloc,
-        apartament: formData.adresa.apartament,
-        scara: formData.adresa.scara,
-        etaj: formData.adresa.etaj,
-        cod_postal: formData.adresa.cod_postal,
-        telefon: formData.telefon,
-        rh: formData.rh,
-        grupa_sanguina: formData.grupa_sanguina,
-        boli_cronice: formData.boli_cronice,
-        vaccinari: formData.vaccinari,
-        boli_ereditare: formData.boliEreditare,
-        boala: formData.boala,
-        dieta: formData.stilDeViata.dieta,
-        activitate_fizica: formData.stilDeViata.activitateFizica,
-        fumat: formData.stilDeViata.fumat,
-        consum_alcool: formData.stilDeViata.consumAlcool,
-        consum_droguri: formData.stilDeViata.consumDroguri,
+      // const updatedPatientData = {
+      //   doctor_id: this.doctorId,
+      //   nume: formData.nume || this.pacient.nume,
+      //   prenume: formData.prenume || this.pacient.prenume,
+      //   strada: formData.adresa.strada || this.pacient.strada,
+      //   numar: formData.adresa.numar || this.pacient.numar,
+      //   data_nasterii: formData.dataNasterii || this.pacient.data_nasterii,
+      //   cnp: formData.cnp || this.pacient.cnp,
+      //   gen: formData.gen || this.pacient.gen,
+      //   email: formData.email || this.pacient.email,
+      //   varsta: formData.varsta || this.pacient.varsta,
+
+      //   greutate: formData.greutate || this.pacient.greutate,
+      //   inaltime: formData.inaltime || this.pacient.inaltime,
+      //   ocupatie: formData.ocupatie || this.pacient.ocupatie,
+      //   poza: this.imageProfile || this.pacient.poza,
+      //   casa_de_asigurari:
+      //     formData.casaDeAsigurari || this.pacient.casa_de_asigurari,
+      //   judet: formData.adresa.judet || this.pacient.judet,
+      //   oras: formData.adresa.oras || this.pacient.oras,
+      //   bloc: formData.adresa.bloc || this.pacient.bloc,
+      //   apartament: formData.adresa.apartament || this.pacient.apartament,
+      //   scara: formData.adresa.scara || this.pacient.scara,
+
+      //   etaj: formData.adresa.etaj || this.pacient.etaj,
+      //   cod_postal: formData.adresa.cod_postal || this.pacient.cod_postal,
+      //   telefon: formData.telefon || this.pacient.telefon,
+      //   rh: formData.rh || this.pacient.rh,
+      //   grupa_sanguina: formData.grupa_sanguina || this.pacient.grupa_sanguina,
+      //   boli_cronice: formData.boli_cronice || this.pacient.boli_cronice,
+      //   vaccinari: formData.vaccinari || this.pacient.vaccinari,
+      //   boli_ereditare: formData.boliEreditare || this.pacient.boli_ereditare,
+      //   boala: formData.boala || this.pacient.boala,
+      //   dieta: formData.stilDeViata.dieta || this.pacient.dieta,
+
+      //   activitate_fizica:
+      //     formData.stilDeViata.activitate_fizica ||
+      //     this.pacient.activitate_fizica,
+      //   fumat: formData.stilDeViata.fumat || this.pacient.fumat,
+      //   consum_alcool:
+      //     formData.stilDeViata.consumAlcool || this.pacient.consum_alcool,
+      //   consum_droguri:
+      //     formData.stilDeViata.consumDroguri || this.pacient.consum_droguri,
+      // };
+
+      const patientData = {
+        id: 1,
+        nume: 'Popescu',
+        prenume: 'Ion',
+        cnp: '2901234567890',
+        email: 'ion.popescu@email.com',
+        varsta: 45,
+        greutate: 80.5,
+        inaltime: 1.8,
+        ocupatie: 'Inginer',
+        telefon: '0712345678',
+        rh: 'O-',
+        grupa_sanguina: 'O',
+        boli_cronice: 'Hipertensiune',
+        vaccinari: 'Da',
+        boli_ereditare: 'Da',
+        boala: 'Diabet',
+        dieta: 'Vegetarian',
+        activitate_fizica: 'Moderata',
+        fumat: 0,
+        consum_alcool: 1,
+        consum_droguri: 0,
+        judet: 'Ilfov',
+        oras: 'București',
+        strada: 'Strada Exemplu',
+        numar: '12',
+        bloc: 'A',
+        apartament: '34',
+        scara: 'B',
+        etaj: '3',
+        cod_postal: '123456',
       };
 
       const closeDialogRef = this.dialog.open(ConfirmAdditionComponent, {
         width: '20%',
-        height: '18%',
+        height: '20%',
       });
       closeDialogRef.afterClosed().subscribe((result) => {
         setTimeout(() => {
           if (result === 'yes') {
             this.dialogRef.close();
             this.pacientService
-              .updatePatient(this.pacient.id, updatedPatientData)
+              .updatePatient(this.pacient.id, patientData)
               .subscribe(
                 (response) => {
-                  this.toastr.success(
-                    'Pacientul a fost actualizat cu succes!',
-                    'Succes'
-                  );
-                  console.log(
-                    'Pacientul a fost actualizat cu succes:',
-                    response
-                  );
+                  this.toastr.success('Pacientul a fost actualizat!', 'Succes');
                 },
                 (error) => {
-                  this.toastr.error(
-                    'A apărut o eroare la actualizarea pacientului!',
-                    'Eroare'
-                  );
                   console.error('Eroare la actualizarea pacientului:', error);
                 }
               );
           }
-        }, 500);
+        }, 100);
       });
+    } else {
+      this.toastr.error('Formularul este incomplet sau incorect!', 'Eroare');
     }
   }
 
@@ -374,8 +407,8 @@ export class PatientDetailsComponent implements OnInit {
       ],
       email: ['', [Validators.required, Validators.email]],
       varsta: [''],
-      greutate: ['', [Validators.required, Validators.pattern(/^\d+$/)]],
-      înălțime: ['', [Validators.required, Validators.pattern(/^\d+$/)]],
+      greutate: ['', [Validators.required]],
+      inaltime: [''],
       ocupatie: [''],
       cid: [''],
       casaDeAsigurari: [''],
@@ -388,7 +421,7 @@ export class PatientDetailsComponent implements OnInit {
       boala: [''],
       stilDeViata: this.formBuilder.group({
         dieta: [''],
-        activitateFizica: [''],
+        activitate_fizica: [''],
         fumat: [false],
         consumAlcool: [false],
         consumDroguri: [false],
@@ -430,7 +463,7 @@ export class PatientDetailsComponent implements OnInit {
           email: result.patient.email || '',
           varsta: result.patient.varsta || '',
           greutate: result.patient.greutate || '',
-          înălțime: result.patient.inaltime || '',
+          inaltime: result.patient.inaltime || '',
           ocupatie: result.patient.ocupatie || '',
           telefon: result.patient.telefon || '',
           rh: result.patient.rh || '',
@@ -440,30 +473,26 @@ export class PatientDetailsComponent implements OnInit {
           boliEreditare: result.patient.boli_ereditare || '',
           boala: result.patient.boala || '',
           stilDeViata: {
-            dieta: result.patient.stilDeViata?.dieta || '',
-            activitateFizica:
-              result.patient.stilDeViata?.activitateFizica || '',
-            fumat: result.stilDeViata?.patient.fumat || false,
-            consumAlcool: result.stilDeViata?.patient.consumAlcool || false,
-            consumDroguri: result.stilDeViata?.patient.consumDroguri || false,
+            dieta: result.patient.dieta || '',
+            activitate_fizica: result.patient.activitate_fizica || '',
+            fumat: !!result.patient.fumat,
+            consumAlcool: !!result.patient.consum_alcool,
+            consumDroguri: !!result.patient.consum_droguri,
           },
           adresa: {
-            judet: result.adresa?.patient.judet || '',
-            oras: result.adresa?.patient.oras || '',
-            strada: result.adresa?.patient.strada || '',
-            numar: result.adresa?.patient.numar || '',
-            bloc: result.adresa?.patient.bloc || '',
-            apartament: result.adresa?.apartament || '',
-            scara: result.adresa?.patient.scara || '',
-            etaj: result.adresa?.patient.etaj || '',
-            cod_postal: result.adresa?.patient.cod_postal || '',
+            judet: result.patient?.judet || '',
+            oras: result.patient?.oras || '',
+            strada: result.patient?.strada || '',
+            numar: result.patient?.numar || '',
+            bloc: result.patient?.bloc || '',
+            apartament: result.patient?.apartament || '',
+            scara: result.patient?.scara || '',
+            etaj: result.patient?.etaj || '',
+            cod_postal: result.patient?.cod_postal || '',
           },
         });
         this.patientForm.markAsPristine();
       }
     });
   }
-}
-function html2pdf() {
-  throw new Error('Function not implemented.');
 }

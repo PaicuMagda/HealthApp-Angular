@@ -270,7 +270,7 @@
         <div class="mini-title">INFORMAȚII MEDICALE</div>
         <div class="add-new-patient__data-entered__second__data">
           <div class="mic">
-            <label>Greutate</label>
+            <label>Greutate(kg)</label>
             <mat-form-field appearance="outline">
               <input
                 matInput
@@ -285,15 +285,11 @@
             </mat-form-field>
           </div>
           <div class="mic">
-            <label>Înălțime</label>
+            <label>Înălțime(m)</label>
             <mat-form-field appearance="outline">
-              <input
-                matInput
-                formControlName="înălțime"
-                (keydown)="restrictInputToNumbers($event)"
-              />
+              <input type="number" matInput formControlName="inaltime" />
               <mat-error
-                *ngIf="patientForm.get('înălțime')?.hasError('required')"
+                *ngIf="patientForm.get('inaltime')?.hasError('required')"
               >
                 Înălțimea este obligatorie.
               </mat-error>

@@ -9,6 +9,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { PatientsService } from '../services/patients.service';
 import { DiagnosticsService } from '../services/diagnostics.service';
 import { MatInputModule } from '@angular/material/input';
+import { ChartsService } from '../services/charts.service';
 
 @Component({
   selector: 'app-charts',
@@ -29,12 +30,15 @@ import { MatInputModule } from '@angular/material/input';
 export class ChartsComponent implements OnInit {
   constructor(
     private patientsService: PatientsService,
-    private diagnosticsService: DiagnosticsService
+    private diagnosticsService: DiagnosticsService,
+    private chartsService: ChartsService
   ) {}
 
   diagnostics: any[];
   doctor: any;
   patients: Patient[] = [];
+  dataForCharts: any;
+
   public chartType: ChartType = ChartType.ColumnChart;
   public chartData: any[] = [];
   public chartOptions = {
