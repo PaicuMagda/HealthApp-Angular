@@ -1,55 +1,19 @@
 <app-nav-bar></app-nav-bar>
-<div class="charts-container">
-  <div class="display-patients__search">
-    <div>
-      <span>Diagnostics</span>
-      <div class="display-patients__search__diagnostics">
-        <button
-          *ngFor="let diagnostic of diagnostics"
-          mat-button
-          [ngClass]="
-            diagnostic.isSelected
-              ? 'display-patients__search__diagnostics__button-no-clicked'
-              : 'display-patients__search__diagnostics__button-clicked'
-          "
-          (click)="toggleDiagnosticSelection(diagnostic)"
-        >
-          {{ "❤️" + " " + diagnostic.nume + "🖤" }}
-        </button>
-      </div>
-    </div>
-    <div>
-      <span>Nume</span>
-      <mat-form-field appearance="outline">
-        <input matInput />
-      </mat-form-field>
-    </div>
-    <div>
-      <span>Număr de telefon</span>
-      <mat-form-field appearance="outline">
-        <input matInput />
-      </mat-form-field>
-    </div>
-    <div>
-      <span>CNP</span>
-      <mat-form-field appearance="outline">
-        <input matInput />
-      </mat-form-field>
-    </div>
-    <div>
-      <span>Gen</span>
-      <mat-checkbox color="primary">Feminin</mat-checkbox>
-      <mat-checkbox color="primary">Masculin</mat-checkbox>
-    </div>
+<div class="charts">
+  <div>
+    <google-chart
+      [type]="chartType1"
+      [data]="chartData1"
+      [options]="chartOptions1"
+    >
+    </google-chart>
   </div>
-  <div class="charts">
-    <div>
-      <google-chart
-        [type]="chartType"
-        [data]="chartData"
-        [options]="chartOptions"
-      >
-      </google-chart>
-    </div>
+  <div>
+    <google-chart
+      [type]="chartType2"
+      [data]="chartData2"
+      [options]="chartOptions2"
+    >
+    </google-chart>
   </div>
 </div>

@@ -12,8 +12,6 @@ export class ChartsService {
     'http://localhost//healthApp-php/PATIENTS/data_for_charts.php';
 
   getDataForCharts(): Observable<any> {
-    return this.http.get<any>(
-      `http://localhost//healthApp-php/PATIENTS/data_for_charts.php`
-    );
+    return this.http.get<any>(`${this.apiUrl}`);
   }
 }
