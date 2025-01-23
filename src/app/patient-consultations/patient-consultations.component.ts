@@ -57,7 +57,7 @@ export class PatientConsultationsComponent implements OnInit {
   consultations: any[] = [];
   isEditing: { [key: number]: boolean } = {};
   editableConsultation: any = {};
-  viewConsultatie: boolean = false;
+  viewConsultatieState: { [key: number]: boolean } = {};
   selectedConsultation: any = null;
 
   constructor(
@@ -78,11 +78,11 @@ export class PatientConsultationsComponent implements OnInit {
   }
 
   toggleConsultatie(consultation: any) {
+    this.viewConsultatieState[consultation.nr_consultatie] =
+      !this.viewConsultatieState[consultation.nr_consultatie];
     this.selectedConsultation = consultation;
-    this.viewConsultatie = !this.viewConsultatie;
     this.cdr.detectChanges();
   }
-
   addConsultation(): void {
     const formData = this.consultatieForm.value;
     const payload = {

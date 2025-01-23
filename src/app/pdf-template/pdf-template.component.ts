@@ -3,11 +3,13 @@ import * as jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
 import { PatientsService } from '../services/patients.service';
 import { CommonModule } from '@angular/common';
+import { MatDividerModule } from '@angular/material/divider';
+import { DoctorService } from '../services/doctor.service';
 
 @Component({
   selector: 'app-pdf-template',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, MatDividerModule],
   templateUrl: './pdf-template.component.html',
   styleUrl: './pdf-template.component.scss',
 })
@@ -15,8 +17,12 @@ export class PdfTemplateComponent implements OnInit {
   @Input() patientCNP: string = '';
   @Input() consultation: any = null;
   patient: any = null;
+  doctor: any;
 
-  constructor(private patientsService: PatientsService) {}
+  constructor(
+    private patientsService: PatientsService,
+    private doctorService: DoctorService
+  ) {}
 
   exportPDF() {
     const data = document.getElementById('content');
@@ -47,5 +53,10 @@ export class PdfTemplateComponent implements OnInit {
     } else {
       console.warn('CNP-ul pacientului nu este setat.');
     }
+
+    this.doctorService.doctor$.subscribe((result) => {
+      this.doctor = result;
+      console.log(result);
+    });
   }
 }
