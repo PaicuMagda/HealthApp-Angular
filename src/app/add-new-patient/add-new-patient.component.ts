@@ -14,6 +14,8 @@ import { ConfirmAdditionComponent } from '../confirmation-dialogs/confirm-additi
 import { JudeteService } from '../services/judete.service';
 import { MatSelectModule } from '@angular/material/select';
 
+// trying to push something, first clone
+
 @Component({
   selector: 'app-add-new-patient',
   standalone: true,
@@ -49,7 +51,7 @@ export class AddNewPatientComponent implements OnInit {
     private dialog: MatDialog,
     private formBuilder: FormBuilder,
     private patientService: PatientsService,
-    private judeteService: JudeteService
+    private judeteService: JudeteService,
   ) {}
 
   onFileSelectedImageProfile(event: any) {
@@ -202,7 +204,7 @@ export class AddNewPatientComponent implements OnInit {
         },
         (error) => {
           console.error('Eroare la încărcarea orașelor:', error);
-        }
+        },
       );
     }
   }
