@@ -32,7 +32,7 @@ export class NavBarComponent implements OnInit {
     private doctorService: DoctorService,
     private pdfService: PdfService,
     private patientService: PatientsService,
-    private router: Router
+    private router: Router,
   ) {}
 
   openAddNewPatient() {

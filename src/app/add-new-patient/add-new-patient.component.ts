@@ -14,8 +14,6 @@ import { ConfirmAdditionComponent } from '../confirmation-dialogs/confirm-additi
 import { JudeteService } from '../services/judete.service';
 import { MatSelectModule } from '@angular/material/select';
 
-// trying to push something, first clone
-
 @Component({
   selector: 'app-add-new-patient',
   standalone: true,

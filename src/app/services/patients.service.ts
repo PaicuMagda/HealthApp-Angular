@@ -18,17 +18,26 @@ export class PatientsService {
   private consultationsSubject = new BehaviorSubject<any[]>([]);
   public consultations$ = this.consultationsSubject.asObservable();
 
-  private apiUrl = 'http://localhost/healthApp-php';
+  private apiUrl = 'http://localhost:5003/api';
 
   loadInitialPatients(): void {
-    this.http.get<any[]>(`${this.apiUrl}/patients/get-patients.php`).subscribe(
-      (patients) => {
-        this.patientsSubject.next(patients);
-      },
-      (error) => {
-        console.error('Eroare la încărcarea pacienților:', error);
-      }
-    );
+    const doctorId = localStorage.getItem('user_id');
+
+    if (!doctorId) {
+      console.error('Doctorul nu este logat!');
+      return;
+    }
+
+    this.http
+      .get<any[]>(`${this.apiUrl}/Patients/${doctorId}/get-patients`)
+      .subscribe(
+        (patients) => {
+          this.patientsSubject.next(patients);
+        },
+        (error) => {
+          console.error('Eroare la încărcarea pacienților:', error);
+        },
+      );
   }
 
   updateFilteredPatients(filteredPatients: Patient[]): void {
@@ -37,9 +46,7 @@ export class PatientsService {
 
   getPatientsByDoctor(doctorId: any): void {
     this.http
-      .get<any[]>(
-        `${this.apiUrl}/patients/get-patients-by-doctor-id.php?doctor_id=${doctorId}`
-      )
+      .get<any[]>(`${this.apiUrl}/Patients/${doctorId}/get-patients`)
       .subscribe(
         (patients) => {
           this.patientsSubject.next([]);
@@ -48,15 +55,15 @@ export class PatientsService {
         (error) => {
           console.error(
             'Eroare la obținerea pacienților pentru doctor:',
-            error
+            error,
           );
-        }
+        },
       );
   }
 
   getPatientData(cnp: string): Observable<any> {
     return this.http.get<any>(
-      `${this.apiUrl}/patients/get-patient.php?cnp=${cnp}`
+      `${this.apiUrl}/patients/get-patient.php?cnp=${cnp}`,
     );
   }
 
@@ -71,23 +78,23 @@ export class PatientsService {
       .pipe(
         tap(() => {
           const updatedPatients = this.patientsSubject.value.filter(
-            (patient) => patient.id !== patientId
+            (patient) => patient.id !== patientId,
           );
           this.patientsSubject.next(updatedPatients);
-        })
+        }),
       );
   }
 
   addPatient(newPatient: any): Observable<any> {
     return this.http
-      .post<any>(`${this.apiUrl}/patients/add-patient.php`, newPatient)
+      .post<any>(`${this.apiUrl}/Patients/add-patient`, newPatient)
       .pipe(
         tap((response) => {
           if (response.success) {
             const currentPatients = this.patientsSubject.value;
             this.patientsSubject.next([...currentPatients, response.patient]);
           }
-        })
+        }),
       );
   }
 
@@ -95,7 +102,7 @@ export class PatientsService {
     return this.http
       .post<any>(
         `${this.apiUrl}/consultatii/add-consultation.php`,
-        newConsultation
+        newConsultation,
       )
       .pipe(
         tap((response) => {
@@ -106,7 +113,7 @@ export class PatientsService {
               response.consultatie,
             ]);
           }
-        })
+        }),
       );
   }
 
@@ -120,13 +127,13 @@ export class PatientsService {
           } else {
             console.error(
               'Eroare la obținerea consultațiilor:',
-              response.message
+              response.message,
             );
           }
         },
         (error) => {
           console.error('Eroare la obținerea consultațiilor:', error);
-        }
+        },
       );
   }
 
@@ -137,18 +144,18 @@ export class PatientsService {
         `${this.apiUrl}/consultatii/delete-consultation.php`,
         {
           body: { cnp, nr_consultatie },
-        }
+        },
       )
       .pipe(
         tap((response) => {
           if (response.success) {
             const currentConsultations = this.consultationsSubject.value;
             const updatedConsultations = currentConsultations.filter(
-              (c) => c.nr_consultatie !== nr_consultatie
+              (c) => c.nr_consultatie !== nr_consultatie,
             );
             this.consultationsSubject.next(updatedConsultations);
           }
-        })
+        }),
       );
   }
 
@@ -172,7 +179,7 @@ export class PatientsService {
             name,
             count: counts[name],
           }));
-        })
+        }),
       );
   }
 
@@ -184,8 +191,8 @@ export class PatientsService {
         patients.map((patient) => ({
           name: `${patient.nume} ${patient.prenume}`,
           count: patient.consultations.length,
-        }))
-      )
+        })),
+      ),
     );
   }
 
@@ -203,17 +210,17 @@ export class PatientsService {
             const updatedPatients = currentPatients.map((patient) =>
               patient.id === patientId
                 ? { ...patient, ...updatedData }
-                : patient
+                : patient,
             );
             this.patientsSubject.next(updatedPatients);
           }
-        })
+        }),
       );
   }
 
   updateConsultation(
     consultationId: number,
-    updatedData: any
+    updatedData: any,
   ): Observable<any> {
     return this.http
       .put<any>(`${this.apiUrl}/consultatii/update-consultation.php`, {
@@ -225,7 +232,7 @@ export class PatientsService {
           if (response.success) {
             const currentConsultations = this.consultationsSubject.value;
             const index = currentConsultations.findIndex(
-              (c) => c.nr_consultatie === consultationId
+              (c) => c.nr_consultatie === consultationId,
             );
             if (index !== -1) {
               currentConsultations[index] = {
@@ -235,7 +242,7 @@ export class PatientsService {
               this.consultationsSubject.next([...currentConsultations]);
             }
           }
-        })
+        }),
       );
   }
 

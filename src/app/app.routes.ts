@@ -17,7 +17,7 @@ export const routes: Routes = [
   },
   {
     path: 'home-page',
-    canActivate: [authGuard],
+    // canActivate: [authGuard],
     component: HomePageComponent,
   },
   {

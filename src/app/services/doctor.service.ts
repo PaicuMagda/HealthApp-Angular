@@ -6,7 +6,7 @@ import { BehaviorSubject, Observable, tap } from 'rxjs';
   providedIn: 'root',
 })
 export class DoctorService {
-  private apiUrl = 'http://localhost//healthApp-php/doctor';
+  private apiUrl = 'http://localhost:5003/api/Auth';
 
   private doctorSubject = new BehaviorSubject<any>(null);
   public doctor$ = this.doctorSubject.asObservable();
@@ -29,8 +29,7 @@ export class DoctorService {
   }
 
   getDoctorById(id: number): Observable<any> {
-    const params = new HttpParams().set('id', id.toString());
-    return this.http.get(`${this.apiUrl}/get-doctor-by-id.php`, { params });
+    return this.http.get(`${this.apiUrl}/get-doctor-by-id/${id}`);
   }
 
   loginDoctor(username: string, password: string): Observable<any> {
@@ -40,7 +39,7 @@ export class DoctorService {
     const body = JSON.stringify({ username, password });
 
     return this.http
-      .post(`${this.apiUrl}/login.php`, body, {
+      .post(`${this.apiUrl}/login`, body, {
         headers,
         responseType: 'json',
       })
@@ -51,7 +50,7 @@ export class DoctorService {
           } else {
             this.doctorSubject.next(null);
           }
-        })
+        }),
       );
   }
 
@@ -64,6 +63,6 @@ export class DoctorService {
     email: string;
     password: string;
   }): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}/register.php`, user);
+    return this.http.post<any>(`${this.apiUrl}/register`, user);
   }
 }
