@@ -60,10 +60,8 @@ export class PatientsService {
       );
   }
 
-  getPatientData(cnp: string): Observable<any> {
-    return this.http.get<any>(
-      `${this.apiUrl}/patients/get-patient.php?cnp=${cnp}`,
-    );
+  getPatientData(cnp: string): Observable<Patient> {
+    return this.http.get<Patient>(`${this.apiUrl}/Patients/get-patient/${cnp}`);
   }
 
   updatePatients(newPatient: any): void {
@@ -197,13 +195,12 @@ export class PatientsService {
 
   updatePatient(patientId: number, updatedData: any): Observable<any> {
     return this.http
-      .put<any>(`${this.apiUrl}/patients/update-patient.php`, {
-        id: patientId,
-        ...updatedData,
-      })
+      .put<any>(
+        `${this.apiUrl}/Patients/update-patient/${patientId}`,
+        updatedData,
+      )
       .pipe(
         tap((response) => {
-          console.log(response);
           if (response.success) {
             const currentPatients = this.patientsSubject.value;
             const updatedPatients = currentPatients.map((patient) =>

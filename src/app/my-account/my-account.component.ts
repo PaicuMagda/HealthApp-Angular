@@ -11,7 +11,7 @@ import {
   ReactiveFormsModule,
 } from '@angular/forms';
 import { MatSelectModule } from '@angular/material/select';
-import { NgFor, NgIf } from '@angular/common';
+import { NgIf } from '@angular/common';
 import { DoctorService } from '../services/doctor.service';
 import { ToastrService } from 'ngx-toastr';
 
@@ -24,7 +24,6 @@ import { ToastrService } from 'ngx-toastr';
     MatInputModule,
     MatSelectModule,
     FormsModule,
-    NgFor,
     ReactiveFormsModule,
     NgIf,
   ],

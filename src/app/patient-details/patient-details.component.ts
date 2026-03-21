@@ -56,7 +56,7 @@ export class PatientDetailsComponent implements OnInit {
     private pacientService: PatientsService,
     private formBuilder: FormBuilder,
     private judeteService: JudeteService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
   ) {}
 
   imageProfileFileName: string | undefined;
@@ -259,7 +259,7 @@ export class PatientDetailsComponent implements OnInit {
         },
         (error) => {
           console.error('Eroare la încărcarea orașelor:', error);
-        }
+        },
       );
     }
   }
@@ -271,111 +271,78 @@ export class PatientDetailsComponent implements OnInit {
   }
 
   saveChanges() {
-    if (this.patientForm.valid) {
-      const formData = this.patientForm.value;
-
-      // const updatedPatientData = {
-      //   doctor_id: this.doctorId,
-      //   nume: formData.nume || this.pacient.nume,
-      //   prenume: formData.prenume || this.pacient.prenume,
-      //   strada: formData.adresa.strada || this.pacient.strada,
-      //   numar: formData.adresa.numar || this.pacient.numar,
-      //   data_nasterii: formData.dataNasterii || this.pacient.data_nasterii,
-      //   cnp: formData.cnp || this.pacient.cnp,
-      //   gen: formData.gen || this.pacient.gen,
-      //   email: formData.email || this.pacient.email,
-      //   varsta: formData.varsta || this.pacient.varsta,
-
-      //   greutate: formData.greutate || this.pacient.greutate,
-      //   inaltime: formData.inaltime || this.pacient.inaltime,
-      //   ocupatie: formData.ocupatie || this.pacient.ocupatie,
-      //   poza: this.imageProfile || this.pacient.poza,
-      //   casa_de_asigurari:
-      //     formData.casaDeAsigurari || this.pacient.casa_de_asigurari,
-      //   judet: formData.adresa.judet || this.pacient.judet,
-      //   oras: formData.adresa.oras || this.pacient.oras,
-      //   bloc: formData.adresa.bloc || this.pacient.bloc,
-      //   apartament: formData.adresa.apartament || this.pacient.apartament,
-      //   scara: formData.adresa.scara || this.pacient.scara,
-
-      //   etaj: formData.adresa.etaj || this.pacient.etaj,
-      //   cod_postal: formData.adresa.cod_postal || this.pacient.cod_postal,
-      //   telefon: formData.telefon || this.pacient.telefon,
-      //   rh: formData.rh || this.pacient.rh,
-      //   grupa_sanguina: formData.grupa_sanguina || this.pacient.grupa_sanguina,
-      //   boli_cronice: formData.boli_cronice || this.pacient.boli_cronice,
-      //   vaccinari: formData.vaccinari || this.pacient.vaccinari,
-      //   boli_ereditare: formData.boliEreditare || this.pacient.boli_ereditare,
-      //   boala: formData.boala || this.pacient.boala,
-      //   dieta: formData.stilDeViata.dieta || this.pacient.dieta,
-
-      //   activitate_fizica:
-      //     formData.stilDeViata.activitate_fizica ||
-      //     this.pacient.activitate_fizica,
-      //   fumat: formData.stilDeViata.fumat || this.pacient.fumat,
-      //   consum_alcool:
-      //     formData.stilDeViata.consumAlcool || this.pacient.consum_alcool,
-      //   consum_droguri:
-      //     formData.stilDeViata.consumDroguri || this.pacient.consum_droguri,
-      // };
-
-      const patientData = {
-        id: 1,
-        nume: 'Popescu',
-        prenume: 'Ion',
-        cnp: '2901234567890',
-        email: 'ion.popescu@email.com',
-        varsta: 45,
-        greutate: 80.5,
-        inaltime: 1.8,
-        ocupatie: 'Inginer',
-        telefon: '0712345678',
-        rh: 'O-',
-        grupa_sanguina: 'O',
-        boli_cronice: 'Hipertensiune',
-        vaccinari: 'Da',
-        boli_ereditare: 'Da',
-        boala: 'Diabet',
-        dieta: 'Vegetarian',
-        activitate_fizica: 'Moderata',
-        fumat: 0,
-        consum_alcool: 1,
-        consum_droguri: 0,
-        judet: 'Ilfov',
-        oras: 'București',
-        strada: 'Strada Exemplu',
-        numar: '12',
-        bloc: 'A',
-        apartament: '34',
-        scara: 'B',
-        etaj: '3',
-        cod_postal: '123456',
-      };
-
-      const closeDialogRef = this.dialog.open(ConfirmAdditionComponent, {
-        width: '20%',
-        height: '20%',
-      });
-      closeDialogRef.afterClosed().subscribe((result) => {
-        setTimeout(() => {
-          if (result === 'yes') {
-            this.dialogRef.close();
-            this.pacientService
-              .updatePatient(this.pacient.id, patientData)
-              .subscribe(
-                (response) => {
-                  this.toastr.success('Pacientul a fost actualizat!', 'Succes');
-                },
-                (error) => {
-                  console.error('Eroare la actualizarea pacientului:', error);
-                }
-              );
-          }
-        }, 100);
-      });
-    } else {
-      this.toastr.error('Formularul este incomplet sau incorect!', 'Eroare');
+    if (!this.patientForm.valid) {
+      this.toastr.error('Formular invalid!', 'Error');
+      return;
     }
+
+    const formData = this.patientForm.value;
+
+    const payload = {
+      doctorId: Number(this.doctorId),
+
+      firstName: formData.nume,
+      lastName: formData.prenume,
+      cnp: formData.cnp,
+      birthDate: formData.dataNasterii,
+      age: formData.varsta,
+      gender: formData.gen,
+      occupation: formData.ocupatie,
+
+      email: formData.email,
+      phone: formData.telefon, // ✅ FIX
+
+      county: formData.adresa.judet,
+      city: formData.adresa.oras, // ✅ FIX
+      street: formData.adresa.strada,
+      number: formData.adresa.numar,
+      block: formData.adresa.bloc,
+      apartment: formData.adresa.apartament,
+      staircase: formData.adresa.scara,
+      floor: formData.adresa.etaj,
+      postalCode: formData.adresa.cod_postal,
+
+      weight: formData.greutate,
+      height: formData.inaltime,
+      bloodType: formData.grupa_sanguina,
+      rh: formData.rh,
+
+      insuranceCompany: formData.casaDeAsigurari,
+      insuranceId: formData.cid,
+
+      chronicDiseases: formData.boli_cronice,
+      vaccinations: formData.vaccinari,
+      hereditaryDiseases: formData.boliEreditare,
+      otherDiseases: formData.boala,
+
+      diet: formData.stilDeViata.dieta,
+      physicalActivity: formData.stilDeViata.activitate_fizica,
+      smoker: formData.stilDeViata.fumat,
+      alcoholConsumer: formData.stilDeViata.consumAlcool,
+      drugConsumer: formData.stilDeViata.consumDroguri,
+
+      profileImage: this.imageProfile || this.pacient?.profileImage,
+    };
+
+    const dialogRef = this.dialog.open(ConfirmAdditionComponent, {
+      width: '20%',
+      height: '20%',
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result === 'yes') {
+        this.pacientService.updatePatient(this.pacient.id, payload).subscribe({
+          next: () => {
+            this.toastr.success('Patient updated successfully');
+            this.dialogRef.close(true);
+          },
+          error: (err) => {
+            console.error(err);
+            this.toastr.error('Update failed');
+          },
+        });
+      }
+    });
   }
 
   ngOnInit() {
@@ -452,47 +419,73 @@ export class PatientDetailsComponent implements OnInit {
       this.judete = județe;
     });
 
-    this.pacientService.getPatientData(this.pacientId).subscribe((result) => {
-      this.pacient = result;
+    this.pacientService.getPatientData(this.pacientId).subscribe({
+      next: (patient) => {
+        if (!patient) return;
 
-      if (this.pacient) {
+        this.pacient = patient;
+
         this.patientForm.patchValue({
-          nume: result.patient.nume || '',
-          prenume: result.patient.prenume || '',
-          cnp: result.patient.cnp || '',
-          email: result.patient.email || '',
-          varsta: result.patient.varsta || '',
-          greutate: result.patient.greutate || '',
-          inaltime: result.patient.inaltime || '',
-          ocupatie: result.patient.ocupatie || '',
-          telefon: result.patient.telefon || '',
-          rh: result.patient.rh || '',
-          grupa_sanguina: result.patient.grupa_sanguina || '',
-          boli_cronice: result.patient.boli_cronice || '',
-          vaccinari: result.vaccinari || '',
-          boliEreditare: result.patient.boli_ereditare || '',
-          boala: result.patient.boala || '',
+          nume: patient.firstName ?? '',
+          prenume: patient.lastName ?? '',
+          cnp: patient.cnp ?? '',
+          email: patient.email ?? '',
+          varsta: patient.age ?? '',
+          greutate: patient.weight ?? '',
+          inaltime: patient.height ?? '',
+          ocupatie: patient.occupation ?? '',
+          telefon: patient.phone ?? '',
+          gen: patient.gender ?? '',
+
+          rh: patient.rh ?? '',
+          grupa_sanguina: patient.bloodType ?? '',
+          boli_cronice: patient.chronicDiseases ?? '',
+          vaccinari: patient.vaccinations ?? '',
+          boliEreditare: patient.hereditaryDiseases ?? '',
+          boala: patient.otherDiseases ?? '',
+
           stilDeViata: {
-            dieta: result.patient.dieta || '',
-            activitate_fizica: result.patient.activitate_fizica || '',
-            fumat: !!result.patient.fumat,
-            consumAlcool: !!result.patient.consum_alcool,
-            consumDroguri: !!result.patient.consum_droguri,
+            dieta: patient.diet ?? '',
+            activitate_fizica: patient.physicalActivity ?? '',
+            fumat: patient.smoker ?? false,
+            consumAlcool: patient.alcoholConsumer ?? false,
+            consumDroguri: patient.drugConsumer ?? false,
           },
+
           adresa: {
-            judet: result.patient?.judet || '',
-            oras: result.patient?.oras || '',
-            strada: result.patient?.strada || '',
-            numar: result.patient?.numar || '',
-            bloc: result.patient?.bloc || '',
-            apartament: result.patient?.apartament || '',
-            scara: result.patient?.scara || '',
-            etaj: result.patient?.etaj || '',
-            cod_postal: result.patient?.cod_postal || '',
+            judet: patient.county ?? '',
+            strada: patient.street ?? '',
+            numar: patient.number ?? '',
+            bloc: patient.block ?? '',
+            apartament: patient.apartment ?? '',
+            scara: patient.staircase ?? '',
+            etaj: patient.floor ?? '',
+            cod_postal: patient.postalCode ?? '',
           },
         });
+
+        if (patient.county) {
+          this.judeteService.getOraseByJudet(patient.county).subscribe({
+            next: (orase) => {
+              this.orase = orase;
+
+              this.patientForm.get('adresa')?.patchValue({
+                oras: patient.city ?? '',
+              });
+            },
+            error: (err) => {
+              console.error(err);
+            },
+          });
+        }
+
         this.patientForm.markAsPristine();
-      }
+      },
+
+      error: (err) => {
+        console.error(err);
+        this.toastr.error('Failed to load patient');
+      },
     });
   }
 }

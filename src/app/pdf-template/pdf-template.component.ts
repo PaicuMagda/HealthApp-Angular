@@ -21,7 +21,7 @@ export class PdfTemplateComponent implements OnInit {
 
   constructor(
     private patientsService: PatientsService,
-    private doctorService: DoctorService
+    private doctorService: DoctorService,
   ) {}
 
   exportPDF() {
@@ -43,12 +43,12 @@ export class PdfTemplateComponent implements OnInit {
     if (this.patientCNP) {
       this.patientsService.getPatientData(this.patientCNP).subscribe(
         (response) => {
-          this.patient = response.patient;
+          this.patient = response;
           console.log('Date pacient:', this.patient);
         },
         (error) => {
           console.error('Eroare la preluarea datelor pacientului:', error);
-        }
+        },
       );
     } else {
       console.warn('CNP-ul pacientului nu este setat.');
