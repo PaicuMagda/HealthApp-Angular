@@ -126,16 +126,16 @@ export class HomePageComponent implements OnInit {
   filterPatients() {
     this.filteredPatients = this.patients.filter((patient) => {
       const nameMatch = this.searchCriteria.name
-        ? patient.nume
+        ? patient.firstName
             .toLowerCase()
             .includes(this.searchCriteria.name.toLowerCase()) ||
-          patient.prenume
+          patient.lastName
             .toLowerCase()
             .includes(this.searchCriteria.name.toLowerCase())
         : true;
 
       const phoneMatch = this.searchCriteria.phone
-        ? patient.telefon.includes(this.searchCriteria.phone)
+        ? patient.phone.includes(this.searchCriteria.phone)
         : true;
 
       const cnpMatch = this.searchCriteria.cnp
@@ -143,7 +143,8 @@ export class HomePageComponent implements OnInit {
         : true;
 
       const genderMatch = this.searchCriteria.gender
-        ? patient.gen.toLowerCase() === this.searchCriteria.gender.toLowerCase()
+        ? patient.gender.toLowerCase() ===
+          this.searchCriteria.gender.toLowerCase()
         : true;
 
       const diagnosticMatch = this.searchCriteria.diagnostic.length

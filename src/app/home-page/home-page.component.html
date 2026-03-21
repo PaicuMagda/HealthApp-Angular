@@ -100,10 +100,10 @@
       >
         <img
           *ngIf="
-            patient.poza !== null && patient.poza !== '';
+            patient.profileImage !== null && patient.profileImage !== '';
             else defaultImage
           "
-          [src]="patient.poza"
+          [src]="patient.profileImage"
           alt="Patient Image"
         />
         <ng-template #defaultImage>
@@ -120,8 +120,8 @@
         class="display-patients__patients__cards__informations"
         (click)="openDetailsPatient(patient.cnp)"
       >
-        <span>Nume: {{ patient.nume }}{{ patient.prenume }}</span>
-        <span> Vârstă: {{ patient.varsta }}</span>
+        <span>Nume: {{ patient.firstName }} {{ " " + patient.lastName }}</span>
+        <span> Vârstă: {{ patient.age }}</span>
         <span>CNP: {{ patient.cnp }}</span>
       </div>
     </div>

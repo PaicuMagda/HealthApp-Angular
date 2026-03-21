@@ -85,58 +85,72 @@ export class AddNewPatientComponent implements OnInit {
 
   addNewPatient(): void {
     const formData = this.patientForm.value;
+
     const payload = {
-      doctor_id: this.doctorId,
-      nume: formData.nume,
-      prenume: formData.prenume,
-      strada: formData.adresa.strada,
-      numar: formData.adresa.numar,
-      data_nasterii: formData.data_nasterii,
+      doctorId: Number(this.doctorId),
+
+      firstName: formData.nume,
+      lastName: formData.prenume,
       cnp: formData.cnp,
-      gen: formData.gen,
+      birthDate: formData.dataNasterii,
+      age: formData.varsta,
+      gender: formData.gen,
+      occupation: formData.ocupatie,
+
       email: formData.email,
-      varsta: formData.varsta,
-      greutate: formData.greutate,
-      inaltime: formData.inaltime,
-      ocupatie: formData.ocupatie,
-      poza: this.imageProfile,
-      cid: formData.cid,
-      casa_de_asigurari: formData.casa_de_asigurari,
-      judet: formData.adresa.judet,
-      oras: formData.adresa.oras,
-      bloc: formData.adresa.bloc,
-      apartament: formData.adresa.apartament,
-      scara: formData.adresa.scara,
-      etaj: formData.adresa.etaj,
-      cod_postal: formData.adresa.cod_postal,
-      telefon: formData.telefon,
+      phone: formData.telefon,
+
+      county: formData.adresa.judet,
+      city: formData.adresa.oras,
+      street: formData.adresa.strada,
+      number: formData.adresa.numar,
+      block: formData.adresa.bloc,
+      apartment: formData.adresa.apartament,
+      staircase: formData.adresa.scara,
+      floor: formData.adresa.etaj,
+      postalCode: formData.adresa.cod_postal,
+
+      weight: Number(formData.greutate),
+      height: Number(formData.inaltime),
+      bloodType: formData.grupa_sanguina,
       rh: formData.rh,
-      grupa_sanguina: formData.grupa_sanguina,
-      boli_cronice: formData.boli_cronice,
-      vaccinari: formData.vaccinari,
-      boli_ereditare: formData.boli_ereditare,
-      boala: formData.boala,
-      dieta: formData.stilDeViata.dieta,
-      activitate_fizica: formData.stilDeViata.activitateFizica,
-      fumat: formData.stilDeViata.fumat,
-      consum_alcool: formData.stilDeViata.consumAlcool,
-      consum_droguri: formData.stilDeViata.consumDroguri,
+
+      insuranceCompany: formData.casaDeAsigurari,
+      insuranceId: formData.cid,
+
+      chronicDiseases: formData.boli_cronice,
+      vaccinations: formData.vaccinari,
+      hereditaryDiseases: formData.boliEreditare,
+      otherDiseases: formData.boala,
+
+      diet: formData.stilDeViata.dieta,
+      physicalActivity: formData.stilDeViata.activitateFizica,
+      smoker: formData.stilDeViata.fumat,
+      alcoholConsumer: formData.stilDeViata.consumAlcool,
+      drugConsumer: formData.stilDeViata.consumDroguri,
+
+      profileImage: this.imageProfile || null,
     };
-    console.log(payload);
+
+    console.log('PAYLOAD TRIMIS:', payload);
 
     const closeDialogRef = this.dialog.open(ConfirmAdditionComponent, {
       width: '20%',
       height: '20%',
     });
+
     closeDialogRef.afterClosed().subscribe((result) => {
-      setTimeout(() => {
-        if (result === 'yes') {
-          this.dialogRef.close();
-          this.patientService.addPatient(payload).subscribe((result) => {
-            console.log(result);
-          });
-        }
-      }, 500);
+      if (result === 'yes') {
+        this.patientService.addPatient(payload).subscribe({
+          next: (res) => {
+            console.log('SUCCESS:', res);
+            this.dialogRef.close();
+          },
+          error: (err) => {
+            console.error('ERROR:', err);
+          },
+        });
+      }
     });
   }
 

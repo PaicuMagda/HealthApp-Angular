@@ -188,7 +188,7 @@ export class PatientsService {
     return this.patients$.pipe(
       map((patients) =>
         patients.map((patient) => ({
-          name: `${patient.nume} ${patient.prenume}`,
+          name: `${patient.lastName} ${patient.firstName}`,
           count: patient.consultations.length,
         })),
       ),

@@ -1,21 +1,59 @@
 import { Consultation } from './consultation';
 
 export interface Patient {
-  cnp: string;
-  consultations: Consultation[];
-  data_nasterii: string;
-  doctor_id: string;
-  email: string;
-  gen: string;
-  greutate: string;
   id: number;
-  inaltime: string;
-  locatie: string;
-  telefon: string;
-  nume: string;
-  ocupatie: string;
-  poza: string;
-  prenume: string;
-  strada: string;
-  varsta: string;
+  doctorId: number;
+
+  // Personal Info
+  firstName: string;
+  lastName: string;
+  cnp: string;
+  birthDate: string;
+  age: number;
+  gender: string;
+  occupation?: string;
+
+  // Contact
+  email: string;
+  phone: string;
+
+  // Address
+  county: string;
+  city: string;
+  street?: string;
+  number?: string;
+  block?: string;
+  apartment?: string;
+  staircase?: string;
+  floor?: string;
+  postalCode?: string;
+
+  // Medical Info
+  weight: number;
+  height: number;
+  bloodType: string;
+  rh: string;
+
+  // Insurance
+  insuranceCompany?: string;
+  insuranceId?: string;
+
+  // Medical History
+  chronicDiseases?: string;
+  vaccinations?: string;
+  hereditaryDiseases?: string;
+  otherDiseases?: string;
+
+  // Lifestyle
+  diet?: string;
+  physicalActivity?: string;
+  smoker: boolean;
+  alcoholConsumer: boolean;
+  drugConsumer: boolean;
+
+  // Image
+  profileImage?: string;
+
+  // Relations
+  consultations: Consultation[];
 }
