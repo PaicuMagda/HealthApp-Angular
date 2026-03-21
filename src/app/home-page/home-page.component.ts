@@ -43,10 +43,12 @@ export class HomePageComponent implements OnInit {
     private patientsService: PatientsService,
     private dialog: MatDialog,
     private doctorService: DoctorService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
   ) {
     this.doctorService.doctor$.subscribe((doctor) => {
-      this.patientsService.loadInitialPatients();
+      if (doctor) {
+        this.patientsService.loadInitialPatients();
+      }
     });
   }
 
@@ -95,7 +97,7 @@ export class HomePageComponent implements OnInit {
         } else {
           this.toastr.error('Pacientul nu se poate șterge!');
         }
-      }, 1000)
+      }, 1000),
     );
   }
 
@@ -147,15 +149,15 @@ export class HomePageComponent implements OnInit {
       const diagnosticMatch = this.searchCriteria.diagnostic.length
         ? this.searchCriteria.diagnostic.some((diag: string) =>
             patient.consultations.some((consultation) =>
-              consultation.diagnostic.toLowerCase().includes(diag)
-            )
+              consultation.diagnostic.toLowerCase().includes(diag),
+            ),
           )
         : true;
 
       const dateMatch = this.searchCriteria.date
         ? patient.consultations.some(
             (consultation) =>
-              consultation.data_consultatie === this.searchCriteria.date
+              consultation.data_consultatie === this.searchCriteria.date,
           )
         : true;
 

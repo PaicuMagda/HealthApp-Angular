@@ -49,7 +49,7 @@ export class RegisterComponent {
     private form: FormBuilder,
     private doctorService: DoctorService,
     private toastr: ToastrService,
-    private patientsService: PatientsService
+    private patientsService: PatientsService,
   ) {
     this.userForm = this.form.group({
       username: [''],
@@ -117,7 +117,7 @@ export class RegisterComponent {
           if (response.success) {
             const doctorId = response.user.id;
             const doctorRole = response.user.role;
-            const doctorNume = response.user.nume + ' ' + response.user.prenume;
+            const doctorNume = response.user.fullname;
             localStorage.setItem('user_id', doctorId);
             localStorage.setItem('doctor_role', doctorRole);
             localStorage.setItem('doctor_nume', doctorNume);
@@ -127,7 +127,7 @@ export class RegisterComponent {
                 this.doctorService.setLoggedInDoctor(doctor);
                 this.showToast(
                   'Logare reușită! Vei fi redirecționat...',
-                  'success'
+                  'success',
                 );
                 setTimeout(() => {
                   this.router.navigate(['/home-page']);
@@ -137,14 +137,14 @@ export class RegisterComponent {
                 console.error('Eroare la obținerea datelor doctorului:', err);
                 this.showToast(
                   'Eroare la încărcarea datelor doctorului.',
-                  'error'
+                  'error',
                 );
               },
             });
           } else {
             this.showToast(
               response.message || 'Logare eșuată! Verificați datele!',
-              'error'
+              'error',
             );
           }
         },
@@ -152,7 +152,7 @@ export class RegisterComponent {
           console.error('Eroare HTTP:', err);
           this.showToast(
             'Eroare la logare! Verifică conexiunea sau contactează suportul.',
-            'error'
+            'error',
           );
         },
       });

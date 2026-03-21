@@ -36,11 +36,11 @@ export class MyAccountComponent implements OnInit {
     private sidenavService: SidenavService,
     private formBuilder: FormBuilder,
     private doctorService: DoctorService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
   ) {
     this.doctorForm = this.formBuilder.group({
       cnp: ['', [Validators.required, Validators.minLength(13)]],
-      specializare: ['', Validators.required],
+      // specializare: ['', Validators.required],
       nume: ['', Validators.required],
       prenume: ['', Validators.required],
       username: ['', Validators.required],
@@ -79,9 +79,9 @@ export class MyAccountComponent implements OnInit {
       this.doctor = data;
       this.doctorForm.patchValue({
         cnp: this.doctor.cnp,
-        specializare: this.doctor.specializare,
-        nume: this.doctor.nume,
-        prenume: this.doctor.prenume,
+        // specializare: this.doctor.specializare,
+        nume: this.doctor.lastname,
+        prenume: this.doctor.firstname,
         username: this.doctor.username,
         email: this.doctor.email,
         parola: '',
@@ -90,25 +90,42 @@ export class MyAccountComponent implements OnInit {
   }
 
   onUpdateDoctor(): void {
-    if (this.doctorForm.valid) {
-      const doctorData = this.doctorForm.value;
-      const payload = { ...doctorData, id: this.doctorId };
-      this.doctorService.updateDoctor(payload).subscribe({
-        next: (response) => {
-          this.doctorService.setLoggedInDoctor(payload);
-          this.toastr.success(
-            'Datele doctorului au fost actualizate cu succes!'
-          );
-        },
-        error: (error) => {
-          console.log(error);
-        },
-      });
+    if (this.doctorForm.valid && this.doctorId) {
+      const formValue = this.doctorForm.value;
+
+      const payload = {
+        username: formValue.username,
+        firstName: formValue.prenume,
+        lastName: formValue.nume,
+        fullName: `${formValue.prenume} ${formValue.nume}`,
+        email: formValue.email,
+        role: this.doctor?.role || 'Doctor',
+        cnp: formValue.cnp,
+        password: formValue.parola || null,
+      };
+
+      this.doctorService
+        .updateDoctor(Number(this.doctorId), payload)
+        .subscribe({
+          next: (response) => {
+            this.doctorService.setLoggedInDoctor({
+              ...this.doctor,
+              ...payload,
+            });
+
+            this.toastr.success(
+              'Datele doctorului au fost actualizate cu succes!',
+            );
+          },
+          error: (error) => {
+            console.log(error);
+            this.toastr.error('Eroare la actualizare!');
+          },
+        });
     } else {
       this.toastr.error('Completează toate câmpurile corect!');
     }
   }
-
   ngOnInit(): void {
     this.getDoctorData();
     this.doctorId = localStorage.getItem('user_id');

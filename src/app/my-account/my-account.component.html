@@ -9,7 +9,7 @@
     </div>
   </div>
   <div class="my-account__title">
-    <p>Doctor {{ doctor.nume }} {{ doctor.prenume }}</p>
+    <p>Doctor {{ doctor.lastname }} {{ doctor.firstname }}</p>
   </div>
   <div class="my-account__form">
     <form [formGroup]="doctorForm">
@@ -24,7 +24,7 @@
         </mat-error>
       </mat-form-field>
 
-      <label>Specializare</label>
+      <!-- <label>Specializare</label>
       <mat-form-field>
         <mat-select formControlName="specializare">
           <mat-option
@@ -37,7 +37,7 @@
         <mat-error *ngIf="doctorForm.get('specializare')?.hasError('required')">
           Specializarea este obligatorie!
         </mat-error>
-      </mat-form-field>
+      </mat-form-field> -->
 
       <label>Nume</label>
       <mat-form-field appearance="outline">

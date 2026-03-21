@@ -27,7 +27,6 @@ export class PatientsService {
       console.error('Doctorul nu este logat!');
       return;
     }
-
     this.http
       .get<any[]>(`${this.apiUrl}/Patients/${doctorId}/get-patients`)
       .subscribe(
