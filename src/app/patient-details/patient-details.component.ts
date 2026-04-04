@@ -321,7 +321,9 @@ export class PatientDetailsComponent implements OnInit {
       alcoholConsumer: formData.stilDeViata.consumAlcool,
       drugConsumer: formData.stilDeViata.consumDroguri,
 
-      profileImage: this.imageProfile || this.pacient?.profileImage,
+      profileImage: this.imageProfile
+        ? this.imageProfile
+        : this.pacient?.profileImage,
     };
 
     const dialogRef = this.dialog.open(ConfirmAdditionComponent, {

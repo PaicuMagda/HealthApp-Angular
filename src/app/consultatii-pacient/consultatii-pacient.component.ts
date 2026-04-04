@@ -143,6 +143,7 @@ export class ConsultatiiPacientComponent implements OnInit {
 
   ngOnInit() {
     this.patientId = this.data.pacientCnp;
+
     this.consultatieForm = this.formBuilder.group({
       dataConsultatie: [''],
       diagnostic: [''],
@@ -152,12 +153,11 @@ export class ConsultatiiPacientComponent implements OnInit {
     this.patientService.consultations$.subscribe((result) => {
       this.consultatii = result;
       this.consultatii.forEach((consultation) => {
-        this.isEditing[consultation.nr_consultatie] = true;
-        this.editableConsultation[consultation.nr_consultatie] = {
+        this.isEditing[consultation.consultationNumber] = true;
+        this.editableConsultation[consultation.consultationNumber] = {
           ...consultation,
         };
       });
-      console.log('Aici sunt datele: ', this.consultatii);
     });
 
     this.diagnostics = this.diagnosticsService.getDiagnostics();

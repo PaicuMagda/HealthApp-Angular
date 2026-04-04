@@ -97,10 +97,7 @@ export class PatientsService {
 
   addConsultation(newConsultation: any): Observable<any> {
     return this.http
-      .post<any>(
-        `${this.apiUrl}/consultatii/add-consultation.php`,
-        newConsultation,
-      )
+      .post<any>(`${this.apiUrl}/Consultations`, newConsultation)
       .pipe(
         tap((response) => {
           if (response.success) {
@@ -136,7 +133,7 @@ export class PatientsService {
     return this.http
       .request<any>(
         'DELETE',
-        `${this.apiUrl}/consultatii/delete-consultation.php`,
+        `${this.apiUrl}/Consultations/${nr_consultatie}`,
         {
           body: { cnp, nr_consultatie },
         },
@@ -146,7 +143,7 @@ export class PatientsService {
           if (response.success) {
             const currentConsultations = this.consultationsSubject.value;
             const updatedConsultations = currentConsultations.filter(
-              (c) => c.nr_consultatie !== nr_consultatie,
+              (c) => c.consultationNumber !== nr_consultatie,
             );
             this.consultationsSubject.next(updatedConsultations);
           }

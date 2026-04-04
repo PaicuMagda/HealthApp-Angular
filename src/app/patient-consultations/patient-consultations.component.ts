@@ -87,9 +87,9 @@ export class PatientConsultationsComponent implements OnInit {
     const formData = this.consultatieForm.value;
     const payload = {
       cnp: this.patientCNP,
-      diagnostic: formData.diagnostic,
-      medicamentatie: formData.medicamentatie,
-      data_consultatie: formData.dataConsultatie,
+      diagnosis: formData.diagnostic,
+      medication: formData.medicamentatie,
+      consultationDate: formData.dataConsultatie,
     };
 
     if (this.consultatieForm.valid) {
