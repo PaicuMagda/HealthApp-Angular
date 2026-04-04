@@ -212,7 +212,7 @@ export class PatientsService {
     updatedData: any,
   ): Observable<any> {
     return this.http
-      .put<any>(`${this.apiUrl}/consultatii/update-consultation.php`, {
+      .put<any>(`${this.apiUrl}/Consultations/${consultationId}`, {
         consultationId,
         ...updatedData,
       })
@@ -221,7 +221,7 @@ export class PatientsService {
           if (response.success) {
             const currentConsultations = this.consultationsSubject.value;
             const index = currentConsultations.findIndex(
-              (c) => c.nr_consultatie === consultationId,
+              (c) => c.consultationNumber === consultationId,
             );
             if (index !== -1) {
               currentConsultations[index] = {
