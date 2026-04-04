@@ -44,13 +44,12 @@ import { DiagnosticsService } from '../services/diagnostics.service';
 export class ConsultatiiPacientComponent implements OnInit {
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
-    private pacientService: PatientsService,
     private dialogRef: MatDialogRef<PatientConsultationsComponent>,
     private dialog: MatDialog,
     private formBuilder: FormBuilder,
     private patientService: PatientsService,
     private pdfService: PdfService,
-    private diagnosticsService: DiagnosticsService
+    private diagnosticsService: DiagnosticsService,
   ) {}
 
   consultatii: any[] = [];
@@ -70,8 +69,8 @@ export class ConsultatiiPacientComponent implements OnInit {
     };
 
     if (this.consultatieForm.valid) {
-      this.pacientService.addConsultation(payload).subscribe((result) => {
-        this.pacientService.loadConsultations(this.patientId);
+      this.patientService.addConsultation(payload).subscribe((result) => {
+        this.patientService.loadConsultations(this.patientId);
         this.consultatieForm.reset();
       });
     } else {
@@ -133,7 +132,7 @@ export class ConsultatiiPacientComponent implements OnInit {
         },
         (error) => {
           console.error('Eroare la salvarea consultației:', error);
-        }
+        },
       );
   }
 
@@ -150,7 +149,7 @@ export class ConsultatiiPacientComponent implements OnInit {
       medicamentatie: [''],
     });
 
-    this.pacientService.consultations$.subscribe((result) => {
+    this.patientService.consultations$.subscribe((result) => {
       this.consultatii = result;
       this.consultatii.forEach((consultation) => {
         this.isEditing[consultation.nr_consultatie] = true;
@@ -158,6 +157,7 @@ export class ConsultatiiPacientComponent implements OnInit {
           ...consultation,
         };
       });
+      console.log('Aici sunt datele: ', this.consultatii);
     });
 
     this.diagnostics = this.diagnosticsService.getDiagnostics();

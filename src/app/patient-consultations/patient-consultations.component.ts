@@ -68,7 +68,7 @@ export class PatientConsultationsComponent implements OnInit {
     private patientService: PatientsService,
     private pdfService: PdfService,
     private diagnosticsService: DiagnosticsService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
   ) {
     this.consultatieForm = this.formBuilder.group({
       dataConsultatie: ['', Validators.required],
@@ -78,8 +78,8 @@ export class PatientConsultationsComponent implements OnInit {
   }
 
   toggleConsultatie(consultation: any) {
-    this.viewConsultatieState[consultation.nr_consultatie] =
-      !this.viewConsultatieState[consultation.nr_consultatie];
+    this.viewConsultatieState[consultation.consultationNumber] =
+      !this.viewConsultatieState[consultation.consultationNumber];
     this.selectedConsultation = consultation;
     this.cdr.detectChanges();
   }
@@ -103,7 +103,9 @@ export class PatientConsultationsComponent implements OnInit {
   }
 
   getConsultationById(consultationId: number) {
-    return this.consultations.find((c) => c.nr_consultatie === consultationId);
+    return this.consultations.find(
+      (c) => c.consultationNumber === consultationId,
+    );
   }
 
   updateConsultationInList(consultationId: number, updatedData: any) {
@@ -127,13 +129,13 @@ export class PatientConsultationsComponent implements OnInit {
     });
   }
 
-  deleteConsultation(patientCNP: string, nr_consultatie: number): void {
+  deleteConsultation(patientCNP: string, consultationNumber: number): void {
     const dialogRef = this.dialog.open(DeleteConfirmationDialogComponent);
     dialogRef.afterClosed().subscribe((result) => {
       setTimeout(() => {
         if (result === 'yes') {
           this.patientService
-            .deleteConsultation(patientCNP, nr_consultatie)
+            .deleteConsultation(patientCNP, consultationNumber)
             .subscribe(() => {});
         }
       }, 500);
@@ -154,7 +156,7 @@ export class PatientConsultationsComponent implements OnInit {
     } else {
       this.isEditing[consultationId] = true;
       const consultation = this.consultations.find(
-        (c) => c.nr_consultatie === consultationId
+        (c) => c.consultationNumber === consultationId,
       );
       if (consultation) {
         this.editableConsultation = { ...consultation };
@@ -171,7 +173,7 @@ export class PatientConsultationsComponent implements OnInit {
         },
         (error) => {
           console.error('Eroare la salvarea consultației:', error);
-        }
+        },
       );
   }
 

@@ -7,7 +7,7 @@
         class="consultatii__data__all-consultations__item"
       >
         <div class="consultatii__data__all-consultations__item__informations">
-          <ng-container *ngIf="isEditing[consultation.nr_consultatie]">
+          <ng-container *ngIf="isEditing[consultation.consultationNumber]">
             <p>
               <strong>Nr. Consultație:</strong>
               <mat-form-field appearance="outline">
@@ -15,8 +15,8 @@
                   matInput
                   type="text"
                   [(ngModel)]="
-                    editableConsultation[consultation.nr_consultatie]
-                      .nr_consultatie
+                    editableConsultation[consultation.consultationNumber]
+                      .consultationNumber
                   "
                   disabled
                 />
@@ -30,8 +30,8 @@
                   [matDatepicker]="picker"
                   placeholder="Selectați data"
                   [(ngModel)]="
-                    editableConsultation[consultation.nr_consultatie]
-                      .data_consultatie
+                    editableConsultation[consultation.consultationNumber]
+                      .consultationDate
                   "
                 />
                 <mat-datepicker-toggle
@@ -47,7 +47,8 @@
                 <mat-select
                   name="diagnostic"
                   [(ngModel)]="
-                    editableConsultation[consultation.nr_consultatie].diagnostic
+                    editableConsultation[consultation.consultationNumber]
+                      .diagnosis
                   "
                 >
                   <mat-option
@@ -66,8 +67,8 @@
                   matInput
                   placeholder="Introduceți medicația prescrisă"
                   [(ngModel)]="
-                    editableConsultation[consultation.nr_consultatie]
-                      .medicamentatie
+                    editableConsultation[consultation.consultationNumber]
+                      .medication
                   "
                   rows="3"
                 ></textarea>

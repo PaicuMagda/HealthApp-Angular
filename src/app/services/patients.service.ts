@@ -115,23 +115,21 @@ export class PatientsService {
   }
 
   loadConsultations(cnp: string): void {
-    this.http
-      .get<any>(`${this.apiUrl}/consultatii/get-consultations.php?cnp=${cnp}`)
-      .subscribe(
-        (response) => {
-          if (response && response.consultatii) {
-            this.consultationsSubject.next(response.consultatii);
-          } else {
-            console.error(
-              'Eroare la obținerea consultațiilor:',
-              response.message,
-            );
-          }
-        },
-        (error) => {
-          console.error('Eroare la obținerea consultațiilor:', error);
-        },
-      );
+    this.http.get<any>(`${this.apiUrl}/Consultations/${cnp}`).subscribe(
+      (response) => {
+        if (response && response.consultations) {
+          this.consultationsSubject.next(response.consultations);
+        } else {
+          console.error(
+            'Eroare la obținerea consultațiilor:',
+            response.message,
+          );
+        }
+      },
+      (error) => {
+        console.error('Eroare la obținerea consultațiilor:', error);
+      },
+    );
   }
 
   deleteConsultation(cnp: string, nr_consultatie: number): Observable<any> {
@@ -159,25 +157,23 @@ export class PatientsService {
   getConsultationsCountByPatient(): Observable<
     { name: string; count: number }[]
   > {
-    return this.http
-      .get<any[]>(`${this.apiUrl}/consultatii/get-all-consultations.php`)
-      .pipe(
-        map((consultations) => {
-          const counts = consultations.reduce((acc, consultation) => {
-            const patientName = consultation.patient_name;
-            if (!acc[patientName]) {
-              acc[patientName] = 0;
-            }
-            acc[patientName]++;
-            return acc;
-          }, {});
+    return this.http.get<any[]>(`${this.apiUrl}/Consultations`).pipe(
+      map((consultations) => {
+        const counts = consultations.reduce((acc, consultation) => {
+          const patientName = consultation.patient_name;
+          if (!acc[patientName]) {
+            acc[patientName] = 0;
+          }
+          acc[patientName]++;
+          return acc;
+        }, {});
 
-          return Object.keys(counts).map((name) => ({
-            name,
-            count: counts[name],
-          }));
-        }),
-      );
+        return Object.keys(counts).map((name) => ({
+          name,
+          count: counts[name],
+        }));
+      }),
+    );
   }
 
   getConsultationsCountForAllPatients(): Observable<

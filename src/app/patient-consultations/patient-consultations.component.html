@@ -22,7 +22,7 @@
           <div class="consultatii__data__all-consultations__item__delete">
             <img
               src="../../assets/edit.png"
-              (click)="toggleEditMode(consultation.nr_consultatie)"
+              (click)="toggleEditMode(consultation.consultationNumber)"
             />
             <img
               src="../../assets/eye.png"
@@ -31,27 +31,27 @@
             <img
               src="../../assets/delete-icon.png"
               (click)="
-                deleteConsultation(patientCNP, consultation.nr_consultatie)
+                deleteConsultation(patientCNP, consultation.consultationNumber)
               "
             />
           </div>
 
           <div
-            *ngIf="!viewConsultatieState[consultation.nr_consultatie]"
+            *ngIf="!viewConsultatieState[consultation.consultationNumber]"
             class="consultatii__data__all-consultations__item__informations"
           >
             <ng-container
-              *ngIf="!isEditing[consultation.nr_consultatie]; else editMode"
+              *ngIf="!isEditing[consultation.consultationNumber]; else editMode"
             >
               <p>
                 <strong>Nr. Consultație:</strong>
-                {{ consultation.nr_consultatie }}
+                {{ consultation.consultationNumber }}
               </p>
-              <p><strong>Data:</strong> {{ consultation.data_consultatie }}</p>
-              <p><strong>Diagnostic:</strong> {{ consultation.diagnostic }}</p>
+              <p><strong>Data:</strong> {{ consultation.consultationDate }}</p>
+              <p><strong>Diagnostic:</strong> {{ consultation.diagnosis }}</p>
               <p>
                 <strong>Medicamentatie:</strong>
-                {{ consultation.medicamentatie }}
+                {{ consultation.medication }}
               </p>
             </ng-container>
             <ng-template #editMode>
@@ -61,7 +61,7 @@
                   ><input
                     matInput
                     type="text"
-                    [(ngModel)]="editableConsultation.nr_consultatie"
+                    [(ngModel)]="editableConsultation.consultationNumber"
                     disabled
                 /></mat-form-field>
               </p>
@@ -72,7 +72,7 @@
                     matInput
                     [matDatepicker]="picker"
                     placeholder="Selectați data"
-                    [(ngModel)]="editableConsultation.data_consultatie"
+                    [(ngModel)]="editableConsultation.consultationDate"
                   />
                   <mat-datepicker-toggle
                     matSuffix
@@ -86,7 +86,7 @@
                 <mat-form-field appearance="outline">
                   <mat-select
                     name="diagnostic"
-                    [(ngModel)]="editableConsultation.diagnostic"
+                    [(ngModel)]="editableConsultation.diagnosis"
                   >
                     <mat-option
                       *ngFor="let option of diagnostics"
@@ -103,7 +103,7 @@
                   <textarea
                     matInput
                     placeholder="Introduceți medicația prescrisă"
-                    [(ngModel)]="editableConsultation.medicamentatie"
+                    [(ngModel)]="editableConsultation.medication"
                     rows="3"
                   ></textarea>
                 </mat-form-field>
@@ -111,13 +111,13 @@
               <div class="butoane-update">
                 <button
                   class="consultatii__bottom__buttons__button1"
-                  (click)="saveConsultation(consultation.nr_consultatie)"
+                  (click)="saveConsultation(consultation.consultationNumber)"
                 >
                   Salvează
                 </button>
                 <button
                   class="consultatii__bottom__buttons__button2"
-                  (click)="cancelEdit(consultation.nr_consultatie)"
+                  (click)="cancelEdit(consultation.consultationNumber)"
                 >
                   Anulează
                 </button>
@@ -126,7 +126,7 @@
           </div>
 
           <app-pdf-template
-            *ngIf="viewConsultatieState[consultation.nr_consultatie]"
+            *ngIf="viewConsultatieState[consultation.consultationNumber]"
             [patientCNP]="patientCNP"
             [consultation]="selectedConsultation"
           ></app-pdf-template>

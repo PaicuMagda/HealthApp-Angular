@@ -143,8 +143,8 @@ export class HomePageComponent implements OnInit {
         : true;
 
       const genderMatch = this.searchCriteria.gender
-        ? patient.gender.toLowerCase() ===
-          this.searchCriteria.gender.toLowerCase()
+        ? (patient.gender || '').toLowerCase().trim() ===
+          this.searchCriteria.gender.toLowerCase().trim()
         : true;
 
       const diagnosticMatch = this.searchCriteria.diagnostic.length

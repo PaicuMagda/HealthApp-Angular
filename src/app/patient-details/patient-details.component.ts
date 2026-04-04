@@ -290,10 +290,10 @@ export class PatientDetailsComponent implements OnInit {
       occupation: formData.ocupatie,
 
       email: formData.email,
-      phone: formData.telefon, // ✅ FIX
+      phone: formData.telefon,
 
       county: formData.adresa.judet,
-      city: formData.adresa.oras, // ✅ FIX
+      city: formData.adresa.oras,
       street: formData.adresa.strada,
       number: formData.adresa.numar,
       block: formData.adresa.bloc,
