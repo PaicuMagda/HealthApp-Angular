@@ -129,22 +129,38 @@ export class PatientsService {
     );
   }
 
-  deleteConsultation(cnp: string, nr_consultatie: number): Observable<any> {
+  // deleteConsultation(consultationId: number): Observable<any> {
+  //   return this.http
+  //     .delete<any>(`${this.apiUrl}/Consultations/${consultationId}`)
+  //     .pipe(
+  //       tap((response) => {
+  //         if (response.success) {
+  //           const currentConsultations = this.consultationsSubject.value;
+  //           const updatedConsultations = currentConsultations.filter(
+  //             (c) => c.id !== consultationId,
+  //           );
+  //           this.consultationsSubject.next(updatedConsultations);
+  //         }
+  //       }),
+  //     );
+  // }
+
+  deleteConsultation(consultationId: number): Observable<any> {
+    const doctorId = localStorage.getItem('user_id');
+
     return this.http
-      .request<any>(
-        'DELETE',
-        `${this.apiUrl}/Consultations/${nr_consultatie}`,
-        {
-          body: { cnp, nr_consultatie },
-        },
+      .delete<any>(
+        `${this.apiUrl}/Consultations/${consultationId}?doctorId=${doctorId}`,
       )
       .pipe(
         tap((response) => {
           if (response.success) {
             const currentConsultations = this.consultationsSubject.value;
-            const updatedConsultations = currentConsultations.filter(
-              (c) => c.consultationNumber !== nr_consultatie,
+
+            const updatedConsultations = currentConsultations.map((c) =>
+              c.id === consultationId ? { ...c, deletedAt: new Date() } : c,
             );
+
             this.consultationsSubject.next(updatedConsultations);
           }
         }),
@@ -211,25 +227,26 @@ export class PatientsService {
     consultationId: number,
     updatedData: any,
   ): Observable<any> {
+    const doctorId = localStorage.getItem('user_id');
+
     return this.http
-      .put<any>(`${this.apiUrl}/Consultations/${consultationId}`, {
-        consultationId,
-        ...updatedData,
-      })
+      .put<any>(
+        `${this.apiUrl}/Consultations/${consultationId}?doctorId=${doctorId}`,
+        {
+          consultationId,
+          ...updatedData,
+        },
+      )
       .pipe(
         tap((response) => {
           if (response.success) {
             const currentConsultations = this.consultationsSubject.value;
-            const index = currentConsultations.findIndex(
-              (c) => c.consultationNumber === consultationId,
+
+            const updatedConsultations = currentConsultations.map((c) =>
+              c.id === consultationId ? { ...c, ...updatedData } : c,
             );
-            if (index !== -1) {
-              currentConsultations[index] = {
-                ...currentConsultations[index],
-                ...updatedData,
-              };
-              this.consultationsSubject.next([...currentConsultations]);
-            }
+
+            this.consultationsSubject.next(updatedConsultations);
           }
         }),
       );

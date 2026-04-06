@@ -117,3 +117,9 @@ button {
   flex-direction: row;
   justify-content: space-between;
 }
+
+.deleted {
+  background-color: #e6e5e5;
+  opacity: 0.6;
+  border: 5px solid rgb(184, 184, 184);
+}

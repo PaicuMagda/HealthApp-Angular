@@ -18,21 +18,29 @@
         <div
           *ngFor="let consultation of consultations"
           class="consultatii__data__all-consultations__item"
+          [class.deleted]="consultation.deletedAt"
         >
           <div class="consultatii__data__all-consultations__item__delete">
             <img
               src="../../assets/edit.png"
-              (click)="toggleEditMode(consultation.consultationNumber)"
+              (click)="
+                !consultation.deletedAt &&
+                  toggleEditMode(consultation.consultationNumber)
+              "
+              [style.opacity]="consultation.deletedAt ? 0.3 : 1"
             />
+
             <img
               src="../../assets/eye.png"
               (click)="toggleConsultatie(consultation)"
             />
+
             <img
               src="../../assets/delete-icon.png"
               (click)="
-                deleteConsultation(patientCNP, consultation.consultationNumber)
+                !consultation.deletedAt && deleteConsultation(consultation.id)
               "
+              [style.opacity]="consultation.deletedAt ? 0.3 : 1"
             />
           </div>
 
@@ -41,7 +49,11 @@
             class="consultatii__data__all-consultations__item__informations"
           >
             <ng-container
-              *ngIf="!isEditing[consultation.consultationNumber]; else editMode"
+              *ngIf="
+                !isEditing[consultation.consultationNumber] ||
+                  consultation.deletedAt;
+                else editMode
+              "
             >
               <p>
                 <strong>Nr. Consultație:</strong>

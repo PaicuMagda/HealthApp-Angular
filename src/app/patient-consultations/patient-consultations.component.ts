@@ -129,16 +129,15 @@ export class PatientConsultationsComponent implements OnInit {
     });
   }
 
-  deleteConsultation(patientCNP: string, consultationNumber: number): void {
+  deleteConsultation(consultationId: number): void {
     const dialogRef = this.dialog.open(DeleteConfirmationDialogComponent);
+
     dialogRef.afterClosed().subscribe((result) => {
-      setTimeout(() => {
-        if (result === 'yes') {
-          this.patientService
-            .deleteConsultation(patientCNP, consultationNumber)
-            .subscribe(() => {});
-        }
-      }, 500);
+      if (result === 'yes') {
+        this.patientService.deleteConsultation(consultationId).subscribe(() => {
+          // this.patientService.loadConsultations(this.patientCNP);
+        });
+      }
     });
   }
 
