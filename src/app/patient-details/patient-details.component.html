@@ -388,7 +388,14 @@
   <div>
     <mat-divider></mat-divider>
     <div class="bottons">
-      <button mat-button (click)="saveChanges()">EDIT</button>
+      <button
+        mat-button
+        (click)="saveChanges()"
+        [disabled]="pacient?.deletedAt"
+        [ngClass]="{ 'disabled-btn': pacient?.deletedAt }"
+      >
+        EDIT
+      </button>
       <button mat-button (click)="exportToPDF()">EXPORT PDF</button>
     </div>
   </div>

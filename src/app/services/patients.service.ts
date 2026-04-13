@@ -70,13 +70,24 @@ export class PatientsService {
   }
 
   deletePatient(patientId: number) {
+    const doctorId = localStorage.getItem('user_id');
+
     return this.http
-      .delete(`${this.apiUrl}/patients/delete-patient.php?id=${patientId}`)
+      .delete(`${this.apiUrl}/Patients/${patientId}?doctorId=${doctorId}`)
       .pipe(
         tap(() => {
-          const updatedPatients = this.patientsSubject.value.filter(
-            (patient) => patient.id !== patientId,
+          const currentPatients = this.patientsSubject.value;
+
+          const updatedPatients = currentPatients.map((p) =>
+            p.id === patientId
+              ? {
+                  ...p,
+                  isActive: false,
+                  deletedAt: new Date().toISOString(),
+                }
+              : p,
           );
+
           this.patientsSubject.next(updatedPatients);
         }),
       );

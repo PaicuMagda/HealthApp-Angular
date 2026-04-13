@@ -78,6 +78,7 @@
     <div
       class="display-patients__patients__cards"
       *ngFor="let patient of filteredPatients || []"
+      [ngClass]="{ 'inactive-patient': !patient.isActive }"
       appHoverElement
     >
       <div

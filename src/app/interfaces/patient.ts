@@ -54,6 +54,9 @@ export interface Patient {
   // Image
   profileImage?: string;
 
+  isActive: boolean;
+  deletedAt?: string;
+
   // Relations
   consultations: Consultation[];
 }

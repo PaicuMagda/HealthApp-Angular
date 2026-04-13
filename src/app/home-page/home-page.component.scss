@@ -132,3 +132,9 @@ mat-form-field {
 span {
   font-weight: bold;
 }
+.inactive-patient {
+  opacity: 0.6;
+  filter: grayscale(100%);
+  background-color: #fff5f5;
+  border-left: 5px solid #ff4d4d;
+}

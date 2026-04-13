@@ -427,6 +427,11 @@ export class PatientDetailsComponent implements OnInit {
 
         this.pacient = patient;
 
+        this.imageProfile = patient.profileImage || '';
+        this.imageProfileFileName = patient.profileImage
+          ? 'image-from-db'
+          : undefined;
+
         this.patientForm.patchValue({
           nume: patient.firstName ?? '',
           prenume: patient.lastName ?? '',
