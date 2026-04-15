@@ -132,9 +132,23 @@ mat-form-field {
 span {
   font-weight: bold;
 }
+
 .inactive-patient {
   opacity: 0.6;
-  filter: grayscale(100%);
   background-color: #fff5f5;
   border-left: 5px solid #ff4d4d;
+}
+
+.disabled-form {
+  pointer-events: none;
+  opacity: 0.6;
+}
+
+.reactivate-icon {
+  opacity: 1 !important;
+  pointer-events: auto !important;
+
+  &:hover img {
+    transform: scale(1.2);
+  }
 }

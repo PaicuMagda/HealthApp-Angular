@@ -17,6 +17,7 @@ import { ToastrService } from 'ngx-toastr';
 import { Patient } from '../interfaces/patient';
 import { FormsModule } from '@angular/forms';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { ActivateDialogComponent } from '../confirmation-dialogs/activate-dialog/activate-dialog.component';
 
 @Component({
   selector: 'app-home-page',
@@ -193,5 +194,26 @@ export class HomePageComponent implements OnInit {
     });
 
     this.diagnostics = this.diagnosticsService.getDiagnostics();
+  }
+
+  activatePatient(pacientCnp: string) {
+    const dialogRef = this.dialog.open(ActivateDialogComponent, {
+      width: '20%',
+      height: '18%',
+      data: { pacientCnp: pacientCnp },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result === 'yes') {
+        const patient = this.patients.find((p) => p.cnp === pacientCnp);
+        if (patient) {
+          patient.isActive = true;
+        }
+
+        this.patientsService.activatePatient(pacientCnp).subscribe(() => {
+          this.toastr.success('Pacient activat!');
+        });
+      }
+    });
   }
 }

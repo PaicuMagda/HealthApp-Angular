@@ -8,7 +8,10 @@
     </div>
     <mat-divider></mat-divider>
   </div>
-  <form [formGroup]="patientForm">
+  <form
+    [formGroup]="patientForm"
+    [ngClass]="{ 'disabled-form': !pacient?.isActive }"
+  >
     <div class="add-new-patient__data-entered__first">
       <div class="mini-title">INFORMAȚII PERSONALE</div>
       <div class="add-new-patient__data-entered__first__data">
@@ -382,7 +385,10 @@
     </div>
   </form>
   <div id="consultatii-content" [ariaReadOnly]="true">
-    <app-consultatii-pacient [patientId]="pacientId"></app-consultatii-pacient>
+    <app-consultatii-pacient
+      [patientId]="pacientId"
+      [ngClass]="{ 'disabled-form': !pacient?.isActive }"
+    ></app-consultatii-pacient>
   </div>
   <mat-divider></mat-divider>
   <div>
@@ -391,8 +397,8 @@
       <button
         mat-button
         (click)="saveChanges()"
-        [disabled]="pacient?.deletedAt"
-        [ngClass]="{ 'disabled-btn': pacient?.deletedAt }"
+        [disabled]="!pacient?.isActive"
+        [ngClass]="{ 'disabled-btn': !pacient?.isActive }"
       >
         EDIT
       </button>

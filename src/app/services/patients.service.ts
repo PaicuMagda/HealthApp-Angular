@@ -267,4 +267,8 @@ export class PatientsService {
     const token = localStorage.getItem('user_id');
     return !!token;
   }
+
+  activatePatient(cnp: string) {
+    return this.http.put(`${this.apiUrl}/Patients/activate/${cnp}`, {});
+  }
 }

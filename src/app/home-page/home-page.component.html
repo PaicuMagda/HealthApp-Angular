@@ -84,15 +84,26 @@
       <div
         matTooltip="Adaugă sau vizualizează consultație."
         class="display-patients__patients__cards__small-image-left"
-        (click)="openConsultationsPatient(patient.cnp)"
+        (click)="patient.isActive && openConsultationsPatient(patient.cnp)"
       >
-        <img src="../../assets/consultatie.png" />
+        <img
+          [ngClass]="{ 'disabled-form': !patient?.isActive }"
+          src="../../assets/consultatie.png"
+        />
       </div>
       <div
+        *ngIf="patient.isActive"
         class="display-patients__patients__cards__small-image-right"
         (click)="deletePatient(patient.id)"
       >
-        <img src="../../assets/delete-icon.png" alt="Small Image Right" />
+        <img src="../../assets/delete-icon.png" />
+      </div>
+      <div
+        *ngIf="!patient.isActive"
+        class="display-patients__patients__cards__small-image-right reactivate-icon"
+        (click)="activatePatient(patient.cnp)"
+      >
+        <img src="../../assets/check.png" />
       </div>
       <div
         matTooltip="Click pentru a edita pacientul."

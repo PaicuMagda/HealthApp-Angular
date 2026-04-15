@@ -219,7 +219,12 @@ input[type="file"] {
 .add-new-patient__second {
   height: auto !important;
 }
-.disabled-btn {
-  background-color: #ccc;
-  cursor: not-allowed;
+
+button.disabled-btn {
+  opacity: 40%;
+}
+
+.disabled-form {
+  pointer-events: none;
+  opacity: 0.6;
 }
