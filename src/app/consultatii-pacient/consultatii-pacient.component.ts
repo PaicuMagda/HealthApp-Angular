@@ -23,6 +23,7 @@ import { PatientConsultationsComponent } from '../patient-consultations/patient-
 import { DeleteConfirmationDialogComponent } from '../confirmation-dialogs/delete-confirmation-dialog/delete-confirmation-dialog.component';
 import { PdfService } from '../services/pdf.service';
 import { DiagnosticsService } from '../services/diagnostics.service';
+import { BodyMapComponent } from '../body-map/body-map.component';
 
 @Component({
   selector: 'app-consultatii-pacient',
@@ -37,6 +38,7 @@ import { DiagnosticsService } from '../services/diagnostics.service';
     MatFormFieldModule,
     MatInputModule,
     MatDatepickerModule,
+    BodyMapComponent,
   ],
   templateUrl: './consultatii-pacient.component.html',
   styleUrl: './consultatii-pacient.component.scss',
@@ -156,11 +158,18 @@ export class ConsultatiiPacientComponent implements OnInit {
         this.isEditing[consultation.consultationNumber] = true;
         this.editableConsultation[consultation.consultationNumber] = {
           ...consultation,
+          locations: consultation.locations || [],
         };
       });
     });
 
     this.diagnostics = this.diagnosticsService.getDiagnostics();
     this.patientService.loadConsultations(this.patientId);
+  }
+
+  onZonesSelected(consultationNumber: number, zones: string[]) {
+    if (!this.editableConsultation[consultationNumber]) return;
+
+    this.editableConsultation[consultationNumber].locations = zones;
   }
 }

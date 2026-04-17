@@ -1,0 +1,12 @@
+<div class="body-map">
+  <img src="assets/body.png" class="body-image" />
+
+  <div
+    *ngFor="let zone of zones"
+    class="zone"
+    [ngClass]="{ selected: isSelected(zone.name) }"
+    [style.top.%]="zone.top"
+    [style.left.%]="zone.left"
+    (click)="toggleZone(zone.name)"
+  ></div>
+</div>

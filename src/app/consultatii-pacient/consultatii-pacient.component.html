@@ -74,6 +74,25 @@
                 ></textarea>
               </mat-form-field>
             </p>
+
+            <p>
+              <strong>Localizare leziuni:</strong>
+            </p>
+
+            <app-body-map
+              (selectionChange)="
+                onZonesSelected(consultation.consultationNumber, $event)
+              "
+            ></app-body-map>
+
+            <div class="selected-zones">
+              Zone selectate:
+              {{
+                editableConsultation[
+                  consultation.consultationNumber
+                ]?.locations?.join(", ") || "Niciuna"
+              }}
+            </div>
           </ng-container>
         </div>
       </div>

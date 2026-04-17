@@ -120,6 +120,19 @@
                   ></textarea>
                 </mat-form-field>
               </p>
+
+              <p>
+                <strong>Localizare leziuni:</strong>
+              </p>
+
+              <app-body-map
+                (selectionChange)="onZonesSelectedForCreate($event)"
+              ></app-body-map>
+
+              <div class="selected-zones">
+                Zone selectate:
+                {{ selectedZones.join(", ") || "Niciuna" }}
+              </div>
               <div class="butoane-update">
                 <button
                   class="consultatii__bottom__buttons__button1"
@@ -187,6 +200,19 @@
               rows="3"
             ></textarea>
           </mat-form-field>
+        </div>
+
+        <p>
+          <strong>Localizare leziuni:</strong>
+        </p>
+
+        <app-body-map
+          (selectionChange)="onZonesSelectedForCreate($event)"
+        ></app-body-map>
+
+        <div class="selected-zones">
+          Zone selectate:
+          {{ selectedZones.join(", ") || "Niciuna" }}
         </div>
       </form>
     </div>

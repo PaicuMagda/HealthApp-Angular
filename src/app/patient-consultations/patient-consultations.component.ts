@@ -30,6 +30,7 @@ import { PdfService } from '../services/pdf.service';
 import { DiagnosticsService } from '../services/diagnostics.service';
 import { MatSelectModule } from '@angular/material/select';
 import { PdfTemplateComponent } from '../pdf-template/pdf-template.component';
+import { BodyMapComponent } from '../body-map/body-map.component';
 
 @Component({
   selector: 'app-patient-consultations',
@@ -46,6 +47,7 @@ import { PdfTemplateComponent } from '../pdf-template/pdf-template.component';
     MatSelectModule,
     FormsModule,
     PdfTemplateComponent,
+    BodyMapComponent,
   ],
   templateUrl: './patient-consultations.component.html',
   styleUrl: './patient-consultations.component.scss',
@@ -59,6 +61,7 @@ export class PatientConsultationsComponent implements OnInit {
   editableConsultation: any = {};
   viewConsultatieState: { [key: number]: boolean } = {};
   selectedConsultation: any = null;
+  selectedZones: string[] = [];
 
   constructor(
     private dialogRef: MatDialogRef<PatientConsultationsComponent>,
@@ -90,6 +93,7 @@ export class PatientConsultationsComponent implements OnInit {
       diagnosis: formData.diagnostic,
       medication: formData.medicamentatie,
       consultationDate: formData.dataConsultatie,
+      locations: this.selectedZones,
     };
 
     if (this.consultatieForm.valid) {
@@ -164,16 +168,16 @@ export class PatientConsultationsComponent implements OnInit {
   }
 
   saveConsultation(consultationId: number): void {
+    const payload = {
+      ...this.editableConsultation,
+      locations: this.editableConsultation.locations,
+    };
+
     this.patientService
-      .updateConsultation(consultationId, this.editableConsultation)
-      .subscribe(
-        () => {
-          this.cancelEdit(consultationId);
-        },
-        (error) => {
-          console.error('Eroare la salvarea consultației:', error);
-        },
-      );
+      .updateConsultation(consultationId, payload)
+      .subscribe(() => {
+        this.cancelEdit(consultationId);
+      });
   }
 
   cancelEdit(consultationId: number): void {
@@ -188,5 +192,9 @@ export class PatientConsultationsComponent implements OnInit {
       this.consultations = result;
     });
     this.diagnostics = this.diagnosticsService.getDiagnostics();
+  }
+
+  onZonesSelectedForCreate(zones: string[]) {
+    this.selectedZones = zones;
   }
 }

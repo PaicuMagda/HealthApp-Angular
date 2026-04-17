@@ -1,0 +1,21 @@
+.body-map {
+  position: relative;
+  width: 70%;
+}
+
+.body-image {
+  width: 100%;
+}
+
+.zone {
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: rgba(0, 0, 255, 0.3);
+  cursor: pointer;
+}
+
+.zone.selected {
+  background: red;
+}
