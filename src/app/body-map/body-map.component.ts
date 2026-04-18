@@ -1,5 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  Output,
+} from '@angular/core';
 
 @Component({
   selector: 'app-body-map',
@@ -8,20 +14,27 @@ import { Component, EventEmitter, Output } from '@angular/core';
   templateUrl: './body-map.component.html',
   styleUrl: './body-map.component.scss',
 })
-export class BodyMapComponent {
+export class BodyMapComponent implements OnChanges {
+  @Input() initialZones: string[] = [];
   @Output() selectionChange = new EventEmitter<string[]>();
 
   selectedZones: string[] = [];
 
   zones = [
-    { name: 'head', top: 5, left: 45 },
-    { name: 'chest', top: 25, left: 45 },
-    { name: 'abdomen', top: 40, left: 45 },
-    { name: 'left_arm', top: 30, left: 20 },
-    { name: 'right_arm', top: 30, left: 70 },
-    { name: 'left_leg', top: 65, left: 40 },
-    { name: 'right_leg', top: 65, left: 55 },
+    { name: 'head', top: 10, left: 49.5 },
+    { name: 'chest', top: 26, left: 49.5 },
+    { name: 'abdomen', top: 37, left: 49.5 },
+    { name: 'left_arm', top: 38, left: 61 },
+    { name: 'right_arm', top: 38, left: 39 },
+    { name: 'left_leg', top: 67, left: 54 },
+    { name: 'right_leg', top: 67, left: 45 },
   ];
+
+  ngOnChanges() {
+    if (this.initialZones) {
+      this.selectedZones = [...this.initialZones];
+    }
+  }
 
   toggleZone(zone: string) {
     if (this.selectedZones.includes(zone)) {

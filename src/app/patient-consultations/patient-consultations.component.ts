@@ -31,6 +31,7 @@ import { DiagnosticsService } from '../services/diagnostics.service';
 import { MatSelectModule } from '@angular/material/select';
 import { PdfTemplateComponent } from '../pdf-template/pdf-template.component';
 import { BodyMapComponent } from '../body-map/body-map.component';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-patient-consultations',
@@ -72,6 +73,7 @@ export class PatientConsultationsComponent implements OnInit {
     private pdfService: PdfService,
     private diagnosticsService: DiagnosticsService,
     private cdr: ChangeDetectorRef,
+    private toastr: ToastrService,
   ) {
     this.consultatieForm = this.formBuilder.group({
       dataConsultatie: ['', Validators.required],
@@ -158,26 +160,38 @@ export class PatientConsultationsComponent implements OnInit {
       this.cancelEdit(consultationId);
     } else {
       this.isEditing[consultationId] = true;
+
       const consultation = this.consultations.find(
         (c) => c.consultationNumber === consultationId,
       );
+
       if (consultation) {
         this.editableConsultation = { ...consultation };
+
+        this.selectedZones = [...(consultation.locations || [])];
       }
     }
   }
 
   saveConsultation(consultationId: number): void {
     const payload = {
-      ...this.editableConsultation,
+      consultationDate: this.editableConsultation.consultationDate,
+      diagnosis: this.editableConsultation.diagnosis,
+      medication: this.editableConsultation.medication,
       locations: this.editableConsultation.locations,
     };
 
-    this.patientService
-      .updateConsultation(consultationId, payload)
-      .subscribe(() => {
+    this.patientService.updateConsultation(consultationId, payload).subscribe({
+      next: () => {
+        this.patientService.loadConsultations(this.patientCNP);
         this.cancelEdit(consultationId);
-      });
+
+        this.toastr.success('Consultația a fost actualizată cu succes!');
+      },
+      error: () => {
+        this.toastr.error('Eroare la salvarea consultației!');
+      },
+    });
   }
 
   cancelEdit(consultationId: number): void {
@@ -196,5 +210,6 @@ export class PatientConsultationsComponent implements OnInit {
 
   onZonesSelectedForCreate(zones: string[]) {
     this.selectedZones = zones;
+    this.editableConsultation.locations = zones;
   }
 }

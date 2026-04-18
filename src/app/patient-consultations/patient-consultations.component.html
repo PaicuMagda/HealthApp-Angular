@@ -127,6 +127,7 @@
 
               <app-body-map
                 (selectionChange)="onZonesSelectedForCreate($event)"
+                [initialZones]="editableConsultation?.locations"
               ></app-body-map>
 
               <div class="selected-zones">
