@@ -90,23 +90,26 @@ export class RegisterComponent {
     }
   }
 
-  submitSignUp() {
-    if (this.userForm.valid) {
-      const userData = this.userForm.value;
-      this.doctorService.registerDoctor(userData).subscribe({
-        next: (response) => {
-          this.showToast('Contul a fost adăugat cu succes!', 'success');
-        },
-        error: (err) => {
-          const errorMessage =
-            err.error?.error || 'A apărut o eroare necunoscută.';
-          this.showToast(errorMessage, 'error');
-        },
-      });
-    } else {
-      alert('Completează toate câmpurile!');
-    }
+submitSignUp() {
+  if (this.userForm.valid) {
+    const userData = this.userForm.value;
+
+    this.doctorService.registerDoctor(userData).subscribe({
+      next: (response) => {
+        this.showToast(response.message || 'Cont creat!', 'success');
+        this.userForm.reset();
+        this.isSignUp = false; 
+      },
+      error: (err) => {
+        const errorMessage =
+          err.error?.message || 'A apărut o eroare.';
+        this.showToast(errorMessage, 'error');
+      },
+    });
+  } else {
+    this.showToast('Completează toate câmpurile!', 'error');
   }
+}
 
   submitLogin() {
     if (this.loginForm.valid) {

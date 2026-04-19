@@ -44,7 +44,7 @@ export class MyAccountComponent implements OnInit {
       prenume: ['', Validators.required],
       username: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
-      parola: ['', [Validators.minLength(8)]],
+      // parola: ['', [Validators.minLength(8)]],
     });
   }
 
@@ -83,7 +83,7 @@ export class MyAccountComponent implements OnInit {
         prenume: this.doctor.firstname,
         username: this.doctor.username,
         email: this.doctor.email,
-        parola: '',
+        // parola: '',
       });
     });
   }
@@ -100,7 +100,7 @@ export class MyAccountComponent implements OnInit {
         email: formValue.email,
         role: this.doctor?.role || 'Doctor',
         cnp: formValue.cnp,
-        password: formValue.parola || null,
+        // password: formValue.parola || null,
       };
 
       this.doctorService
