@@ -17,8 +17,8 @@ export class PdfService {
       head: [['ID', 'Nume', 'Prenume', 'Email']],
       body: data.map((patient) => [
         patient.id,
-        patient.nume,
-        patient.prenume,
+        patient.firstName,
+        patient.lastName,
         patient.email,
       ]),
     });
@@ -34,10 +34,10 @@ export class PdfService {
       head: [['CNP', 'Nr.', 'Data', 'Diagnostic', 'Medicamentatie']],
       body: data.map((consultatie) => [
         consultatie.cnp,
-        consultatie.nr_consultatie,
-        consultatie.data_consultatie,
-        consultatie.diagnostic,
-        consultatie.medicamentatie,
+        consultatie.consultationNumber,
+        consultatie.consultationDate,
+        consultatie.diagnosis,
+        consultatie.medication,
       ]),
     });
 

@@ -60,6 +60,7 @@ export class ConsultatiiPacientComponent implements OnInit {
   @Input() patientId!: string;
   isEditing: { [key: number]: boolean } = {};
   editableConsultation: any = {};
+  selectedZones: string[] = [];
 
   addConsultation(): void {
     const formData = this.consultatieForm.value;
@@ -154,6 +155,7 @@ export class ConsultatiiPacientComponent implements OnInit {
 
     this.patientService.consultations$.subscribe((result) => {
       this.consultatii = result;
+      console.log('Consultatiile pacientului: ', this.consultatii);
       this.consultatii.forEach((consultation) => {
         this.isEditing[consultation.consultationNumber] = true;
         this.editableConsultation[consultation.consultationNumber] = {
@@ -167,9 +169,14 @@ export class ConsultatiiPacientComponent implements OnInit {
     this.patientService.loadConsultations(this.patientId);
   }
 
-  onZonesSelected(consultationNumber: number, zones: string[]) {
-    if (!this.editableConsultation[consultationNumber]) return;
+  onZonesSelected(consultationId: number, zones: string[]) {
+    if (!this.editableConsultation[consultationId]) return;
 
-    this.editableConsultation[consultationNumber].locations = zones;
+    this.editableConsultation[consultationId].locations = [...zones];
+  }
+
+  onZonesSelectedForCreate(zones: string[]) {
+    this.selectedZones = zones;
+    this.editableConsultation.locations = zones;
   }
 }

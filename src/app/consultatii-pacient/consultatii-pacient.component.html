@@ -80,8 +80,10 @@
             </p>
 
             <app-body-map
-              (selectionChange)="
-                onZonesSelected(consultation.consultationNumber, $event)
+              (selectionChange)="onZonesSelectedForCreate($event)"
+              [initialZones]="
+                editableConsultation?.[consultation.consultationNumber]
+                  .locations
               "
             ></app-body-map>
 

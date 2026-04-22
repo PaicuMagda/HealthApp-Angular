@@ -31,7 +31,11 @@
             />
 
             <img
-              src="../../assets/eye.png"
+              [src]="
+                viewConsultatieState[consultation.consultationNumber]
+                  ? '../../assets/eye-off.png'
+                  : '../../assets/eye.png'
+              "
               (click)="toggleConsultatie(consultation)"
             />
 
