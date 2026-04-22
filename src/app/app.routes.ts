@@ -22,7 +22,7 @@ export const routes: Routes = [
   },
   {
     path: 'charts',
-    canActivate: [chartsGuard],
+    // canActivate: [chartsGuard],
     component: ChartsComponent,
   },
 ];

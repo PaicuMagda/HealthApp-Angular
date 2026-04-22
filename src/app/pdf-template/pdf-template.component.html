@@ -1,16 +1,17 @@
 <div class="content" id="content">
   <ng-container *ngIf="patient; else noData">
-    <p><strong>Nume Pacient </strong> {{ patient.nume }}</p>
-    <p><strong>Ocupația:</strong> {{ patient.ocupatie }}</p>
+    <p><strong>Nume Pacient </strong> {{ patient.firstName }}</p>
+    <!-- <p><strong>Ocupația:</strong> {{ patient.occupation }}</p> -->
     <p><strong>CNP:</strong> {{ patient.cnp }}</p>
     <mat-divider></mat-divider>
 
-    <p><strong>Nr. Consultație:</strong> {{ consultation?.nr_consultatie }}</p>
-    <p><strong>Data:</strong> {{ consultation?.data_consultatie }}</p>
-    <p><strong>Diagnostic:</strong> {{ consultation?.diagnostic }}</p>
-    <p><strong>Medicamentație:</strong> {{ consultation?.medicamentatie }}</p>
+    <p>
+      <strong>Nr. Consultație:</strong> {{ consultation?.consultationNumber }}
+    </p>
+    <p><strong>Data:</strong> {{ consultation?.consultationDate }}</p>
+    <p><strong>Diagnostic:</strong> {{ consultation?.diagnosis }}</p>
+    <p><strong>Medicamentație:</strong> {{ consultation?.medication }}</p>
     <mat-divider> </mat-divider>
-    <p><strong>Doctor:</strong> {{ doctor.nume }} {{ doctor.prenume }}</p>
   </ng-container>
 
   <ng-template #noData>

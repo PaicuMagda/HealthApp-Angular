@@ -150,11 +150,10 @@
               </div>
             </ng-template>
           </div>
-
           <app-pdf-template
             *ngIf="viewConsultatieState[consultation.consultationNumber]"
             [patientCNP]="patientCNP"
-            [consultation]="selectedConsultation"
+            [consultation]="consultation"
           ></app-pdf-template>
         </div>
       </div>

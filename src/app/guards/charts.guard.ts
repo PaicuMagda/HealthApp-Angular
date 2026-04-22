@@ -17,6 +17,6 @@ export const chartsGuard: CanActivateFn = (route, state) => {
         router.navigate(['']);
         return false;
       }
-    })
+    }),
   );
 };

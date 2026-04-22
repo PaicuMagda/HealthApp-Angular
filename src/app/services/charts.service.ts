@@ -8,10 +8,15 @@ import { Observable } from 'rxjs';
 export class ChartsService {
   constructor(private http: HttpClient) {}
 
-  private apiUrl =
-    'http://localhost//healthApp-php/PATIENTS/data_for_charts.php';
+  private apiUrl = 'http://localhost:5003/api/Charts/diagnostics';
 
-  getDataForCharts(): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}`);
+  getDataForCharts(role: string, doctorId: number | null): Observable<any> {
+    let params: any = { role };
+
+    if (doctorId) {
+      params.doctorId = doctorId;
+    }
+
+    return this.http.get<any>(this.apiUrl, { params });
   }
 }

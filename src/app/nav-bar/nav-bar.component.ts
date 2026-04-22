@@ -15,7 +15,7 @@ import { HoverElementDirective } from '../directives/hover-element.directive';
 @Component({
   selector: 'app-nav-bar',
   standalone: true,
-  imports: [MatToolbarModule, MatIconModule, NgIf, HoverElementDirective],
+  imports: [MatToolbarModule, MatIconModule, HoverElementDirective],
   templateUrl: './nav-bar.component.html',
   styleUrl: './nav-bar.component.scss',
 })
@@ -64,8 +64,6 @@ export class NavBarComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log('Aici sunt pacientii:', this.patients);
-
     this.doctorRole = localStorage.getItem('doctor_role');
     this.doctorNume = localStorage.getItem('doctor_nume');
     this.doctorService.doctor$.subscribe((result) => {

@@ -53,7 +53,7 @@ export class ChartsComponent implements OnInit, AfterViewInit {
   public chartOptions1 = {
     title: 'Numărul de pacienți cu diverse boli',
     is3D: true,
-    colors: ['#32CD32'],
+    colors: ['#2E8B57'],
     legend: { position: 'bottom' },
   };
 
@@ -62,7 +62,18 @@ export class ChartsComponent implements OnInit, AfterViewInit {
   public chartOptions2 = {
     title: 'Numărul de pacienți cu diverse boli',
     is3D: true,
-    colors: ['#76A7FA', '#FF8C00', '#32CD32', '#FF0000'],
+    colors: [
+      '#76A7FA',
+      '#FF8C00',
+      '#32CD32',
+      '#FF0000',
+      '#8A2BE2',
+      '#FFD700',
+      '#00CED1',
+      '#FF69B4',
+      '#A52A2A',
+      '#2E8B57',
+    ],
     legend: { position: 'bottom' },
   };
 
@@ -71,7 +82,18 @@ export class ChartsComponent implements OnInit, AfterViewInit {
   public chartOptions3 = {
     title: 'Pacientii care au consultatii la fiecare specializare',
     is3D: true,
-    colors: ['#76A7FA', '#FF8C00', '#32CD32', '#FF0000'],
+    colors: [
+      '#76A7FA',
+      '#FF8C00',
+      '#32CD32',
+      '#FF0000',
+      '#8A2BE2',
+      '#FFD700',
+      '#00CED1',
+      '#FF69B4',
+      '#A52A2A',
+      '#2E8B57',
+    ],
     legend: { position: 'bottom' },
   };
 
@@ -80,7 +102,18 @@ export class ChartsComponent implements OnInit, AfterViewInit {
   public chartOptions4 = {
     title: 'Pacientii care au consultatii la fiecare specializare',
     is3D: true,
-    colors: ['#FF8C00'],
+    colors: [
+      '#76A7FA',
+      '#FF8C00',
+      '#32CD32',
+      '#FF0000',
+      '#8A2BE2',
+      '#FFD700',
+      '#00CED1',
+      '#FF69B4',
+      '#A52A2A',
+      '#2E8B57',
+    ],
     legend: { position: 'bottom' },
   };
 
@@ -117,26 +150,14 @@ export class ChartsComponent implements OnInit, AfterViewInit {
     }
   }
 
-  ngOnInit() {
-    this.chartsService
-      .getDataForCharts()
-      .subscribe((results: { diagnostice: any[]; specializari: any[] }) => {
-        console.log(results);
-        this.chartData1 = results.diagnostice.map((item) => [
-          item.boala,
-          parseInt(item.numar_pacienti, 10),
-        ]);
+  ngOnInit(): void {
+    const role = localStorage.getItem('doctor_role');
+    const doctorId = Number(localStorage.getItem('user_id'));
 
-        this.specializari = results.specializari
-          .filter((item) => item.pacient_nume)
-          .map((item) => [
-            item.pacient_nume,
-            parseInt(item.numar_specializari, 10),
-          ]);
-
-        this.chartData2 = this.chartData1;
-        this.chartData3 = this.chartData4 = this.specializari;
-      });
+    this.chartsService.getDataForCharts(role!, doctorId).subscribe((data) => {
+      this.chartData1 = data.map((x: any) => [x.boala, x.numar_pacienti]);
+      this.chartData2 = this.chartData1;
+    });
   }
 
   ngAfterViewInit() {
@@ -156,7 +177,7 @@ export class ChartsComponent implements OnInit, AfterViewInit {
       ]);
       const options = this.chartOptions1;
       const chart = new google.visualization.ColumnChart(
-        this.chartElement.nativeElement
+        this.chartElement.nativeElement,
       );
       chart.draw(data, options);
     }
@@ -170,7 +191,7 @@ export class ChartsComponent implements OnInit, AfterViewInit {
       ]);
       const options = this.chartOptions2;
       const chart = new google.visualization.PieChart(
-        this.chartElement.nativeElement
+        this.chartElement.nativeElement,
       );
       chart.draw(data, options);
     }
@@ -184,7 +205,7 @@ export class ChartsComponent implements OnInit, AfterViewInit {
       ]);
       const options = this.chartOptions3;
       const chart = new google.visualization.PieChart(
-        this.chartElement.nativeElement
+        this.chartElement.nativeElement,
       );
       chart.draw(data, options);
     }
@@ -198,7 +219,7 @@ export class ChartsComponent implements OnInit, AfterViewInit {
       ]);
       const options = this.chartOptions4;
       const chart = new google.visualization.ColumnChart(
-        this.chartElement.nativeElement
+        this.chartElement.nativeElement,
       );
       chart.draw(data, options);
     }

@@ -5,19 +5,10 @@
     <p>{{ doctorNume }}</p>
   </div>
   <div class="toolbar__buttons">
-    <button
-      *ngIf="doctorRole === 'admin'"
-      appHoverElement
-      class="toolbar__button"
-      (click)="goToChartsPage()"
-    >
+    <button appHoverElement class="toolbar__button" (click)="goToChartsPage()">
       📊 CHARTS
     </button>
-    <button
-      appHoverElement
-      class="toolbar__button"
-      (click)="openMyProfileSidenav()"
-    >
+    <button class="toolbar__button" (click)="openMyProfileSidenav()">
       MY ACCOUNT
     </button>
     <button appHoverElement class="toolbar__button" (click)="generatePdf()">

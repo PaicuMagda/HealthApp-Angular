@@ -63,7 +63,7 @@ export class HomePageComponent implements OnInit {
     cnp: '',
     gender: '',
     diagnostic: [],
-    date: null,
+    // date: null,
   };
   poza: string = '';
   doctorRole: string | null = '';
@@ -151,7 +151,7 @@ export class HomePageComponent implements OnInit {
       const diagnosticMatch = this.searchCriteria.diagnostic.length
         ? this.searchCriteria.diagnostic.some((diag: string) =>
             patient.consultations.some((consultation) =>
-              consultation.diagnostic.toLowerCase().includes(diag),
+              consultation.diagnosis.toLowerCase().includes(diag),
             ),
           )
         : true;
