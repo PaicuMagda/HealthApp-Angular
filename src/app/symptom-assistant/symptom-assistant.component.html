@@ -1,0 +1,37 @@
+<div class="chat-wrapper">
+  <div class="chat-card">
+    <!-- Header -->
+    <div class="chat-header">
+      <div class="bot-avatar">AI</div>
+      <div>
+        <h2>Symptom Assistant</h2>
+        <p>Ask about skin symptoms or health questions</p>
+      </div>
+    </div>
+
+    <!-- Messages -->
+    <div class="chat-body">
+      <div class="message" *ngFor="let msg of messages" [ngClass]="msg.role">
+        <div class="bubble">
+          {{ msg.text }}
+        </div>
+      </div>
+
+      <div class="message bot" *ngIf="loading">
+        <div class="bubble">AI is thinking...</div>
+      </div>
+    </div>
+
+    <!-- Input -->
+    <div class="chat-footer">
+      <input
+        [(ngModel)]="input"
+        (keyup.enter)="sendMessage()"
+        type="text"
+        placeholder="Type your question here..."
+      />
+
+      <button (click)="sendMessage()">Send</button>
+    </div>
+  </div>
+</div>

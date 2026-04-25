@@ -1,0 +1,30 @@
+<div class="skin-wrapper">
+  <div class="skin-card">
+    <div class="skin-header">
+      <div class="bot-avatar">AI</div>
+      <div>
+        <h2>Skin Disease Analysis</h2>
+        <p>Upload an image for AI classification</p>
+      </div>
+    </div>
+
+    <div class="skin-body">
+      <div class="upload-box">
+        <input type="file" (change)="onFileSelected($event)" accept="image/*" />
+
+        <div class="preview" *ngIf="imageUrl">
+          <img [src]="imageUrl" />
+        </div>
+      </div>
+
+      <button (click)="analyzeImage()" [disabled]="!selectedFile">
+        Analyze Image
+      </button>
+
+      <div class="result" *ngIf="result">
+        <b>Disease:</b> {{ result.label }} <br />
+        <b>Confidence:</b> {{ result.confidence }}%
+      </div>
+    </div>
+  </div>
+</div>

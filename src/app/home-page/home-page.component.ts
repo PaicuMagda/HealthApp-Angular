@@ -18,6 +18,8 @@ import { Patient } from '../interfaces/patient';
 import { FormsModule } from '@angular/forms';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { ActivateDialogComponent } from '../confirmation-dialogs/activate-dialog/activate-dialog.component';
+import { SymptomAssistantComponent } from '../symptom-assistant/symptom-assistant.component';
+import { SkinAnalysisComponent } from '../skin-analysis/skin-analysis.component';
 
 @Component({
   selector: 'app-home-page',
@@ -82,6 +84,20 @@ export class HomePageComponent implements OnInit {
       width: '40%',
       height: '100%',
       data: { cnpPatient: cnp },
+    });
+  }
+
+  openSkynAnalysis() {
+    this.dialog.open(SymptomAssistantComponent, {
+      width: '40%',
+      height: '100%',
+    });
+  }
+
+  openSymptomAssistant() {
+    this.dialog.open(SkinAnalysisComponent, {
+      width: '40%',
+      height: '100%',
     });
   }
 
