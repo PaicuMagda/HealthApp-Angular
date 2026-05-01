@@ -16,7 +16,6 @@ export class SkinAnalysisComponent {
 
   onFileSelected(event: any) {
     const file = event.target.files[0];
-
     if (file) {
       this.selectedFile = file;
 
@@ -24,7 +23,6 @@ export class SkinAnalysisComponent {
       reader.onload = () => {
         this.imageUrl = reader.result as string;
       };
-
       reader.readAsDataURL(file);
     }
   }
