@@ -74,10 +74,20 @@
       >
     </div>
     <div class="toolbar__buttons">
-      <button appHoverElement class="toolbar__button">
+      <button
+        appHoverElement
+        class="toolbar__button"
+        (click)="openSymptomAssistant()"
+      >
+        🚀 SKIN ANALYSIS
+      </button>
+      <button
+        appHoverElement
+        class="toolbar__button"
+        (click)="openSkynAnalysis()"
+      >
         🚀 SYMPTOM ASSISTANT
       </button>
-      <button appHoverElement class="toolbar__button">🚀 SKIN ANALYSIS</button>
     </div>
   </div>
   <div class="display-patients__patients">

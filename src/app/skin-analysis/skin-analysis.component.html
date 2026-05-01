@@ -1,0 +1,58 @@
+<div class="skin-wrapper">
+  <div class="skin-card">
+    <div class="skin-header">
+      <div class="bot-avatar">AI</div>
+      <div>
+        <h2>Skin Disease Analysis</h2>
+        <p>Upload an image for AI classification</p>
+      </div>
+    </div>
+
+    <div class="skin-body">
+      <div class="upload-box">
+        <input type="file" (change)="onFileSelected($event)" accept="image/*" />
+
+        <div class="preview" *ngIf="imageUrl">
+          <img [src]="imageUrl" />
+        </div>
+      </div>
+
+      <button (click)="analyzeImage()" [disabled]="!selectedFile">
+        Analyze Image
+      </button>
+
+      <div *ngIf="result">
+        <div class="result-card" *ngFor="let item of result; let i = index">
+          <div class="result-header">
+            <h3>
+              {{ item.name }}
+              <span *ngIf="i === 0">🔥</span>
+            </h3>
+
+            <span class="badge" [ngClass]="item.risk">
+              {{ item.risk | uppercase }}
+            </span>
+          </div>
+
+          <div class="confidence">Confidence: {{ item.confidence }}%</div>
+
+          <div class="progress-bar">
+            <div
+              class="progress-fill"
+              [style.width.%]="item.confidence"
+              [ngClass]="getBarClass(item.confidence)"
+            ></div>
+          </div>
+
+          <div *ngIf="i === 0">
+            <div class="description">
+              {{ item.description }}
+            </div>
+
+            <div class="recommendation">👉 {{ item.recommendation }}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
